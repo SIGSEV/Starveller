@@ -6,8 +6,19 @@ class App extends Component {
 
   render () {
     return (
-      <div>
-        {this.props.children}
+      <div className='container'>
+
+        <section>
+          {this.props.children}
+        </section>
+
+        <footer>
+          {'Made with vim by '}
+          <a href='https://github.com/SIGSEV' target='_blank'>
+            {'SIGSEV'}
+          </a>
+        </footer>
+
       </div>
     )
   }

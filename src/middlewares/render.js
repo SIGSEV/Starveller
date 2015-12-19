@@ -19,6 +19,8 @@ const Html = ({ content, state, stats: { style, main = 'bundle.js' } }) => (
 
       <title>{'[::]'}</title>
 
+      <link href='https://fonts.googleapis.com/css?family=Rambla:400,700' rel='stylesheet' type='text/css' />
+
       {style && (
         <link href={`dist/${style}`} rel='stylesheet'/>
       )}

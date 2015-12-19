@@ -1,0 +1,147 @@
+@import './colors';
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  border: none;
+
+  outline: none;
+  font: inherit;
+  background: transparent;
+}
+
+body {
+  font-family: 'Rambla', sans-serif;
+  font-weight: 300;
+  font-size: 16px;
+
+  background: $bg;
+  color: rgba(black, 0.6);
+}
+
+a, button {
+  cursor: pointer;
+  color: inherit;
+}
+
+a {
+  text-decoration: none;
+  color: $blue;
+  border-bottom: 2px solid transparent;
+
+  &:hover {
+    border-color: $blue;
+  }
+}
+
+input {
+  display: block;
+  border: 2px solid rgba(black, 0.15);
+  border-bottom-width: 3px;
+  color: rgba(black, 0.4);
+
+  &:focus {
+    background: white;
+    border-color: $blue;
+    color: rgba(black, 0.6);
+  }
+}
+
+h1 {
+  text-align: center;
+  font-size: 3rem;
+  margin: 1em;
+}
+
+h2 {
+  margin-bottom: 2em;
+  font-size: 1.2rem;
+  font-weight: 700;
+  text-align: right;
+  color: rgba(black, 0.4);
+}
+
+hr {
+  border-top: 1px dashed rgba(black, 0.15);
+  margin: 2em 0;
+}
+
+.container {
+  max-width: 640px;
+  min-width: 400px;
+  margin: 0 auto;
+  padding: 0 1rem;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+
+  > section { flex-grow: 1; }
+  > footer {
+    flex-shrink: 0;
+    padding: 2rem;
+    margin-top: 3rem;
+    font-size: 0.8rem;
+    text-align: center;
+  }
+}
+
+.f {
+  display: flex;
+  align-items: center;
+}
+
+.z {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.b {
+  padding: 1em;
+  border: 2px solid transparent;
+  border-bottom-width: 3px;
+  border-color: rgba(black, 0.05);
+
+  color: inherit;
+  font-weight: 700;
+  background: rgba(black, 0.1);
+
+  &:focus {
+    background: $blue;
+    color: white;
+    text-shadow: rgba(black, 0.3) 0 1px 0;
+    border-color: rgba(black, 0.1);
+  }
+  &:active {
+    border-color: rgba(black, 0.2);
+  }
+}
+
+.repo-search {
+  padding: 1em;
+  flex-grow: 1;
+
+  font-weight: 700;
+}
+
+.collection {
+  list-style-type: none;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  margin: -0.5rem;
+
+  > li {
+    flex-basis: 50%;
+    padding: 0.5em;
+  }
+}
+
+.repo {
+  height: 150px;
+  padding: 1em;
+  background: rgba(black, 0.05);
+  background: white;
+  border: 1px solid rgba(black, 0.1);
+}

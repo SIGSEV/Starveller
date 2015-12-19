@@ -13,7 +13,9 @@ class App extends Component {
         </section>
 
         <footer>
-          {'Made with vim by '}
+          {'Made with '}
+          <strong>{'vim'}</strong>
+          {' by '}
           <a href='https://github.com/SIGSEV' target='_blank'>
             {'SIGSEV'}
           </a>

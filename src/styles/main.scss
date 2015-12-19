@@ -60,6 +60,10 @@ h2 {
   font-weight: 700;
   text-align: right;
   color: rgba(black, 0.4);
+
+  strong {
+    color: rgba(black, 0.6);
+  }
 }
 
 hr {
@@ -83,6 +87,10 @@ hr {
     margin-top: 3rem;
     font-size: 0.8rem;
     text-align: center;
+
+    strong {
+      font-weight: 700;
+    }
   }
 }
 

@@ -28,7 +28,9 @@ class Home extends Component {
         <h2>
           {'No idea? '}
           <a href='/browse'>{'Browse all repos'}</a>
-          {' or check this awesome selection:'}
+          {' or check this '}
+          <strong>{'awesome'}</strong>
+          {' selection:'}
         </h2>
 
         <ul className='collection'>

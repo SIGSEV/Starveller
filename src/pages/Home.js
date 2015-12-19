@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { Link } from 'react-router'
 
 class Home extends Component {
 
@@ -27,7 +28,7 @@ class Home extends Component {
 
         <h2>
           {'No idea? '}
-          <a href='/browse'>{'Browse all repos'}</a>
+          <Link to='/browse'>{'Browse all repos'}</Link>
           {' or check this '}
           <strong>{'awesome'}</strong>
           {' selection:'}
@@ -68,7 +69,7 @@ class Home extends Component {
         </ul>
 
         <div style={{ textAlign: 'right' }}>
-          <a href='/browse'>{'More...'}</a>
+          <Link to='/browse'>{'More...'}</Link>
         </div>
 
       </div>

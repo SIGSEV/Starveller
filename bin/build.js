@@ -5,11 +5,17 @@ import webpackConfig from '../webpack/production'
 
 const bundler = webpack(webpackConfig)
 
+const write = process.stdout.clearLine
+  ? (msg) => {
+    process.stdout.clearLine()
+    process.stdout.cursorTo(0)
+    process.stdout.write(msg)
+  }
+  : ::console.log
+
 const progressPlugin = new ProgressPlugin((percentage, info) => {
   const msg = `${Math.round(percentage * 100)}% ${info}`
-  process.stdout.clearLine()
-  process.stdout.cursorTo(0)
-  process.stdout.write(msg)
+  write(msg)
 })
 
 bundler.apply(progressPlugin)

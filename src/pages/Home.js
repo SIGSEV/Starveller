@@ -1,13 +1,28 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import { Link } from 'react-router'
 
+import { fetchRepo } from 'actions/repo'
+
+import Graph from 'components/Graph'
+
+@connect(
+  state => ({
+    repo: state.repo
+  })
+)
 class Home extends Component {
 
   handleSearch (e) {
     e.preventDefault()
+    const search = this.refs.name.value
+
+    this.props.dispatch(fetchRepo(search))
   }
 
   render () {
+    const { repo } = this.props
+
     return (
       <div>
 
@@ -15,6 +30,8 @@ class Home extends Component {
 
         <form className='f' onSubmit={::this.handleSearch}>
           <input
+            defaultValue='42Zavattas/generator-bangular'
+            ref='name'
             autoFocus
             className='repo-search'
             type='text'
@@ -23,6 +40,11 @@ class Home extends Component {
             {'Show'}
           </button>
         </form>
+
+        {repo && (
+          <Graph
+            repo={repo} />
+        )}
 
         <hr />
 

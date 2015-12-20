@@ -97,9 +97,15 @@ export const fetchStars = (name, hard, isScript) => {
 }
 
 function reduceGroup (group) {
+
+  const now = moment(moment().format('YYYY MM DD'), 'YYYY MM DD').toDate()
+  const groupAndNow = group.concat({ value: now, stars: 0 })
+
   return _.reduce(
-    group,
-    (acc, item, i) => acc.concat({ x: item.value, y: i > 0 ? acc[i - 1].y + item.stars : item.stars }),
+    groupAndNow,
+    (acc, item, i) => {
+      return acc.concat({ x: item.value, y: i > 0 ? acc[i - 1].y + item.stars : item.stars })
+    },
     []
   )
 }

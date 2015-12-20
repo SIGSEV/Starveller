@@ -13,7 +13,7 @@ router.get('/repos', (req, res) => {
 
 router.get('/repos/:user/:repo', (req, res) => {
   const name = `${req.params.user}/${req.params.repo}`
-  response(getOne.bind(this, name), res)
+  response(getOne.bind(this, name, req.query.months), res)
 })
 
 router.post('/repos/:user/:repo/events', (req) => {

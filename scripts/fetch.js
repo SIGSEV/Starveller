@@ -4,17 +4,17 @@ import mongoose from 'mongoose'
 import { fetch } from 'api/Repo.service'
 
 const name = process.argv[2]
-const arg = process.argv[3]
+const hard = process.argv[3]
 
 if (!name || name.indexOf('/') === -1) {
-  throw new Error('Give me a repo, fuck&r.')
+  throw new Error('Give me a repo and a hard flag, fuck&r.')
 }
 
 mongoose.connect('mongodb://localhost/statoss', { db: { safe: true } })
 
 dotenv.load()
 
-fetch(name, arg === 'hard')
+fetch(name, hard === 'hard')
   .then(() => { process.exit(0) })
   .catch(err => {
     /* eslint-disable no-console */

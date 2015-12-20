@@ -13,13 +13,15 @@ export const getAll = () => {
   return q.nfcall(::Repo.find, {}, { name: 1, starCount: 1 })
 }
 
-export const getOne = name => {
+export const getOne = (name, months = 2) => {
   return q.nfcall(::Repo.findOne, { name }, '-stars.page')
     .then(({ name, stars, starCount, events }) => {
 
+      const filteredStars = months ? _.filter(stars, s => { return moment().diff(s.date, 'month') <= months }) : stars
+
       const reduced = _.reduce(
         _.mapValues(
-          _.groupBy(stars.map(s => s.date), date => moment(date).format('YYYY-MM-DD')),
+          _.groupBy(filteredStars.map(s => s.date), date => moment(date).format('YYYY-MM-DD')),
           el => el.length
         ),
         (res, val, key) => { return res.concat({ x: new Date(key), y: val }) },
@@ -29,7 +31,7 @@ export const getOne = name => {
           return moment(a.x).isBefore(moment(b.x)) ? -1 : 1
         })
 
-      let acc = 0
+      let acc = starCount - filteredStars.length
       reduced.forEach(el => {
         el.y += acc
         acc = el.y
@@ -82,7 +84,7 @@ export const fetch = (name, hard) => {
     })
     .then(results => {
       process.stdout.write(']\n')
-      const stars = _.reject(_repo.stars, { page: _repo.lastPage }).concat(results)
+      const stars = hard ? results : _.reject(_repo.stars, { page: _repo.lastPage }).concat(results)
       const lastPage = Math.ceil(stars.length / 100)
       const starCount = stars.length
       return updateByName(_repo.name, { stars, lastPage, starCount })

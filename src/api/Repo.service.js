@@ -17,7 +17,7 @@ export const getOne = (name, months = 2) => {
   return q.nfcall(::Repo.findOne, { name }, '-stars.page')
     .then(({ name, stars, starCount, events }) => {
 
-      const filteredStars = months ? _.filter(stars, s => { return moment().diff(s.date, 'month') <= months }) : stars
+      const filteredStars = months ? _.filter(stars, s => moment().diff(s.date, 'month') <= months) : stars
 
       const reduced = _.reduce(
         _.mapValues(

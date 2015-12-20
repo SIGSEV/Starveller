@@ -3,7 +3,8 @@ import { connect } from 'react-redux'
 import { Link } from 'react-router'
 import Select from 'react-select'
 
-import { fetchRepo, resetRepo } from 'actions/repo'
+import { resetRepo } from 'actions/repo'
+import { fetchAndGo } from 'actions'
 
 @connect(
   state => ({
@@ -16,7 +17,7 @@ class Home extends Component {
   handleSearch (search) {
     if (search && search.value) {
       const { name } = search.value
-      this.props.dispatch(fetchRepo(name))
+      this.props.dispatch(fetchAndGo(name))
     } else {
       this.props.dispatch(resetRepo())
     }

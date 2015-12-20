@@ -16,20 +16,28 @@ class Graph extends Component {
 
     return (
       <div className='Graph'>
-        <LineChart
-          data={data}
-          width={640}
-          height={600}
-          viewBoxObject={{
-            x: 0,
-            y: 0,
-            width: 640,
-            height: 600
-          }}
-          yAxisLabel='Stars'
-          xAxisLabel='Date'
-          gridHorizontal
-        />
+
+        {!!stars.length && (
+          <LineChart
+            data={data}
+            width={640}
+            height={600}
+            viewBoxObject={{
+              x: 0,
+              y: 0,
+              width: 640,
+              height: 600
+            }}
+            yAxisLabel='Stars'
+            xAxisLabel='Date'
+            gridHorizontal
+          />
+        )}
+
+        {!stars.length && (
+          <div>{'No data :)'}</div>
+        )}
+
       </div>
     )
   }

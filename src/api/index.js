@@ -24,7 +24,6 @@ router.post('/repos/:user/:repo/events', (req) => {
 function response (fn, res) {
   fn()
     .then(data => { res.status(200).send(data) })
-    .catch((err) => { res.status(400).end(err) })
 }
 
 export default router

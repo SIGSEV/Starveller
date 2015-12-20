@@ -2,20 +2,29 @@ import q from 'q'
 import r from 'superagent'
 import _ from 'lodash'
 import moment from 'moment'
+import dotenv from 'dotenv'
 
 import Repo from 'api/Repo.model'
 
-/**
- * API
- */
+dotenv.load()
+const githubToken = process.env.GITHUB
 
 export const getAll = () => {
   return q.nfcall(::Repo.find, {}, { name: 1, starCount: 1 })
 }
 
-export const getOne = (name, months = 2) => {
+export const getByName = name => {
+  return q.nfcall(::Repo.findOne, { name })
+}
+
+export const updateByName = (name, mods) => {
+  return q.nfcall(::Repo.update, { name }, mods)
+    .then(() => null)
+}
+
+export const getOnePopulated = (name, months = 2) => {
   return q.nfcall(::Repo.findOne, { name }, '-stars.page')
-    .then(({ name, stars, starCount, events }) => {
+    .then(({ name, description, watchersCount, forksCount, stars, starsCount, events }) => {
 
       const filteredStars = months ? _.filter(stars, s => moment().diff(s.date, 'month') <= months) : stars
 
@@ -31,7 +40,7 @@ export const getOne = (name, months = 2) => {
           return moment(a.x).isBefore(moment(b.x)) ? -1 : 1
         })
 
-      let acc = starCount - filteredStars.length
+      let acc = starsCount - filteredStars.length
       reduced.forEach(el => {
         el.y += acc
         acc = el.y
@@ -39,10 +48,32 @@ export const getOne = (name, months = 2) => {
 
       return {
         name,
+        description,
         events,
-        starCount,
+        starsCount,
+        watchersCount,
+        forksCount,
         stars: reduced
       }
+    })
+}
+
+export const createRepo = (name, hard, isScript) => {
+  if (!name) { return q.reject(new Error('Bitch plz.')) }
+
+  let _data
+
+  return getByName(name)
+    .then(repo => {
+      if (repo && !isScript) { throw new Error('Repo already created.') }
+      return fetchRepo(name)
+    })
+    .then(data => {
+      _data = data
+      return fetchStars(name, hard, isScript)
+    })
+    .then(starsData => {
+      return q.nfcall(::Repo.create, _.merge(starsData, _data))
     })
 }
 
@@ -51,49 +82,47 @@ export const createEvent = ({ name, data: { title, link, comment } }) => {
   return updateByName(name, { $push: { events: { title, link, comment } } })
 }
 
-/**
- * Admin area
- */
-
-export const getByName = name => {
-  return q.nfcall(::Repo.findOne, { name })
-    .then(repo => {
-      if (!repo) { return create(name) }
-      return repo
-    })
-}
-
-export const updateByName = (name, mods) => {
-  return q.nfcall(::Repo.update, { name }, mods)
-    .then(() => null)
-}
-
-export const create = name => {
-  return q.nfcall(::Repo.create, { name })
-}
-
-export const fetch = (name, hard) => {
+export const fetchStars = (name, hard, isScript) => {
 
   let _repo
 
   return getByName(name)
     .then(repo => {
       _repo = repo
-      process.stdout.write('[')
-      return fetchPage(name, hard ? 1 : _repo.lastPage)
+      if (isScript) { process.stdout.write('[') }
+      return fetchStarPage(name, !repo || hard ? 1 : _repo.lastPage)
     })
     .then(results => {
-      process.stdout.write(']\n')
-      const stars = hard ? results : _.reject(_repo.stars, { page: _repo.lastPage }).concat(results)
+      if (isScript) { process.stdout.write(']\n') }
+      const stars = !_repo || hard ? results : _.reject(_repo.stars, { page: _repo.lastPage }).concat(results)
       const lastPage = Math.ceil(stars.length / 100)
-      const starCount = stars.length
-      return updateByName(_repo.name, { stars, lastPage, starCount })
+      return { stars, lastPage }
     })
 }
 
-function fetchPage (name, page) {
+function fetchRepo (name) {
 
-  const githubToken = process.env.GITHUB
+  return q.Promise((resolve, reject) => {
+    r.get(`https://api.github.com/repos/${name}`)
+      .set('Authorization', `token ${githubToken}`)
+      .end((err, res) => {
+        if (err) { return reject(err) }
+
+        const {
+          description,
+          created_at: createdAt,
+          stargazers_count: starsCount,
+          forks: forksCount,
+          subscribers_count: watchersCount
+        } = res.body
+
+        resolve({ name, description, createdAt, starsCount, forksCount, watchersCount })
+      })
+  })
+
+}
+
+function fetchStarPage (name, page) {
 
   return q.Promise((resolve, reject) => {
 
@@ -108,7 +137,7 @@ function fetchPage (name, page) {
         const stars = res.body.map(star => ({ date: star.starred_at, page }))
 
         if (res.body.length === 100) {
-          return fetchPage(name, ++page)
+          return fetchStarPage(name, ++page)
             .then(data => { resolve(data.concat(stars)) })
             .catch(reject)
         }

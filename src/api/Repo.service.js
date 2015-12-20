@@ -25,29 +25,9 @@ export const updateByName = (name, mods) => {
     .then(() => null)
 }
 
-export const getOnePopulated = (name, months = 2) => {
-  return q.nfcall(::Repo.findOne, { name }, '-stars.page')
-    .then(({ name, description, watchersCount, forksCount, stars, starsCount, events }) => {
-
-      const filteredStars = months ? _.filter(stars, s => moment().diff(s.date, 'month') <= months) : stars
-
-      const reduced = _.reduce(
-        _.mapValues(
-          _.groupBy(filteredStars.map(s => s.date), date => moment(date).format('YYYY-MM-DD')),
-          el => el.length
-        ),
-        (res, val, key) => { return res.concat({ x: new Date(key), y: val }) },
-        []
-      )
-        .sort((a, b) => {
-          return moment(a.x).isBefore(moment(b.x)) ? -1 : 1
-        })
-
-      let acc = starsCount - filteredStars.length
-      reduced.forEach(el => {
-        el.y += acc
-        acc = el.y
-      })
+export const getOnePopulated = name => {
+  return q.nfcall(::Repo.findOne, { name }, '-stars')
+    .then(({ name, description, watchersCount, forksCount, starsCount, events, byYear, byMonth, byWeek, byDay }) => {
 
       return {
         name,
@@ -56,7 +36,10 @@ export const getOnePopulated = (name, months = 2) => {
         starsCount,
         watchersCount,
         forksCount,
-        stars: reduced
+        byDay: reduceGroup(byDay),
+        byWeek: reduceGroup(byWeek),
+        byMonth: reduceGroup(byMonth),
+        byYear: reduceGroup(byYear)
       }
     })
 }
@@ -102,8 +85,31 @@ export const fetchStars = (name, hard, isScript) => {
       if (isScript) { process.stdout.write(']\n') }
       const stars = !_repo || hard ? results : _.reject(_repo.stars, { page: _repo.lastPage }).concat(results)
       const lastPage = Math.ceil(stars.length / 100)
-      return { stars, lastPage }
+
+      const starsDates = stars.map(s => s.date)
+      const byDay = groupDatesByFormat(starsDates, 'YYYY MM DD')
+      const byWeek = groupDatesByFormat(starsDates, 'YYYY ww')
+      const byMonth = groupDatesByFormat(starsDates, 'YYYY MM')
+      const byYear = groupDatesByFormat(starsDates, 'YYYY')
+
+      return { stars, lastPage, byDay, byWeek, byMonth, byYear }
     })
+}
+
+function reduceGroup (group) {
+  return _.reduce(
+    group,
+    (acc, item, i) => acc.concat({ x: item.value, y: i > 0 ? acc[i - 1].y + item.stars : item.stars }),
+    []
+  )
+}
+
+function groupDatesByFormat (stars, format) {
+  return _.reduce(
+    _.mapValues(_.groupBy(stars, d => moment(d).format(format)), e => e.length),
+    (acc, stars, i) => acc.concat({ value: i, stars }),
+    []
+  )
 }
 
 function fetchRepo (name) {

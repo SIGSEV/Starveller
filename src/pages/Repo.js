@@ -1,5 +1,8 @@
+if (process.env.BROWSER) { require('styles/Repo.scss') }
+
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { Link } from 'react-router'
 
 import Graph from 'components/Graph'
 
@@ -16,10 +19,23 @@ class Repo extends Component {
     return (
       <div>
 
-        {repo.name}
+        <header className='repo-header'>
 
-        <Graph
-          repo={repo} />
+          <Link to='/' className='back'>
+            <i className='octicon octicon-chevron-left' />
+            {' Back'}
+          </Link>
+
+          <div className='repo-name'>
+            {repo.name}
+          </div>
+
+        </header>
+
+        <section className='repo-graph'>
+          <Graph
+            repo={repo} />
+        </section>
 
       </div>
     )

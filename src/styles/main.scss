@@ -1,4 +1,5 @@
 @import './colors';
+@import './helpers';
 
 * {
   box-sizing: border-box;
@@ -139,17 +140,6 @@ hr {
     transform: translate3d(0, 0, 0);
     opacity: 1;
   }
-}
-
-.f {
-  display: flex;
-  align-items: center;
-}
-
-.z {
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 
 .b {

@@ -1,0 +1,22 @@
+@import './helpers';
+
+.repo-header {
+  @extend .f;
+  margin-bottom: 1em;
+  padding: 2em;
+
+  .back {
+    margin-right: 2em;
+  }
+
+  .repo-name {
+    font-weight: 700;
+    font-size: 1.2em;
+  }
+
+}
+
+.repo-graph {
+  @extend .z;
+  min-height: 400px;
+}

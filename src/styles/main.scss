@@ -78,15 +78,23 @@ hr {
 }
 
 .container {
-  max-width: 640px;
-  min-width: 400px;
-  margin: 0 auto;
-  padding: 0 1rem;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
 
-  > section { flex-grow: 1; }
+  > header {
+    flex-shrink: 0;
+    padding: 1em;
+    display: flex;
+    justify-content: flex-end;
+  }
+  > section {
+    flex-grow: 1;
+    max-width: 640px;
+    min-width: 400px;
+    margin: 0 auto;
+    padding: 0 1em;
+  }
   > footer {
     flex-shrink: 0;
     padding: 2rem;
@@ -112,10 +120,15 @@ hr {
 }
 
 .b {
+  @extend .f;
   padding: 1em;
   border: 2px solid transparent;
   border-bottom-width: 3px;
   border-color: rgba(black, 0.05);
+
+  > i {
+    margin-right: 1em;
+  }
 
   color: inherit;
   font-weight: 700;

@@ -11,6 +11,13 @@ class App extends Component {
     return (
       <div className='container'>
 
+        <header>
+          <button className='b'>
+            <i className='octicon octicon-plus' />
+            {'Submit your repo!'}
+          </button>
+        </header>
+
         <section>
           {this.props.children}
         </section>

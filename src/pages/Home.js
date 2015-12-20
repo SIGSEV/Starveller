@@ -5,8 +5,6 @@ import Select from 'react-select'
 
 import { fetchRepo, resetRepo } from 'actions/repo'
 
-import Graph from 'components/Graph'
-
 @connect(
   state => ({
     repo: state.repo,
@@ -66,11 +64,6 @@ class Home extends Component {
             optionRenderer={::this.renderOption}
             onChange={::this.handleSearch}
             className='repo-search'/>
-
-          {repo && (
-            <Graph
-              repo={repo} />
-          )}
 
           <hr />
 

@@ -21,6 +21,7 @@ export const fetchRepo = (search) => dispatch => new Promise((resolve, reject) =
         return reject(err)
       }
       dispatch(repoFetched(res.body))
+      resolve()
     })
 
 })

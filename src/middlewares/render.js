@@ -6,6 +6,8 @@ import { RoutingContext, match } from 'react-router'
 import { renderToString, renderToStaticMarkup } from 'react-dom/server'
 
 import { fetchRepos } from 'actions/repos'
+import { fetchRepo } from 'actions/repo'
+
 import config from 'config'
 import routes from 'routes'
 import createStore from 'createStore'
@@ -52,9 +54,18 @@ export default (req, res) => {
 
     const store = createStore()
 
-    Promise.all([
+    const { params } = renderProps
+    const { owner, reponame } = params
+
+    const init = [
       store.dispatch(fetchRepos())
-    ]).then(() => {
+    ]
+
+    if (owner && reponame) {
+      init.push(store.dispatch(fetchRepo(`${owner}/${reponame}`)))
+    }
+
+    Promise.all(init).then(() => {
 
       const app = (
         <Provider store={store}>

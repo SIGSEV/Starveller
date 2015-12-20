@@ -1,7 +1,7 @@
 import express from 'express'
 import mongoose from 'mongoose'
 
-import { getAll, getOne } from 'api/Repo.service'
+import { getAll, getOne, createEvent } from 'api/Repo.service'
 
 mongoose.connect('mongodb://localhost/statoss', { db: { safe: true } })
 
@@ -12,13 +12,19 @@ router.get('/repos', (req, res) => {
 })
 
 router.get('/repos/:user/:repo', (req, res) => {
-  response(getOne.bind(this, req.params.user, req.params.repo), res)
+  const name = `${req.query.user}/${req.query.repo}`
+  response(getOne.bind(this, name), res)
+})
+
+router.post('/repos/:user/:repo/events', (req, res) => {
+  const name = `${req.query.user}/${req.query.repo}`
+  response(createEvent.bind(this, { name, data: req.body }))
 })
 
 function response (fn, res) {
   fn()
     .then(data => { res.status(200).send(data) })
-    .catch(() => { res.status(500).end() })
+    .catch(() => { res.status(400).end() })
 }
 
 export default router

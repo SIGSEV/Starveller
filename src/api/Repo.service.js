@@ -12,9 +12,7 @@ export const getAll = () => {
   return q.nfcall(::Repo.find, {}, { name: 1, starCount: 1 })
 }
 
-export const getOne = (user, repo) => {
-  const name = `${user}/${repo}`
-
+export const getOne = name => {
   return q.nfcall(::Repo.findOne, { name }, '-stars.page')
     .then(({ name, stars, starCount, events }) => ({
       name,
@@ -22,6 +20,11 @@ export const getOne = (user, repo) => {
       starCount,
       stars: stars.map(s => s.date)
     }))
+}
+
+export const createEvent = ({ name, data: { title, link, comment } }) => {
+  if (!title && !comment && !link) { return q.reject(new Error('Say something maybe?')) }
+  return updateByName(name, { $push: { events: { title, link, comment } } })
 }
 
 /**
@@ -36,8 +39,8 @@ export const getByName = name => {
     })
 }
 
-export const updateById = (_id, mods) => {
-  return q.nfcall(::Repo.update, { _id }, mods)
+export const updateByName = (name, mods) => {
+  return q.nfcall(::Repo.update, { name }, mods)
     .then(() => null)
 }
 
@@ -60,7 +63,7 @@ export const fetch = (name, hard) => {
       const stars = _.reject(_repo.stars, { page: _repo.lastPage }).concat(results)
       const lastPage = Math.ceil(stars.length / 100)
       const starCount = stars.length
-      return updateById(_repo._id, { stars, lastPage, starCount })
+      return updateByName(_repo.name, { stars, lastPage, starCount })
     })
 }
 

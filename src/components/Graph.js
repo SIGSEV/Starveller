@@ -9,28 +9,11 @@ class Graph extends Component {
 
   render () {
     const { stars } = this.props.repo
-    const reduced = _.reduce(
-      _.mapValues(
-        _.groupBy(stars, date => moment(date).format('YYYY-MM-DD')),
-        el => el.length
-      ),
-      (res, val, key) => { return res.concat({ x: new Date(key), y: val }) },
-      []
-    )
-      .sort((a, b) => {
-        return moment(a.x).isBefore(moment(b.x)) ? -1 : 1
-      })
-
-    let acc = 0
-    reduced.forEach(el => {
-      el.y += acc
-      acc = el.y
-    })
 
     const data = [{
       name: 'stars',
       strokeWidth: 2,
-      values: reduced
+      values: stars.map(coords => ({ ...coords, x: new Date(coords.x) }))
     }]
 
     return (

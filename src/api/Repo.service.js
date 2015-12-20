@@ -1,6 +1,7 @@
 import q from 'q'
 import r from 'superagent'
 import _ from 'lodash'
+import moment from 'moment'
 
 import Repo from 'api/Repo.model'
 
@@ -14,12 +15,33 @@ export const getAll = () => {
 
 export const getOne = name => {
   return q.nfcall(::Repo.findOne, { name }, '-stars.page')
-    .then(({ name, stars, starCount, events }) => ({
-      name,
-      events,
-      starCount,
-      stars: stars.map(s => s.date)
-    }))
+    .then(({ name, stars, starCount, events }) => {
+
+      const reduced = _.reduce(
+        _.mapValues(
+          _.groupBy(stars.map(s => s.date), date => moment(date).format('YYYY-MM-DD')),
+          el => el.length
+        ),
+        (res, val, key) => { return res.concat({ x: new Date(key), y: val }) },
+        []
+      )
+        .sort((a, b) => {
+          return moment(a.x).isBefore(moment(b.x)) ? -1 : 1
+        })
+
+      let acc = 0
+      reduced.forEach(el => {
+        el.y += acc
+        acc = el.y
+      })
+
+      return {
+        name,
+        events,
+        starCount,
+        stars: reduced
+      }
+    })
 }
 
 export const createEvent = ({ name, data: { title, link, comment } }) => {

@@ -18,6 +18,7 @@ const Html = ({ content, state, stats: { style, main = 'bundle.js' } }) => (
 
       <base href='/'/>
       <meta charSet='utf-8'/>
+      <meta name='viewport' content='width=device-width' />
       <link rel='icon' href='assets/favicon.ico' type='image/x-icon'/>
 
       <title>{'[::]'}</title>

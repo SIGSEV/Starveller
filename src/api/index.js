@@ -16,7 +16,7 @@ router.get('/repos/:user/:repo', (req, res) => {
   response(getOne.bind(this, name), res)
 })
 
-router.post('/repos/:user/:repo/events', (req, res) => {
+router.post('/repos/:user/:repo/events', (req) => {
   const name = `${req.params.user}/${req.params.repo}`
   response(createEvent.bind(this, { name, data: req.body }))
 })
@@ -24,7 +24,7 @@ router.post('/repos/:user/:repo/events', (req, res) => {
 function response (fn, res) {
   fn()
     .then(data => { res.status(200).send(data) })
-    .catch((err) => { res.status(400).end() })
+    .catch((err) => { res.status(400).end(err) })
 }
 
 export default router

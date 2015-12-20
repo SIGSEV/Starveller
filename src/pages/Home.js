@@ -23,13 +23,15 @@ class Home extends Component {
     const { repo } = this.props
     const repos = this.props.repos.map(r => ({ value: r.name, label: r.name }))
 
+    const selectValue = repo ? { value: repo.name, label: repo.name } : null
+
     return (
       <div>
 
         <h1>{'Add a 4th dimension to Github stars.'}</h1>
 
         <Select
-          value={{ value: repo.name, label: repo.name }}
+          value={selectValue}
           options={repos}
           onChange={::this.handleSearch}
           className='repo-search'/>

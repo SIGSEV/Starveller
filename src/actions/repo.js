@@ -1,5 +1,5 @@
-import { createAction } from 'redux-actions'
 import r from 'superagent'
+import { createAction } from 'redux-actions'
 
 import config from 'config'
 

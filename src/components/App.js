@@ -1,6 +1,9 @@
 import React, { Component } from 'react'
 
-if (process.env.BROWSER) { require('styles/main.scss') }
+if (process.env.BROWSER) {
+  require('styles/main.scss')
+  require('react-select/dist/react-select.css')
+}
 
 class App extends Component {
 

@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router'
+import Select from 'react-select'
 
 import { fetchRepo } from 'actions/repo'
 
@@ -8,38 +9,28 @@ import Graph from 'components/Graph'
 
 @connect(
   state => ({
-    repo: state.repo
+    repo: state.repo,
+    repos: state.repos
   })
 )
 class Home extends Component {
 
-  handleSearch (e) {
-    e.preventDefault()
-    const search = this.refs.name.value
-
-    this.props.dispatch(fetchRepo(search))
+  handleSearch ({ value }) {
+    this.props.dispatch(fetchRepo(value))
   }
 
   render () {
     const { repo } = this.props
+    const repos = this.props.repos.map(r => ({ value: r.name, label: r.name }))
 
     return (
       <div>
 
         <h1>{'Add a 4th dimension to Github stars.'}</h1>
 
-        <form className='f' onSubmit={::this.handleSearch}>
-          <input
-            defaultValue='42Zavattas/generator-bangular'
-            ref='name'
-            autoFocus
-            className='repo-search'
-            type='text'
-            placeholder='Find repository...' />
-          <button className='b'>
-            {'Show'}
-          </button>
-        </form>
+        <Select
+          options={repos}
+          onChange={::this.handleSearch}/>
 
         {repo && (
           <Graph

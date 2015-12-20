@@ -5,6 +5,7 @@ import createLocation from 'history/lib/createLocation'
 import { RoutingContext, match } from 'react-router'
 import { renderToString, renderToStaticMarkup } from 'react-dom/server'
 
+import { fetchRepos } from 'actions/repos'
 import config from 'config'
 import routes from 'routes'
 import createStore from 'createStore'
@@ -51,7 +52,7 @@ export default (req, res) => {
     const store = createStore()
 
     Promise.all([
-      // initialization
+      store.dispatch(fetchRepos())
     ]).then(() => {
 
       const app = (

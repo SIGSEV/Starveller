@@ -18,9 +18,8 @@ export default {
       loaders: ['babel'],
       exclude: /node_modules/
     }, {
-      test: /\.scss$/,
-      loader: ExtractTextPlugin.extract('style', 'css!autoprefixer!sass'),
-      exclude: /node_modules/
+      test: /\.s?css$/,
+      loader: ExtractTextPlugin.extract('style', 'css!autoprefixer!sass')
     }]
   },
 

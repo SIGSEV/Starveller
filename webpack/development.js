@@ -32,9 +32,8 @@ export default {
         ]
       }
     }, {
-      test: /\.scss$/,
-      loaders: ['style', 'css', 'sass'],
-      exclude: /node_modules/
+      test: /\.s?css$/,
+      loaders: ['style', 'css', 'sass']
     }]
   },
 

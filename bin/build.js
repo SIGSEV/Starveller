@@ -5,6 +5,7 @@ import webpackConfig from '../webpack/production'
 
 const bundler = webpack(webpackConfig)
 
+/* eslint-disable no-console */
 const write = process.stdout.clearLine
   ? (msg) => {
     process.stdout.clearLine()
@@ -12,6 +13,7 @@ const write = process.stdout.clearLine
     process.stdout.write(msg)
   }
   : ::console.log
+/* eslint-enable no-console */
 
 const progressPlugin = new ProgressPlugin((percentage, info) => {
   const msg = `${Math.round(percentage * 100)}% ${info}`

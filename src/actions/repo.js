@@ -3,8 +3,7 @@ import { createAction } from 'redux-actions'
 
 import config from 'config'
 
-const { apiHost, apiPort, apiUrl } = config
-const api = `${apiHost}${apiPort ? '' + apiPort : ''}${apiUrl}`
+const api = config.getApi()
 
 const repoFetch = createAction('REPO_FETCH')
 const repoFetched = createAction('REPO_FETCHED')

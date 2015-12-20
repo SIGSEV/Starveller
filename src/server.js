@@ -1,3 +1,4 @@
+import path from 'path'
 import express from 'express'
 import compression from 'compression'
 
@@ -14,7 +15,10 @@ if (config.env === 'development') {
 if (config.env === 'production') {
   server.use(compression())
   server.use('/dist', express.static(config.distFolder))
-  server.use(config.apiUrl, api)
+  server.use('/api', api)
+  server.use('/favicon.ico', (req, res) => {
+    res.sendFile(path.join(config.assetsFolder, 'favicon.ico'))
+  })
 }
 
 server.use('/assets', express.static(config.assetsFolder))

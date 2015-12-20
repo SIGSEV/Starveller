@@ -3,8 +3,10 @@ export default {
   env: 'production',
   port: 3004,
 
-  apiHost: '',
-  apiPort: '',
-  apiUrl: '/api'
+  getApi: () => {
+    return process.env.BROWSER
+      ? '/api'
+      : 'http://localhost:3004/api'
+  }
 
 }

@@ -13,7 +13,7 @@ server.use((req, res, next) => {
 })
 
 server.use(bodyParser.json())
-server.use(config.apiUrl, api)
+server.use(api)
 
 server.listen(config.apiPort, 'localhost', (err) => {
   /* eslint-disable no-console */

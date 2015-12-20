@@ -6,6 +6,8 @@ import Select from 'react-select'
 import { resetRepo } from 'actions/repo'
 import { fetchAndGo } from 'actions'
 
+import RepoLink from 'components/RepoLink'
+
 @connect(
   state => ({
     repo: state.repo,
@@ -84,9 +86,9 @@ class Home extends Component {
             <li>
               <div className='repo'>
                 <header>
-                  <a href='https://github.com/SIGSEV/minus' target='_blank'>
+                  <RepoLink to='SIGSEV/minus'>
                     {'SIGSEV/minus'}
-                  </a>
+                  </RepoLink>
                 </header>
               </div>
             </li>
@@ -94,9 +96,9 @@ class Home extends Component {
             <li>
               <div className='repo'>
                 <header>
-                  <a href='https://github.com/SIGSEV/minus' target='_blank'>
-                    {'SIGSEV/minus'}
-                  </a>
+                  <RepoLink to='rackt/redux'>
+                    {'rackt/redux'}
+                  </RepoLink>
                 </header>
               </div>
             </li>
@@ -104,9 +106,9 @@ class Home extends Component {
             <li>
               <div className='repo'>
                 <header>
-                  <a href='https://github.com/SIGSEV/minus' target='_blank'>
-                    {'SIGSEV/minus'}
-                  </a>
+                  <RepoLink to='42Zavattas/generator-bangular'>
+                    {'42Zavattas/generator-bangular'}
+                  </RepoLink>
                 </header>
               </div>
             </li>
@@ -114,9 +116,9 @@ class Home extends Component {
             <li>
               <div className='repo'>
                 <header>
-                  <a href='https://github.com/SIGSEV/minus' target='_blank'>
-                    {'SIGSEV/minus'}
-                  </a>
+                  <RepoLink to='jaredreich/notie.js'>
+                    {'jaredreich/notie.js'}
+                  </RepoLink>
                 </header>
               </div>
             </li>

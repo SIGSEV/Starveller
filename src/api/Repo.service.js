@@ -10,7 +10,7 @@ dotenv.load()
 const githubToken = process.env.GITHUB
 
 export const getAll = () => {
-  return q.nfcall(::Repo.find, {}, { name: 1, starCount: 1 })
+  return q.nfcall(::Repo.find, {}, { name: 1, starsCount: 1 })
 }
 
 export const getByName = name => {

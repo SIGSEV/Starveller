@@ -26,7 +26,8 @@ class Home extends Component {
 
   renderOption (option) {
     const repo = option.value
-    const { name, starCount } = repo
+    const { name, starsCount } = repo
+
     return (
       <div className='repo-option'>
         <div className='name'>
@@ -34,7 +35,7 @@ class Home extends Component {
           <h4>{name}</h4>
         </div>
         <div className='infos'>
-          <span>{starCount}</span>
+          <span>{starsCount}</span>
           <i className='octicon octicon-star' />
         </div>
       </div>

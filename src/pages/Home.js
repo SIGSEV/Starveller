@@ -167,7 +167,7 @@ class Home extends Component {
           <h2>{'"Why have I to submit my repo and don\'t see results instantly?"'}</h2>
 
           <p>
-            <a href='https://github.com/SIGSEV/Statoss/pulls' target='_blank'>
+            <a href='https://github.com/SIGSEV/Starveller/pulls' target='_blank'>
               {'PR accepted'}
             </a>
             {'.'}

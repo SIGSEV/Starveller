@@ -5,11 +5,15 @@ if (process.env.BROWSER) {
   require('react-select/dist/react-select.css')
 }
 
+import WarningBar from 'components/WarningBar'
+
 class App extends Component {
 
   render () {
     return (
       <div className='container'>
+
+        <WarningBar />
 
         <section>
           {this.props.children}

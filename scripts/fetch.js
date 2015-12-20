@@ -1,7 +1,7 @@
 import dotenv from 'dotenv'
 import mongoose from 'mongoose'
 
-import * as RepoService from 'api/Repo.service'
+import { fetch } from 'api/Repo.service'
 
 const name = process.argv[2]
 const arg = process.argv[3]
@@ -14,7 +14,7 @@ mongoose.connect('mongodb://localhost/statoss', { db: { safe: true } })
 
 dotenv.load()
 
-RepoService.fetch(name, arg === 'hard')
+fetch(name, arg === 'hard')
   .then(() => { process.exit(0) })
   .catch(err => {
     /* eslint-disable no-console */

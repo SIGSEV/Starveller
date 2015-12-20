@@ -1,0 +1,23 @@
+{
+  "apps": [{
+
+    "name"  : "Starveller",
+    "script": "bin/prod.js",
+
+    "env_production": {
+      NODE_ENV: "production"
+    }
+
+  }],
+
+  "deploy": {
+    "production": {
+      "user"       : "pm2",
+      "host"       : "fugitive.link",
+      "ref"        : "origin/develop",
+      "repo"       : "git@github.com:SIGSEV/Starveller.git",
+      "path"       : "/var/www/starveller",
+      "post-deploy": "npm i && npm run build && NODE_ENV=production NODE_PATH=$NODE_PATH:./src pm2 startOrRestart ecosystem.json --env production"
+    }
+  }
+}

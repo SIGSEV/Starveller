@@ -12,7 +12,9 @@
     "start:api": "NODE_PATH=$NODE_PATH:./src nodemon --watch src/api --watch src/config index -- --api",
     "start": "npm run start:app & npm run start:api & wait",
     "lint": "eslint src webpack bin scripts",
-    "fetch": "NODE_PATH=$NODE_PATH:./src babel-node scripts/fetch"
+    "fetch": "NODE_PATH=$NODE_PATH:./src babel-node scripts/fetch",
+    "pm2:setup": "pm2 deploy ecosystem.json production setup",
+    "deploy": "pm2 deploy ecosystem.json production"
   },
   "dependencies": {
     "autoprefixer-loader": "^3.1.0",
@@ -61,6 +63,7 @@
     "eslint-config-zavatta-react": "^1.2.0",
     "eslint-plugin-react": "^3.11.3",
     "nodemon": "^1.8.1",
+    "pm2": "^0.15.10",
     "react-transform-catch-errors": "^1.0.0",
     "react-transform-hmr": "^1.0.1",
     "redbox-react": "^1.2.0",

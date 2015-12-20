@@ -43,6 +43,11 @@ class Home extends Component {
     )
   }
 
+  startSubmitRepo (e) {
+    if (e) { e.preventDefault() }
+    alert('coming soon, bro')
+  }
+
   render () {
     const { repo, repos } = this.props
 
@@ -72,7 +77,7 @@ class Home extends Component {
 
           <h2>
             {'No idea? You can '}
-            <a href=''>
+            <a href='' onClick={::this.startSubmitRepo}>
               <i className='octicon octicon-plus' />
               {' submit a repo'}
             </a>
@@ -151,7 +156,7 @@ class Home extends Component {
           </div>
 
           <div className='z' style={{ margin: '4em 0' }}>
-            <button className='b'>
+            <button className='b' onClick={::this.startSubmitRepo}>
               <i className='octicon octicon-plus' />
               {'Submit your repo now!'}
             </button>

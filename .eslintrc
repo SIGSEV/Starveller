@@ -1,6 +1,7 @@
 {
   "extends": ["zavatta", "zavatta-react"],
   "rules": {
-    "camelcase": 0
+    "camelcase": 0,
+    "no-alert": 0
   }
 }

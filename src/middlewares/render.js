@@ -49,8 +49,8 @@ export default (req, res) => {
 
   match({ routes, location }, (err, redirectLocation, renderProps) => {
 
-    if (err) { return res.status(500).end('internal server error') }
-    if (!renderProps) { return res.status(404).end('not found') }
+    if (err) { return res.redirect('/fail') }
+    if (!renderProps) { return res.redirect('/fail') }
 
     const store = createStore()
 
@@ -91,7 +91,8 @@ export default (req, res) => {
 
       res.end(page)
 
-    })
+    }).catch(() => { res.redirect('/fail') })
+
   })
 
 }

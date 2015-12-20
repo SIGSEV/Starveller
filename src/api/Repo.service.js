@@ -61,11 +61,12 @@ export const getOnePopulated = (name, months = 2) => {
 export const createRepo = (name, hard, isScript) => {
   if (!name) { return q.reject(new Error('Bitch plz.')) }
 
-  let _data
+  let _data, _repo
 
   return getByName(name)
     .then(repo => {
       if (repo && !isScript) { throw new Error('Repo already created.') }
+      _repo = repo
       return fetchRepo(name)
     })
     .then(data => {
@@ -73,7 +74,9 @@ export const createRepo = (name, hard, isScript) => {
       return fetchStars(name, hard, isScript)
     })
     .then(starsData => {
-      return q.nfcall(::Repo.create, _.merge(starsData, _data))
+      const final = _.merge(starsData, _data)
+      if (_repo) { return updateByName(name, final) }
+      return q.nfcall(::Repo.create, final)
     })
 }
 

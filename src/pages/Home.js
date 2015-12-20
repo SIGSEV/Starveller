@@ -51,13 +51,6 @@ class Home extends Component {
     return (
       <div>
 
-        <header className='header-actions'>
-          <button className='b'>
-            <i className='octicon octicon-plus' />
-            {'Submit your repo!'}
-          </button>
-        </header>
-
         <div className='contained'>
 
           <h1>
@@ -82,8 +75,11 @@ class Home extends Component {
           <hr />
 
           <h2>
-            {'No idea? '}
-            <Link to='/browse'>{'Browse all repos'}</Link>
+            {'No idea? You can '}
+            <a href=''>
+              <i className='octicon octicon-plus' />
+              {' submit a repo'}
+            </a>
             {' or check this '}
             <strong>{'awesome'}</strong>
             {' selection:'}
@@ -135,9 +131,9 @@ class Home extends Component {
 
           <div className='collection-actions'>
             <Link to='/browse'>
-              {'See all '}
+              {'Browse all repos '}
               <i className='octicon octicon-chevron-right' />
-              </Link>
+            </Link>
           </div>
 
           <hr />
@@ -158,12 +154,23 @@ class Home extends Component {
             </p>
           </div>
 
-          <div className='z' style={{ marginTop: '4em' }}>
+          <div className='z' style={{ margin: '4em 0' }}>
             <button className='b'>
               <i className='octicon octicon-plus' />
               {'Submit your repo now!'}
             </button>
           </div>
+
+          <hr />
+
+          <h2>{'"Why have I to submit my repo and don\'t see results instantly?"'}</h2>
+
+          <p>
+            <a href='https://github.com/SIGSEV/Statoss/pulls' target='_blank'>
+              {'PR accepted'}
+            </a>
+            {'.'}
+          </p>
 
         </div>
 

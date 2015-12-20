@@ -107,9 +107,9 @@ function reduceGroup (group) {
 function groupDatesByFormat (stars, format) {
   return _.reduce(
     _.mapValues(_.groupBy(stars, d => moment(d).format(format)), e => e.length),
-    (acc, stars, i) => acc.concat({ value: i, stars }),
+    (acc, stars, i) => acc.concat({ value: moment(i, format), stars }),
     []
-  )
+  ).sort((a, b) => { return moment(a.value, format).isBefore(moment(b.value, format)) ? -1 : 1 })
 }
 
 function fetchRepo (name) {

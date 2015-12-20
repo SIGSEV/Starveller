@@ -6,18 +6,18 @@ if (process.env.BROWSER) { require('styles/Graph.scss') }
 class Graph extends Component {
 
   render () {
-    const { stars } = this.props.repo
+    const { byDay } = this.props.repo
 
     const data = [{
       name: 'stars',
       strokeWidth: 2,
-      values: stars.map(coords => ({ ...coords, x: new Date(coords.x) }))
+      values: byDay.map(d => ({ ...d, x: new Date(d.x) }))
     }]
 
     return (
       <div className='Graph'>
 
-        {!!stars.length && (
+        {!!byDay.length && (
           <LineChart
             data={data}
             width={640}
@@ -34,7 +34,7 @@ class Graph extends Component {
           />
         )}
 
-        {!stars.length && (
+        {!byDay.length && (
           <div>{'No data :)'}</div>
         )}
 

@@ -16,10 +16,10 @@ const RepoSchema = new Schema({
     page: Number
   }],
 
-  byDay: [{ value: String, stars: Number }],
-  byWeek: [{ value: String, stars: Number }],
-  byMonth: [{ value: String, stars: Number }],
-  byYear: [{ value: String, stars: Number }],
+  byDay: [{ value: Date, stars: Number }],
+  byWeek: [{ value: Date, stars: Number }],
+  byMonth: [{ value: Date, stars: Number }],
+  byYear: [{ value: Date, stars: Number }],
 
   events: [{
     link: String,

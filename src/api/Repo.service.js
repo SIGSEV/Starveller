@@ -4,8 +4,32 @@ import _ from 'lodash'
 
 import Repo from 'api/Repo.model'
 
+/**
+ * API
+ */
+
+export const getAll = () => {
+  return q.nfcall(::Repo.find, {}, { name: 1, starCount: 1 })
+}
+
+export const getOne = (user, repo) => {
+  const name = `${user}/${repo}`
+
+  return q.nfcall(::Repo.findOne, { name }, '-stars.page')
+    .then(({ name, stars, starCount, events }) => ({
+      name,
+      events,
+      starCount,
+      stars: stars.map(s => s.date)
+    }))
+}
+
+/**
+ * Admin area
+ */
+
 export const getByName = name => {
-  return q.nfcall(Repo.findOne.bind(Repo), { name })
+  return q.nfcall(::Repo.findOne, { name })
     .then(repo => {
       if (!repo) { return create(name) }
       return repo
@@ -13,12 +37,12 @@ export const getByName = name => {
 }
 
 export const updateById = (_id, mods) => {
-  return q.nfcall(Repo.update.bind(Repo), { _id }, mods)
+  return q.nfcall(::Repo.update, { _id }, mods)
     .then(() => null)
 }
 
 export const create = name => {
-  return q.nfcall(Repo.create.bind(Repo), { name })
+  return q.nfcall(::Repo.create, { name })
 }
 
 export const fetch = (name, hard) => {
@@ -35,7 +59,8 @@ export const fetch = (name, hard) => {
       process.stdout.write(']\n')
       const stars = _.reject(_repo.stars, { page: _repo.lastPage }).concat(results)
       const lastPage = Math.ceil(stars.length / 100)
-      return updateById(_repo._id, { stars, lastPage })
+      const starCount = stars.length
+      return updateById(_repo._id, { stars, lastPage, starCount })
     })
 }
 

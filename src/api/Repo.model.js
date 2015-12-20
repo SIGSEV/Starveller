@@ -8,6 +8,8 @@ const RepoSchema = new Schema({
     page: Number
   }],
 
+  starCount: { type: Number, default: 0 },
+
   events: [{
     link: String,
     title: String,

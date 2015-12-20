@@ -1,8 +1,4 @@
-import mongoose from 'mongoose'
-
 import { createRepo } from 'api/Repo.service'
-
-mongoose.connect('mongodb://localhost/statoss', { db: { safe: true } })
 
 const name = process.argv[2]
 const hard = process.argv[3]

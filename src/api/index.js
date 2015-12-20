@@ -1,9 +1,6 @@
 import express from 'express'
-import mongoose from 'mongoose'
 
 import { getAll, getOnePopulated, createRepo, createEvent } from 'api/Repo.service'
-
-mongoose.connect('mongodb://localhost/statoss', { db: { safe: true } })
 
 const router = express.Router()
 

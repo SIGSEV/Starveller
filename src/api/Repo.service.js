@@ -3,11 +3,14 @@ import r from 'superagent'
 import _ from 'lodash'
 import moment from 'moment'
 import dotenv from 'dotenv'
+import mongoose from 'mongoose'
 
 import Repo from 'api/Repo.model'
 
 dotenv.load()
 const githubToken = process.env.GITHUB
+
+mongoose.connect(process.env.MONGO, { db: { safe: true } })
 
 export const getAll = () => {
   return q.nfcall(::Repo.find, {}, { name: 1, starsCount: 1 })

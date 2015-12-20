@@ -1,6 +1,4 @@
 import React, { Component } from 'react'
-import _ from 'lodash'
-import moment from 'moment'
 import { LineChart } from 'react-d3'
 
 if (process.env.BROWSER) { require('styles/Graph.scss') }

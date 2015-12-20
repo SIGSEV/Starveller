@@ -21,6 +21,7 @@ const Html = ({ content, state, stats: { style, main = 'bundle.js' } }) => (
       <title>{'[::]'}</title>
 
       <link href='https://fonts.googleapis.com/css?family=Rambla:400,700' rel='stylesheet' type='text/css' />
+      <link href='https://cdnjs.cloudflare.com/ajax/libs/octicons/3.3.0/octicons.min.css' rel='stylesheet' type='text/css' />
 
       {style && (
         <link href={`dist/${style}`} rel='stylesheet'/>

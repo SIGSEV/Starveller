@@ -17,17 +17,35 @@ class Home extends Component {
 
   handleSearch (search) {
     if (search && search.value) {
-      this.props.dispatch(fetchRepo(search.value))
+      const { name } = search.value
+      this.props.dispatch(fetchRepo(name))
     } else {
       this.props.dispatch(resetRepo())
     }
   }
 
-  render () {
-    const { repo } = this.props
-    const repos = this.props.repos.map(r => ({ value: r.name, label: r.name }))
+  renderOption (option) {
+    const repo = option.value
+    const { name, starCount } = repo
+    return (
+      <div className='repo-option'>
+        <div className='name'>
+          <i className='octicon octicon-repo' />
+          <h4>{name}</h4>
+        </div>
+        <div className='infos'>
+          <span>{starCount}</span>
+          <i className='octicon octicon-star' />
+        </div>
+      </div>
+    )
+  }
 
-    const selectValue = repo ? { value: repo.name, label: repo.name } : null
+  render () {
+    const { repo, repos } = this.props
+
+    const options = repos.map(r => ({ value: r, label: r.name }))
+    const selectValue = repo ? { value: repo, label: repo.name } : null
 
     return (
       <div>
@@ -36,7 +54,8 @@ class Home extends Component {
 
         <Select
           value={selectValue}
-          options={repos}
+          options={options}
+          optionRenderer={::this.renderOption}
           onChange={::this.handleSearch}
           className='repo-search'/>
 

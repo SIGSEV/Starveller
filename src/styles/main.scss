@@ -156,3 +156,25 @@ hr {
   background: white;
   border: 1px solid rgba(black, 0.1);
 }
+
+.repo-option {
+  @extend .f;
+
+  padding: 0.5em 0;
+
+  .name {
+    @extend .f;
+    flex-grow: 1;
+  }
+  .infos {
+    flex-shrink: 0;
+    color: rgba(black, 0.5);
+    i {
+      margin-left: 0.25em;
+    }
+  }
+  h4 {
+    font-weight: bold;
+    margin-left: 0.5em;
+  }
+}

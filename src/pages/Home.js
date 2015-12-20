@@ -29,8 +29,10 @@ class Home extends Component {
         <h1>{'Add a 4th dimension to Github stars.'}</h1>
 
         <Select
+          value={{ value: repo.name, label: repo.name }}
           options={repos}
-          onChange={::this.handleSearch}/>
+          onChange={::this.handleSearch}
+          className='repo-search'/>
 
         {repo && (
           <Graph

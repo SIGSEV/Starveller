@@ -24,3 +24,5 @@ export const fetchRepo = (search) => dispatch => new Promise((resolve, reject) =
     })
 
 })
+
+export const resetRepo = createAction('REPO_RESET')

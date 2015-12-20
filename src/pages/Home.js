@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { Link } from 'react-router'
 import Select from 'react-select'
 
-import { fetchRepo } from 'actions/repo'
+import { fetchRepo, resetRepo } from 'actions/repo'
 
 import Graph from 'components/Graph'
 
@@ -15,8 +15,12 @@ import Graph from 'components/Graph'
 )
 class Home extends Component {
 
-  handleSearch ({ value }) {
-    this.props.dispatch(fetchRepo(value))
+  handleSearch (search) {
+    if (search && search.value) {
+      this.props.dispatch(fetchRepo(search.value))
+    } else {
+      this.props.dispatch(resetRepo())
+    }
   }
 
   render () {

@@ -4,6 +4,8 @@ import { createAction } from 'redux-actions'
 
 import config from 'config'
 
+import { startLoader, stopLoader } from 'actions/loader'
+
 const api = config.getApi()
 
 /**
@@ -14,8 +16,11 @@ const repoFetched = createAction('REPO_FETCHED')
 
 export const fetchRepo = (search) => dispatch => new Promise((resolve, reject) => {
 
+  dispatch(startLoader('global'))
+
   r.get(`${api}/repos/${search}`)
     .end((err, res) => {
+      dispatch(stopLoader('global'))
       if (err) { return reject(err) }
       dispatch(repoFetched(res.body))
       resolve()

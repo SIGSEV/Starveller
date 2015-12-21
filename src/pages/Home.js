@@ -10,7 +10,8 @@ import RepoLink from 'components/RepoLink'
 @connect(
   state => ({
     repo: state.repos.current,
-    reposList: state.repos.list
+    reposList: state.repos.list,
+    loading: state.loader.global
   })
 )
 class Home extends Component {
@@ -48,7 +49,7 @@ class Home extends Component {
   }
 
   render () {
-    const { repo, reposList } = this.props
+    const { repo, reposList, loading } = this.props
 
     const options = reposList.map(r => ({ value: r, label: r.name }))
     const selectValue = repo ? { value: repo, label: repo.name } : null
@@ -64,13 +65,20 @@ class Home extends Component {
             {'rs.'}
           </h1>
 
-          <Select
-            value={selectValue}
-            options={options}
-            placeholder='Find a repo'
-            optionRenderer={::this.renderOption}
-            onChange={::this.handleSearch}
-            className='repo-search'/>
+          <div className='search-container'>
+            {loading && (
+              <div className='search-loader'>{'Loading...'}</div>
+            )}
+            {!loading && (
+              <Select
+                value={selectValue}
+                options={options}
+                placeholder='Find a repo'
+                optionRenderer={::this.renderOption}
+                onChange={::this.handleSearch}
+                className='repo-search'/>
+            )}
+          </div>
 
           <hr />
 

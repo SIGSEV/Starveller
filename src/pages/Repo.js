@@ -4,6 +4,8 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router'
 
+import { resetRepo } from 'actions/repos'
+
 import Graph from 'components/Graph'
 
 @connect(
@@ -12,6 +14,10 @@ import Graph from 'components/Graph'
   })
 )
 class Repo extends Component {
+
+  componentWillUnmount () {
+    this.props.dispatch(resetRepo())
+  }
 
   render () {
     const { repo } = this.props

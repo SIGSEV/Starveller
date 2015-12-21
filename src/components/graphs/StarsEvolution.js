@@ -138,6 +138,65 @@ class StarsEvolution extends Component {
         .attr('cy', d => y(d.y))
     }
 
+    // mouse move
+
+    const focus = svg.append('g')
+      .style('display', 'none')
+
+    const bisectDate = d3.bisector(d => d.x).left
+
+    focus.append('circle')
+      .attr('class', 'y')
+      .style('fill', 'none')
+      .style('stroke', '#008cdd')
+      .attr('r', 6)
+      .attr('z-index', 2)
+
+    focus.append('line')
+      .attr('class', 'x')
+      .style('stroke', 'black')
+      .style('stroke-dasharray', '3,3')
+      .style('opacity', 0.3)
+      .attr('y1', 0)
+      .attr('y2', h)
+
+    focus.append('line')
+      .attr('class', 'y')
+      .style('stroke', 'black')
+      .style('stroke-dasharray', '3,3')
+      .style('opacity', 0.3)
+      .attr('x1', w)
+      .attr('x2', w)
+
+    svg.append('rect')
+      .attr('width', w)
+      .attr('height', h)
+      .style('fill', 'none')
+      .style('pointer-events', 'all')
+      .on('mouseover', () => { focus.style('display', null) })
+      .on('mouseout', () => { focus.style('display', 'none') })
+      .on('mousemove', function () {
+        /* eslint-disable */
+        const x0 = x.invert(d3.mouse(this)[0])
+        /* eslint-enable */
+        const i = bisectDate(data, x0, 1)
+        const d0 = data[i - 1]
+        const d1 = data[i]
+        const d = x0 - d0.x > d1.x - x0 ? d1 : d0
+
+        focus.select('circle.y')
+          .attr('transform', `translate(${x(d.x)}, ${y(d.y)})`)
+
+        focus.select('line.y')
+          .attr('transform', `translate(${w * -1}, ${y(d.y)})`)
+          .attr('x2', w + w)
+
+        focus.select('line.x')
+          .attr('transform', `translate(${x(d.x)}, ${y(d.y)})`)
+          .attr('y2', h - y(d.y))
+
+      })
+
   }
 
   render () {

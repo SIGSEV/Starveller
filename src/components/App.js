@@ -17,7 +17,7 @@ class App extends Component {
     const { loading } = this.props
 
     return (
-      <div className='container' style={{ background: loading ? 'rgba(0, 0, 0, 0.1)' : 'transparent' }}>
+      <div className='container' style={{ background: loading ? 'rgba(0, 0, 0, 0.06)' : 'transparent' }}>
 
         <section>
           {this.props.children}

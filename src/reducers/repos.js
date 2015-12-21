@@ -15,7 +15,7 @@ export default handleActions({
   /**
    * Reset the current repo
    */
-  REPO_RESET: () => ({ ...state, current: null }),
+  REPO_RESET: (state) => ({ ...state, current: null }),
 
   /**
    * Fill repos basic list (only a few props like name, starsCount, etc.)

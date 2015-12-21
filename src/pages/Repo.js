@@ -8,7 +8,7 @@ import Graph from 'components/Graph'
 
 @connect(
   state => ({
-    repo: state.repo
+    repo: state.repos.current
   })
 )
 class Repo extends Component {

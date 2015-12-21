@@ -5,8 +5,7 @@ import createLocation from 'history/lib/createLocation'
 import { RoutingContext, match } from 'react-router'
 import { renderToString, renderToStaticMarkup } from 'react-dom/server'
 
-import { fetchRepos } from 'actions/repos'
-import { fetchRepo } from 'actions/repo'
+import { fetchRepo, fetchReposList } from 'actions/repos'
 
 import config from 'config'
 import routes from 'routes'
@@ -59,7 +58,7 @@ export default (req, res) => {
     const { owner, reponame } = params
 
     const init = [
-      store.dispatch(fetchRepos())
+      store.dispatch(fetchReposList())
     ]
 
     if (owner && reponame) {

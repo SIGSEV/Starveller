@@ -3,15 +3,14 @@ import { connect } from 'react-redux'
 import { Link } from 'react-router'
 import Select from 'react-select'
 
-import { resetRepo } from 'actions/repo'
-import { fetchAndGo } from 'actions'
+import { resetRepo, fetchAndGo } from 'actions/repos'
 
 import RepoLink from 'components/RepoLink'
 
 @connect(
   state => ({
-    repo: state.repo,
-    repos: state.repos
+    repo: state.repos.current,
+    reposList: state.repos.list
   })
 )
 class Home extends Component {
@@ -49,9 +48,9 @@ class Home extends Component {
   }
 
   render () {
-    const { repo, repos } = this.props
+    const { repo, reposList } = this.props
 
-    const options = repos.map(r => ({ value: r, label: r.name }))
+    const options = reposList.map(r => ({ value: r, label: r.name }))
     const selectValue = repo ? { value: repo, label: repo.name } : null
 
     return (

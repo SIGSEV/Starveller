@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
-import { fetchAndGo } from 'actions'
+import { fetchAndGo } from 'actions/repos'
 
 @connect()
 class RepoLink extends Component {

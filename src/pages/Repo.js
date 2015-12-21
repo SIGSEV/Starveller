@@ -6,7 +6,7 @@ import { Link } from 'react-router'
 
 import { resetRepo } from 'actions/repos'
 
-import Graph from 'components/Graph'
+import StarsEvolution from 'components/graphs/StarsEvolution'
 
 @connect(
   state => ({
@@ -38,9 +38,12 @@ class Repo extends Component {
 
         </header>
 
-        <section className='repo-graph'>
-          <Graph
-            repo={repo} />
+        <section className='graphs-container'>
+
+          <section className='graph'>
+            <StarsEvolution repo={repo} />
+          </section>
+
         </section>
 
       </div>

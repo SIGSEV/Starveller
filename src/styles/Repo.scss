@@ -16,7 +16,48 @@
 
 }
 
-.repo-graph {
-  @extend .z;
-  min-height: 400px;
+.graphs-container {
+
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+
+  .graph {
+    flex: 1;
+    margin: 1em;
+  }
+
+}
+
+.graph-stars-evolution {
+  path.line {
+    fill: none;
+    stroke: #53aee2;
+    stroke-width: 1;
+  }
+
+  path.area {
+    fill: #cfddf0;
+  }
+
+  .axis {
+    shape-rendering: crispEdges;
+
+    text {
+      stroke: none;
+      fill: #888;
+      font-size:14px;
+    }
+  }
+
+  .x.axis path {
+    display: none;
+  }
+
+  .y.axis path, .y.axis line {
+    fill: none;
+    stroke: #000000;
+    stroke-width: 1px;
+    stroke-opacity: 0.06;
+  }
 }

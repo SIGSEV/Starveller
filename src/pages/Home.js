@@ -16,6 +16,14 @@ import ReposCollection from 'components/ReposCollection'
 )
 class Home extends Component {
 
+  constructor (props) {
+    super(props)
+
+    this.state = {
+      randomRepos: shuffle(props.reposList).slice(0, 4)
+    }
+  }
+
   handleSearch (search) {
     if (search && search.value) {
       const repo = search.value
@@ -27,9 +35,9 @@ class Home extends Component {
 
   render () {
     const { reposList, loading } = this.props
+    const { randomRepos } = this.state
 
     const options = reposList.map(r => ({ value: r, label: r.name }))
-    const randomRepos = shuffle(reposList).slice(0, 4)
 
     return (
       <div>

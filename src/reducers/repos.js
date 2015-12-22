@@ -1,8 +1,10 @@
+import _ from 'lodash'
 import { handleActions } from 'redux-actions'
 
 const state = {
   current: null,
-  list: []
+  list: [],
+  trending: []
 }
 
 export default handleActions({
@@ -25,6 +27,10 @@ export default handleActions({
   /**
    * Fill repos basic list (only a few props like name, starsCount, etc.)
    */
-  REPOS_LIST_FETCHED: (state, { payload: list }) => ({ ...state, list })
+  REPOS_LIST_FETCHED: (state, { payload: list }) => ({
+    ...state,
+    list,
+    trending: _.shuffle(list).slice(0, 4)
+  })
 
 }, state)

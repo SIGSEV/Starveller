@@ -11,6 +11,7 @@ import ReposCollection from 'components/ReposCollection'
 @connect(
   state => ({
     reposList: state.repos.list,
+    trendingRepos: state.repos.trending,
     loading: state.loader.global
   })
 )
@@ -34,8 +35,7 @@ class Home extends Component {
   }
 
   render () {
-    const { reposList, loading } = this.props
-    const { randomRepos } = this.state
+    const { reposList, loading, trendingRepos } = this.props
 
     const options = reposList.map(r => ({ value: r, label: r.name }))
 
@@ -76,7 +76,7 @@ class Home extends Component {
             {' selection:'}
           </h2>
 
-          <ReposCollection repos={randomRepos} />
+          <ReposCollection repos={trendingRepos} />
 
           <div className='collection-actions'>
             <Link to='/browse'>

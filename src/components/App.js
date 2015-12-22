@@ -6,18 +6,11 @@ if (process.env.BROWSER) {
   require('react-select/dist/react-select.css')
 }
 
-@connect(
-  state => ({
-    loading: state.loader.global
-  })
-)
 class App extends Component {
 
   render () {
-    const { loading } = this.props
-
     return (
-      <div className='container' style={{ background: loading ? 'rgba(0, 0, 0, 0.06)' : 'transparent' }}>
+      <div className='container'>
 
         <section>
           {this.props.children}

@@ -11,8 +11,7 @@ import ReposCollection from 'components/ReposCollection'
 @connect(
   state => ({
     reposList: state.repos.list,
-    trendingRepos: state.repos.trending,
-    loading: state.loader.global
+    trendingRepos: state.repos.trending
   })
 )
 class Home extends Component {
@@ -35,7 +34,7 @@ class Home extends Component {
   }
 
   render () {
-    const { reposList, loading, trendingRepos } = this.props
+    const { reposList, trendingRepos } = this.props
 
     const options = reposList.map(r => ({ value: r, label: r.name }))
 
@@ -51,16 +50,11 @@ class Home extends Component {
           </h1>
 
           <div className='search-container'>
-            {loading && (
-              <div className='search-loader'>{'Loading...'}</div>
-            )}
-            {!loading && (
-              <Select
-                options={options}
-                placeholder='Find a repo'
-                onChange={::this.handleSearch}
-                className='repo-search'/>
-            )}
+            <Select
+              options={options}
+              placeholder='Find a repo'
+              onChange={::this.handleSearch}
+              className='repo-search'/>
           </div>
 
           <hr />

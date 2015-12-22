@@ -1,16 +1,6 @@
+@import './reset';
 @import './colors';
 @import './helpers';
-
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-  border: none;
-
-  outline: none;
-  font: inherit;
-  background: transparent;
-}
 
 body {
   font-family: 'Rambla', sans-serif;
@@ -19,11 +9,6 @@ body {
 
   background: $bg;
   color: rgba(black, 0.6);
-}
-
-a, button {
-  cursor: pointer;
-  color: inherit;
 }
 
 a {
@@ -143,32 +128,6 @@ hr {
   }
 }
 
-.b {
-  @extend .f;
-  padding: 1em;
-  border: 2px solid transparent;
-  border-bottom-width: 3px;
-  border-color: rgba(black, 0.05);
-
-  > i {
-    margin-right: 1em;
-  }
-
-  color: inherit;
-  font-weight: 700;
-  background: rgba(black, 0.1);
-
-  &:focus {
-    background: $blue;
-    color: white;
-    text-shadow: rgba(black, 0.3) 0 1px 0;
-    border-color: rgba(black, 0.1);
-  }
-  &:active {
-    border-color: rgba(black, 0.2);
-  }
-}
-
 .collection {
   list-style-type: none;
   margin: 0;
@@ -231,11 +190,4 @@ hr {
   .Select {
     width: 100%;
   }
-}
-
-// overrides
-
-.Select-value-label {
-  color: rgba(black, 0.6) !important;
-  font-weight: bold !important;
 }

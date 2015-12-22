@@ -62,7 +62,7 @@ export default (req, res) => {
     ]
 
     if (owner && reponame) {
-      init.push(store.dispatch(fetchRepo(`${owner}/${reponame}`)))
+      init.push(store.dispatch(fetchRepo({ name: `${owner}/${reponame}` })))
     }
 
     Promise.all(init).then(() => {

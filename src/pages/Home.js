@@ -1,15 +1,15 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router'
-import Select from 'react-select'
+import { shuffle } from 'lodash'
 
 import { resetRepo, fetchAndGo } from 'actions/repos'
 
-import RepoLink from 'components/RepoLink'
+import Select from 'components/SelectYolo'
+import ReposCollection from 'components/ReposCollection'
 
 @connect(
   state => ({
-    repo: state.repos.current,
     reposList: state.repos.list,
     loading: state.loader.global
   })
@@ -18,41 +18,18 @@ class Home extends Component {
 
   handleSearch (search) {
     if (search && search.value) {
-      const { name } = search.value
-      this.props.dispatch(fetchAndGo(name))
+      const repo = search.value
+      this.props.dispatch(fetchAndGo(repo))
     } else {
       this.props.dispatch(resetRepo())
     }
   }
 
-  renderOption (option) {
-    const repo = option.value
-    const { name, starsCount } = repo
-
-    return (
-      <div className='repo-option'>
-        <div className='name'>
-          <i className='octicon octicon-repo' />
-          <h4>{name}</h4>
-        </div>
-        <div className='infos'>
-          <span>{starsCount}</span>
-          <i className='octicon octicon-star' />
-        </div>
-      </div>
-    )
-  }
-
-  startSubmitRepo (e) {
-    if (e) { e.preventDefault() }
-    alert('coming soon, bro')
-  }
-
   render () {
-    const { repo, reposList, loading } = this.props
+    const { reposList, loading } = this.props
 
     const options = reposList.map(r => ({ value: r, label: r.name }))
-    const selectValue = repo ? { value: repo, label: repo.name } : null
+    const randomRepos = shuffle(reposList).slice(0, 4)
 
     return (
       <div>
@@ -71,10 +48,8 @@ class Home extends Component {
             )}
             {!loading && (
               <Select
-                value={selectValue}
                 options={options}
                 placeholder='Find a repo'
-                optionRenderer={::this.renderOption}
                 onChange={::this.handleSearch}
                 className='repo-search'/>
             )}
@@ -84,58 +59,16 @@ class Home extends Component {
 
           <h2>
             {'No idea? You can '}
-            <a href='' onClick={::this.startSubmitRepo}>
+            <Link to='create'>
               <i className='octicon octicon-plus' />
               {' submit a repo'}
-            </a>
+            </Link>
             {' or check this '}
             <strong>{'awesome'}</strong>
             {' selection:'}
           </h2>
 
-          <ul className='collection'>
-
-            <li>
-              <div className='repo'>
-                <header>
-                  <RepoLink to='SIGSEV/minus'>
-                    {'SIGSEV/minus'}
-                  </RepoLink>
-                </header>
-              </div>
-            </li>
-
-            <li>
-              <div className='repo'>
-                <header>
-                  <RepoLink to='rackt/redux'>
-                    {'rackt/redux'}
-                  </RepoLink>
-                </header>
-              </div>
-            </li>
-
-            <li>
-              <div className='repo'>
-                <header>
-                  <RepoLink to='42Zavattas/generator-bangular'>
-                    {'42Zavattas/generator-bangular'}
-                  </RepoLink>
-                </header>
-              </div>
-            </li>
-
-            <li>
-              <div className='repo'>
-                <header>
-                  <RepoLink to='jaredreich/notie.js'>
-                    {'jaredreich/notie.js'}
-                  </RepoLink>
-                </header>
-              </div>
-            </li>
-
-          </ul>
+          <ReposCollection repos={randomRepos} />
 
           <div className='collection-actions'>
             <Link to='/browse'>
@@ -163,10 +96,10 @@ class Home extends Component {
           </div>
 
           <div className='z' style={{ margin: '4em 0' }}>
-            <button className='b' onClick={::this.startSubmitRepo}>
+            <Link to='create' className='b'>
               <i className='octicon octicon-plus' />
               {'Submit your repo now!'}
-            </button>
+            </Link>
           </div>
 
           <hr />

@@ -1,21 +1,24 @@
 import React, { Component } from 'react'
+import { Link } from 'react-router'
 import { connect } from 'react-redux'
 
-import { fetchAndGo } from 'actions/repos'
+import { fetchRepo } from 'actions/repos'
 
 @connect()
 class RepoLink extends Component {
 
-  handleClick (e) {
-    e.preventDefault()
-    this.props.dispatch(fetchAndGo(this.props.to))
+  handleClick () {
+    this.props.dispatch(fetchRepo(this.props.repo))
   }
 
   render () {
+    const { repo } = this.props
+    const { name } = repo
+
     return (
-      <a onClick={::this.handleClick}>
-        {this.props.children}
-      </a>
+      <Link to={name} onClick={::this.handleClick}>
+        {name}
+      </Link>
     )
   }
 

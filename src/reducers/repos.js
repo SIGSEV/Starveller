@@ -8,6 +8,11 @@ const state = {
 export default handleActions({
 
   /**
+   * Repo will fetch, set a basic preview into current repo
+   */
+  REPO_FETCH: (state, { payload: basicRepo }) => ({ ...state, current: basicRepo }),
+
+  /**
    * Fill the current repo
    */
   REPO_FETCHED: (state, { payload: current }) => ({ ...state, current }),

@@ -17,6 +17,10 @@ class StarsEvolution extends Component {
     window.addEventListener('resize', this.drawDebounced)
   }
 
+  componentDidUpdate () {
+    this.draw()
+  }
+
   componentWillUnmount () {
     window.removeEventListener('resize', this.drawDebounced)
   }
@@ -34,9 +38,9 @@ class StarsEvolution extends Component {
     const containerRect = container.getBoundingClientRect()
 
     // data to show
-    const data = repo.byDay.map(
-      el => ({ ...el, x: new Date(el.x) })
-    )
+    const data = _.has(repo, 'byDay')
+      ? repo.byDay.map(el => ({ ...el, x: new Date(el.x) }))
+      : [{ x: new Date(), y: 0 }]
 
     // graph dimensions
     const m = [80, 80, 80, 80]

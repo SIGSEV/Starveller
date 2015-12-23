@@ -1,5 +1,6 @@
 import express from 'express'
 
+import './db'
 import * as repo from 'api/Repo.service'
 
 const router = express.Router()

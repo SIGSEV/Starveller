@@ -38,8 +38,8 @@ class StarsEvolution extends Component {
     const containerRect = container.getBoundingClientRect()
 
     // data to show
-    const data = _.has(repo, 'byDay')
-      ? repo.byDay.map(el => ({ ...el, x: new Date(el.x) }))
+    const data = _.has(repo, 'stars.byDay')
+      ? repo.stars.byDay.map(el => ({ y: el.stars, x: new Date(el.date) }))
       : [{ x: new Date(), y: 0 }]
 
     // graph dimensions

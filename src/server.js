@@ -1,12 +1,15 @@
 import path from 'path'
 import express from 'express'
 import compression from 'compression'
+import morgan from 'morgan'
 
 import config from 'config'
 import api from 'api'
 import render from 'middlewares/render'
 
 const server = express()
+
+server.use(morgan('dev'))
 
 if (config.env === 'development') {
   require('middlewares/dev-server').default(server)

@@ -17,6 +17,7 @@
     "deploy": "pm2 deploy ecosystem.json production"
   },
   "dependencies": {
+    "async": "^1.5.0",
     "autoprefixer-loader": "^3.1.0",
     "babel-cli": "^6.3.17",
     "babel-core": "^6.3.26",
@@ -26,6 +27,8 @@
     "babel-preset-react": "^6.3.13",
     "babel-preset-stage-0": "^6.3.13",
     "body-parser": "^1.14.2",
+    "chalk": "^1.1.1",
+    "commander": "^2.9.0",
     "compression": "^1.6.0",
     "css-loader": "^0.23.1",
     "d3": "^3.5.12",

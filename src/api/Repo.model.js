@@ -3,31 +3,33 @@ import mongoose, { Schema } from 'mongoose'
 const RepoSchema = new Schema({
 
   name: { type: String, required: true },
+  complete: { type: Boolean, default: false },
 
-  description: String,
-  createdAt: Date,
+  summary: {
+    createdAt: Date,
+    lastFetch: Date,
+    description: String,
+    starsCount: { type: Number, default: 0 },
+    forksCount: { type: Number, default: 0 },
+    watchersCount: { type: Number, default: 0 }
+  },
 
-  starsCount: { type: Number, default: 0 },
-  watchersCount: { type: Number, default: 0 },
-  forksCount: { type: Number, default: 0 },
-
-  stars: [{
-    date: Date,
-    page: Number
-  }],
-
-  byDay: [{ value: Date, stars: Number }],
-  byWeek: [{ value: Date, stars: Number }],
-  byMonth: [{ value: Date, stars: Number }],
-  byYear: [{ value: Date, stars: Number }],
+  stars: {
+    byDay: [{ date: Date, stars: Number }],
+    byWeek: [{ date: Date, stars: Number }],
+    byMonth: [{ date: Date, stars: Number }],
+    byYear: [{ date: Date, stars: Number }]
+  },
 
   events: [{
-    link: String,
-    title: String,
-    comment: String
+    type: { type: String },
+    data: { type: Schema.Types.Mixed, default: {} }
   }],
 
-  lastPage: { type: Number, default: 1 }
+  cache: {
+    lastPage: { type: Number, default: 0 },
+    stars: { type: Array, default: [] }
+  }
 
 })
 

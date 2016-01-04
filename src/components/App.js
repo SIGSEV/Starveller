@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import { connect } from 'react-redux'
 
 if (process.env.BROWSER) {
   require('styles/main.scss')

@@ -38,7 +38,7 @@ class StarsEvolution extends Component {
     const containerRect = container.getBoundingClientRect()
 
     // data to show
-    const data = _.has(repo, 'stars.byDay')
+    const data = _.has(repo, 'stars.byDay') && repo.stars.byDay.length
       ? repo.stars.byDay.map(el => ({ y: el.stars, x: new Date(el.date) }))
       : [{ x: new Date(), y: 0 }]
 

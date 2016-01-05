@@ -3,7 +3,13 @@ import moment from 'moment'
 import d3 from 'd3'
 import React, { Component } from 'react'
 
+import { getReposBoundaries } from 'helpers/repos'
+
 class StarsEvolution extends Component {
+
+  static defaultProps = {
+    repos: []
+  }
 
   constructor (props) {
     super(props)
@@ -33,7 +39,12 @@ class StarsEvolution extends Component {
 
   draw () {
 
-    const { repo } = this.props
+    const { repo, repos } = this.props
+    const reposToDraw = repo ? [repo] : repos
+
+    if (!reposToDraw.length) { return }
+
+    const boundaries = getReposBoundaries(reposToDraw)
 
     const { container } = this.refs
     const containerRect = container.getBoundingClientRect()
@@ -50,11 +61,16 @@ class StarsEvolution extends Component {
     }
 
     // graph dimensions
+    // ================
+
     const m = [80, 80, 80, 80]
     const w = containerRect.width - m[1] - m[3]
     const h = 600 - m[0] - m[2]
 
     // graph elements
+    // ==============
+
+    // axis
 
     const x = d3.time.scale().range([0, w])
     const y = d3.scale.linear().range([h, 0])
@@ -67,6 +83,8 @@ class StarsEvolution extends Component {
       .scale(y)
       .ticks(5)
       .orient('right')
+
+    // area
 
     const area = d3.svg.area()
       .interpolate('linear')
@@ -89,7 +107,11 @@ class StarsEvolution extends Component {
       d3.max(data, d => { return d.y })
     ])
 
+    // clear current graph
+
     d3.select(container).selectAll('*').remove()
+
+    // create svg
 
     const svg = d3.select(container)
       .append('svg:svg')
@@ -151,70 +173,76 @@ class StarsEvolution extends Component {
 
     // mouse move
 
-    if (data.length > 1) {
-
-      const focus = svg.append('g')
-        .style('display', 'none')
-
-      const bisectDate = d3.bisector(d => d.x).left
-
-      focus.append('circle')
-        .attr('class', 'y')
-        .style('fill', 'none')
-        .style('stroke', '#008cdd')
-        .attr('r', 6)
-        .attr('z-index', 2)
-
-      focus.append('line')
-        .attr('class', 'x')
-        .style('stroke', 'black')
-        .style('stroke-dasharray', '3,3')
-        .style('opacity', 0.3)
-        .attr('y1', 0)
-        .attr('y2', h)
-
-      focus.append('line')
-        .attr('class', 'y')
-        .style('stroke', 'black')
-        .style('stroke-dasharray', '3,3')
-        .style('opacity', 0.3)
-        .attr('x1', w)
-        .attr('x2', w)
-
-      svg.append('rect')
-        .attr('width', w)
-        .attr('height', h)
-        .style('fill', 'none')
-        .style('pointer-events', 'all')
-        .on('mouseover', () => { focus.style('display', null) })
-        .on('mouseout', () => { focus.style('display', 'none') })
-        .on('mousemove', function () {
-          /* eslint-disable */
-          const x0 = x.invert(d3.mouse(this)[0])
-          /* eslint-enable */
-          const i = bisectDate(data, x0, 1)
-          const d0 = data[i - 1]
-          const d1 = data[i]
-          const d = x0 - d0.x > d1.x - x0 ? d1 : d0
-
-          focus.select('circle.y')
-            .attr('transform', `translate(${x(d.x)}, ${y(d.y)})`)
-
-          focus.select('line.y')
-            .attr('transform', `translate(${w * -1}, ${y(d.y)})`)
-            .attr('x2', w + w)
-
-          focus.select('line.x')
-            .attr('transform', `translate(${x(d.x)}, ${y(d.y)})`)
-            .attr('y2', h - y(d.y))
-
-        })
-
+    if (reposToDraw.length === 1 && data.length > 1) {
+      this.addMouseSupport(svg, { w, h, x, y }, data)
     }
 
   }
 
+  addMouseSupport (svg, { w, h, x, y }, data) {
+
+    const focus = svg.append('g')
+      .style('display', 'none')
+
+    const bisectDate = d3.bisector(d => d.x).left
+
+    focus.append('circle')
+      .attr('class', 'y')
+      .style('fill', 'none')
+      .style('stroke', '#008cdd')
+      .attr('r', 6)
+      .attr('z-index', 2)
+
+    focus.append('line')
+      .attr('class', 'x')
+      .style('stroke', 'black')
+      .style('stroke-dasharray', '3,3')
+      .style('opacity', 0.3)
+      .attr('y1', 0)
+      .attr('y2', h)
+
+    focus.append('line')
+      .attr('class', 'y')
+      .style('stroke', 'black')
+      .style('stroke-dasharray', '3,3')
+      .style('opacity', 0.3)
+      .attr('x1', w)
+      .attr('x2', w)
+
+    svg.append('rect')
+      .attr('width', w)
+      .attr('height', h)
+      .style('fill', 'none')
+      .style('pointer-events', 'all')
+      .on('mouseover', () => { focus.style('display', null) })
+      .on('mouseout', () => { focus.style('display', 'none') })
+      .on('mousemove', function () {
+        /* eslint-disable no-invalid-this */
+        const x0 = x.invert(d3.mouse(this)[0])
+        /* eslint-enable */
+        const i = bisectDate(data, x0, 1)
+        const d0 = data[i - 1]
+        const d1 = data[i]
+        const d = x0 - d0.x > d1.x - x0 ? d1 : d0
+
+        focus.select('circle.y')
+          .attr('transform', `translate(${x(d.x)}, ${y(d.y)})`)
+
+        focus.select('line.y')
+          .attr('transform', `translate(${w * -1}, ${y(d.y)})`)
+          .attr('x2', w + w)
+
+        focus.select('line.x')
+          .attr('transform', `translate(${x(d.x)}, ${y(d.y)})`)
+          .attr('y2', h - y(d.y))
+
+      })
+
+  }
+
   render () {
+    const { repos } = this.props
+
     return (
       <div className='graph-stars-evolution'>
         <div ref='container' />

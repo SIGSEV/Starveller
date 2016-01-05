@@ -74,3 +74,9 @@ export const fetchAndGo = (repo) => dispatch => {
     .then(() => { dispatch(pushState(null, `${repo.name}`)) })
 
 }
+
+/**
+ * Add a repo to builder
+ */
+
+export const chosenChoose = createAction('CHOSEN_CHOOSE')

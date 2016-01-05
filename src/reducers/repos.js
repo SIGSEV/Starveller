@@ -4,7 +4,8 @@ import { handleActions } from 'redux-actions'
 const state = {
   current: null,
   list: [],
-  trending: []
+  trending: [],
+  chosen: []
 }
 
 export default handleActions({
@@ -29,8 +30,13 @@ export default handleActions({
     const index = _.findIndex(list, '_id', repo._id)
     if (index === -1) { return { ...state, list: [...list, repo] } }
 
+    const current = (state.current && state.current._id === repo._id)
+      ? repo
+      : state.current
+
     return {
       ...state,
+      current,
       list: [
         ...list.slice(0, index),
         repo,
@@ -52,6 +58,14 @@ export default handleActions({
     ...state,
     list,
     trending: _.shuffle(list).slice(0, 4)
+  }),
+
+  CHOSEN_CHOOSE: (state, { payload: repo }) => ({
+    ...state,
+    chosen: [
+      ...state.chosen,
+      repo
+    ]
   })
 
 }, state)

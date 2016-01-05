@@ -1,4 +1,5 @@
 import _ from 'lodash'
+import moment from 'moment'
 import d3 from 'd3'
 import React, { Component } from 'react'
 
@@ -41,6 +42,12 @@ class StarsEvolution extends Component {
     const data = _.has(repo, 'stars.byDay') && repo.stars.byDay.length
       ? repo.stars.byDay.map(el => ({ y: el.stars, x: new Date(el.date) }))
       : [{ x: new Date(), y: 0 }]
+
+    // add today to graph if needed
+    const lastElem = _.last(data)
+    if (!moment(lastElem.x).isSame(moment(), 'day')) {
+      data.push({ x: new Date(), y: lastElem.y })
+    }
 
     // graph dimensions
     const m = [80, 80, 80, 80]

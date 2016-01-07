@@ -5,7 +5,8 @@ class SelectYolo extends Component {
 
   renderOption (option) {
     const repo = option.value
-    const { name, starsCount } = repo
+    const { name, summary } = repo
+    const { starsCount } = summary
 
     return (
       <div className='repo-option'>

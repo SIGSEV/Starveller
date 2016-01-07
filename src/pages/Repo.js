@@ -15,10 +15,6 @@ import StarsEvolution from 'components/graphs/StarsEvolution'
 )
 class Repo extends Component {
 
-  componentWillUnmount () {
-    this.props.dispatch(resetRepo())
-  }
-
   render () {
     const { repo } = this.props
 
@@ -33,6 +29,9 @@ class Repo extends Component {
           </Link>
 
           <div className='repo-name'>
+            <a target='_blank' href={`https://github.com/${repo.name}`} style={{ marginRight: '0.5em' }}>
+              <i className='octicon octicon-mark-github' />
+            </a>
             {repo.name}
           </div>
 

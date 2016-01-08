@@ -1,6 +1,5 @@
 import q from 'q'
 import r from 'superagent'
-import _ from 'lodash'
 
 import Repo from 'api/Repo.model'
 
@@ -43,42 +42,35 @@ export const getOnePopulated = name => {
 }
 
 /**
- * Create a repo
- */
-export const createRepo = (name, hard, isScript) => {
-  if (!name) { return q.reject(new Error('Bitch plz.')) }
-
-  let _data, _repo
-
-  return getByName(name)
-    .then(repo => {
-      if (repo && !isScript) { throw new Error('Repo already created.') }
-      _repo = repo
-      return fetchRepo(name)
-    })
-    .then(data => {
-      _data = data
-      return fetchStars(name, hard, isScript)
-    })
-    .then(starsData => {
-      const final = _.merge(starsData, _data)
-      if (_repo) { return updateByName(name, final) }
-      return q.nfcall(::Repo.create, final)
-    })
-}
-
-/**
  * Fetch github stars
  */
-export const fetchStars = (repo, fromPage) => {
+const fetchStarPage = (name, page) => {
 
-  process.stdout.write('[')
+  return q.Promise((resolve, reject) => {
 
-  return fetchStarPage(repo.name, fromPage)
-    .then(stars => {
-      process.stdout.write(']\n')
-      return stars
-    })
+    r.get(`https://api.github.com/repos/${name}/stargazers?page=${page}&per_page=100`)
+      .set('Authorization', `token ${githubToken}`)
+      .set('Accept', 'application/vnd.github.v3.star+json')
+      .end((err, res) => {
+        if (err) { return reject(err) }
+
+        const stars = res.body.map(star => ({ date: star.starred_at, page }))
+
+        if (res.body.length === 100) {
+          return fetchStarPage(name, ++page)
+            .then(data => { resolve(data.concat(stars)) })
+            .catch(reject)
+        }
+
+        resolve(stars)
+      })
+
+  })
+
+}
+
+export const fetchStars = (name, fromPage) => {
+  return fetchStarPage(name, fromPage)
 }
 
 /**
@@ -111,33 +103,6 @@ export const fetchRepo = (name) => {
           }
         })
       })
-  })
-
-}
-
-function fetchStarPage (name, page) {
-
-  return q.Promise((resolve, reject) => {
-
-    process.stdout.write(':')
-
-    r.get(`https://api.github.com/repos/${name}/stargazers?page=${page}&per_page=100`)
-      .set('Authorization', `token ${githubToken}`)
-      .set('Accept', 'application/vnd.github.v3.star+json')
-      .end((err, res) => {
-        if (err) { return reject(err) }
-
-        const stars = res.body.map(star => ({ date: star.starred_at, page }))
-
-        if (res.body.length === 100) {
-          return fetchStarPage(name, ++page)
-            .then(data => { resolve(data.concat(stars)) })
-            .catch(reject)
-        }
-
-        resolve(stars)
-      })
-
   })
 
 }

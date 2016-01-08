@@ -4,6 +4,7 @@ import morgan from 'morgan'
 
 import api from 'api'
 import config from 'config'
+import { initSocketServer } from 'api/io'
 
 const server = express()
 
@@ -17,6 +18,8 @@ server.use((req, res, next) => {
 
 server.use(bodyParser.json())
 server.use(api)
+
+initSocketServer()
 
 server.listen(config.apiPort, 'localhost', (err) => {
   /* eslint-disable no-console */

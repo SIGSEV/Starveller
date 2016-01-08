@@ -14,32 +14,15 @@ const log = console.log.bind(console, '[GITHUB WORKER]> ')
 const logErr = msg => { console.log(chalk.red(`[GITHUB WORKER]>  ${msg}`)) }
 /* eslint-enable no-console */
 
-const job = ({ name, hard }, done) => {
+const job = (repo, done) => {
+
+  const hard = true
+  const { name } = repo
 
   log(`Starting job for ${name}`)
 
-  // fetch repo from db, and summary from github
-  return q.all([
-    RepoService.getByName(name),
-    RepoService.fetchRepo(name)
-  ])
-
-  // collect summary from db, and github
-  .then(([repoFromDb, repoFromGithub]) => {
-
-    // if repo exist in db, update it, else create it
-    if (repoFromDb) {
-      _.assign(repoFromDb, { ...repoFromGithub, complete: false })
-      return q.nfcall(::repoFromDb.save)
-        .then(() => repoFromDb)
-    }
-
-    return q.nfcall(::Repo.create, repoFromGithub)
-
-  })
-
   // collect stars
-  .then(repo => RepoService.fetchStars(repo, hard ? 1 : repo.cache.lastPage)
+  RepoService.fetchStars(name, hard ? 1 : repo.cache.lastPage)
     .then(stars => {
 
       const allStars = hard
@@ -68,16 +51,15 @@ const job = ({ name, hard }, done) => {
       // save
       return q.nfcall(::repo.save)
 
-    }))
-
-  .then(() => {
-    log(`Finished work for ${name}`)
-    done()
-  })
-  .catch(err => {
-    logErr(`${name}: ${err}`)
-    done(err)
-  })
+    })
+    .then(() => {
+      log(`Finished work for ${name}`)
+      done()
+    })
+    .catch(err => {
+      logErr(`${name}: ${err}`)
+      done(err)
+    })
 
 }
 
@@ -94,6 +76,35 @@ worker.drain = (...args) => {
 }
 
 export default worker
+
+export const initRepo = name => {
+
+  // fetch repo from db, and summary from github
+  return q.all([
+    RepoService.getByName(name),
+    RepoService.fetchRepo(name)
+  ])
+
+  // collect summary from db, and github
+  .then(([repoFromDb, repoFromGithub]) => {
+
+    // if repo exist in db, update it, else create it
+    if (repoFromDb) {
+      _.assign(repoFromDb, { ...repoFromGithub, complete: false })
+      return q.nfcall(::repoFromDb.save)
+        .then(() => repoFromDb)
+    }
+
+    return q.nfcall(::Repo.create, repoFromGithub)
+
+  })
+
+  .then(repo => {
+    worker.push(repo)
+    return repo
+  })
+
+}
 
 // ---------------------------------------------
 

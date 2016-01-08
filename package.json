@@ -53,6 +53,7 @@
     "redux-router": "^1.0.0-beta6",
     "redux-thunk": "^1.0.3",
     "sass-loader": "^3.1.2",
+    "socket.io": "^1.4.2",
     "style-loader": "^0.13.0",
     "superagent": "^1.6.1",
     "url-loader": "^0.5.7",

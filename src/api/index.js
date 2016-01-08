@@ -2,11 +2,16 @@ import express from 'express'
 
 import './db'
 import * as repo from 'api/Repo.service'
+import { initRepo } from 'api/github.worker'
 
 const router = express.Router()
 
 router.get('/repos', (req, res) => {
   response(repo.getAll, res)
+})
+
+router.post('/repos', (req, res) => {
+  response(initRepo.bind(this, req.body.name), res)
 })
 
 router.put('/repos', (req, res) => {
@@ -26,7 +31,13 @@ router.post('/repos/:user/:repo/events', (req) => {
 function response (fn, res) {
   fn()
     .then(data => { res.status(200).send(data) })
-    .catch(({ message }) => { res.status(400).send({ message }) })
+    .catch(err => {
+      const { stack, message } = err
+      /* eslint-disable no-console */
+      console.log(stack)
+      /* eslint-enable no-console */
+      res.status(400).send({ message })
+    })
 }
 
 export default router

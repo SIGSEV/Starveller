@@ -3,5 +3,8 @@
   "rules": {
     "camelcase": 0,
     "no-alert": 0
+  },
+  "globals": {
+    "io": "false"
   }
 }

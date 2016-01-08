@@ -12,6 +12,7 @@ const api = config.getApi()
 
 const repoFetch = createAction('REPO_FETCH', basicRepo => basicRepo)
 const repoFetched = createAction('REPO_FETCHED')
+export const repoResolved = createAction('REPO_RESOLVED')
 
 export const fetchRepo = basicRepo => dispatch => new Promise((resolve, reject) => {
 
@@ -23,6 +24,18 @@ export const fetchRepo = basicRepo => dispatch => new Promise((resolve, reject) 
     .end((err, res) => {
       if (err) { return reject(err) }
       dispatch(repoFetched(res.body))
+      resolve()
+    })
+
+})
+
+export const askRepo = name => dispatch => new Promise((resolve, reject) => {
+
+  r.post(`${api}/repos`)
+    .send({ name })
+    .end((err, res) => {
+      if (err) { return reject(err) }
+      dispatch(repoResolved(res.body))
       resolve()
     })
 

@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { Link } from 'react-router'
 import { shuffle } from 'lodash'
 
-import { resetRepo, fetchAndGo } from 'actions/repos'
+import { resetRepo, fetchAndGo, askRepo } from 'actions/repos'
 
 import Select from 'components/SelectYolo'
 import ReposCollection from 'components/ReposCollection'
@@ -33,6 +33,12 @@ class Home extends Component {
     }
   }
 
+  fetch () {
+    const { value } = this.refs.createRepo
+
+    this.props.dispatch(askRepo(value))
+  }
+
   render () {
     const { reposList, trendingRepos } = this.props
 
@@ -55,6 +61,11 @@ class Home extends Component {
               placeholder='Find a repo'
               onChange={::this.handleSearch}
               className='repo-search'/>
+          </div>
+
+          <div>
+            <input type='text' ref='createRepo'/>
+            <button onClick={::this.fetch}>{'fetch'}</button>
           </div>
 
           <hr />

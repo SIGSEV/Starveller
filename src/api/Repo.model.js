@@ -1,5 +1,7 @@
 import mongoose, { Schema } from 'mongoose'
 
+import { getSocketServer } from 'api/io'
+
 const RepoSchema = new Schema({
 
   name: { type: String, required: true },
@@ -31,6 +33,13 @@ const RepoSchema = new Schema({
     stars: { type: Array, default: [] }
   }
 
+})
+
+RepoSchema.post('save', repo => {
+  const io = getSocketServer()
+  if (!repo.complete || !io) { return }
+
+  io.repoFetched(repo)
 })
 
 export default mongoose.model('Repo', RepoSchema)

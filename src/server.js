@@ -5,6 +5,7 @@ import morgan from 'morgan'
 
 import config from 'config'
 import api from 'api'
+import { initSocketServer } from 'api/io'
 import render from 'middlewares/render'
 
 const server = express()
@@ -22,6 +23,8 @@ if (config.env === 'production') {
   server.use('/favicon.ico', (req, res) => {
     res.sendFile(path.join(config.assetsFolder, 'favicon.ico'))
   })
+
+  initSocketServer()
 }
 
 server.use('/assets', express.static(config.assetsFolder))

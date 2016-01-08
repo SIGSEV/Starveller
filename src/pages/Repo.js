@@ -4,8 +4,6 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router'
 
-import { resetRepo } from 'actions/repos'
-
 import StarsEvolution from 'components/graphs/StarsEvolution'
 
 @connect(

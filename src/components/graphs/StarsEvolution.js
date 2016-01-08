@@ -39,7 +39,10 @@ class StarsEvolution extends Component {
 
   draw () {
 
-    const { repo, repos } = this.props
+    const { repo, repos, loading } = this.props
+
+    if (loading) { return }
+
     const reposToDraw = repo ? [repo] : repos
 
     if (!reposToDraw.length) { return }
@@ -241,11 +244,17 @@ class StarsEvolution extends Component {
   }
 
   render () {
-    const { repos } = this.props
+    const { loading } = this.props
 
     return (
       <div className='graph-stars-evolution'>
-        <div ref='container' />
+        {loading
+          ? (
+            <div className='graph-loader'>
+              <span className='mega-octicon octicon-sync' />
+            </div>
+          )
+          : <div ref='container' />}
       </div>
     )
   }

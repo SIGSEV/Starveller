@@ -38,7 +38,7 @@ class Repo extends Component {
         <section className='graphs-container'>
 
           <section className='graph'>
-            <StarsEvolution repo={repo} />
+            <StarsEvolution repo={repo} loading={!repo.complete} />
           </section>
 
         </section>

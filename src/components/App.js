@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
+import config from 'config'
 import { repoResolved } from 'actions/repos'
 
 if (process.env.BROWSER) {
@@ -12,7 +13,7 @@ if (process.env.BROWSER) {
 class App extends Component {
 
   componentDidMount () {
-    const socket = io.connect('http://localhost:3002')
+    const socket = io.connect(`http://localhost:${config.socketPort}`)
 
     socket.on('repoFetched', repo => {
       this.props.dispatch(repoResolved(repo))

@@ -2,6 +2,7 @@ import path from 'path'
 import express from 'express'
 import compression from 'compression'
 import morgan from 'morgan'
+import bodyParser from 'body-parser'
 
 import config from 'config'
 import api from 'api'
@@ -18,6 +19,7 @@ if (config.env === 'development') {
 
 if (config.env === 'production') {
   server.use(compression())
+  server.use(bodyParser.json())
   server.use('/dist', express.static(config.distFolder))
   server.use('/api', api)
   server.use('/favicon.ico', (req, res) => {

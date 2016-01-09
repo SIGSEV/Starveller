@@ -14,13 +14,6 @@ import ReposCollection from 'components/ReposCollection'
 )
 class Home extends Component {
 
-  constructor (props) {
-    super(props)
-
-    this.state = {
-    }
-  }
-
   handleRepoSelect (repo) {
     this.props.dispatch(goToRepo(repo))
   }

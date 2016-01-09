@@ -78,6 +78,9 @@ export const fetchReposList = () => dispatch => new Promise((resolve, reject) =>
 
 })
 
+/**
+ * Navigate to a repo
+ */
 export const goToRepo = repo => dispatch => {
   dispatch(repoFetched(repo))
   dispatch(pushState(null, `${repo.name}`))
@@ -86,16 +89,30 @@ export const goToRepo = repo => dispatch => {
 /**
  * Fetch a repo, then navigate to its page
  */
-
 export const fetchAndGo = (repo) => dispatch => {
 
   dispatch(fetchRepo(repo))
-    .then(() => { dispatch(pushState(null, `${repo.name}`)) })
+    .then(() => { dispatch(goToRepo(repo)) })
 
 }
 
 /**
  * Add a repo to builder
  */
-
 export const chosenChoose = createAction('CHOSEN_CHOOSE')
+
+/**
+ * Clear repo cache
+ */
+export const deleteFromCache = repo => (dispatch, getState) => {
+  return new Promise((resolve, reject) => {
+    r.put(`${api}/repos/${repo._id}`)
+      .end((err, res) => {
+        if (err) {
+          console.log(err)
+          return reject(err)
+        }
+        console.log(res)
+      })
+  })
+}

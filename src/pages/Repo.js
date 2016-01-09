@@ -6,12 +6,20 @@ import { Link } from 'react-router'
 
 import StarsEvolution from 'components/graphs/StarsEvolution'
 
+import { deleteFromCache } from 'actions/repos'
+
 @connect(
   state => ({
     repo: state.repos.current
   })
 )
 class Repo extends Component {
+
+  handleClearCache (e) {
+    e.preventDefault()
+    const { repo } = this.props
+    this.props.dispatch(deleteFromCache(repo))
+  }
 
   render () {
     const { repo } = this.props
@@ -31,6 +39,8 @@ class Repo extends Component {
               <i className='octicon octicon-mark-github' />
             </a>
             {repo.name}
+            {' - '}
+            <a href='' onClick={::this.handleClearCache}>{'Clear cache'}</a>
           </div>
 
         </header>

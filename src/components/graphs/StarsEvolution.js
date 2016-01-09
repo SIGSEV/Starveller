@@ -39,7 +39,7 @@ class StarsEvolution extends Component {
 
   draw () {
 
-    const { repo, repos, loading } = this.props
+    const { repo, repos, loading, lightGraph } = this.props
 
     if (loading) { return }
 
@@ -127,43 +127,45 @@ class StarsEvolution extends Component {
       .attr('class', 'area')
       .attr('d', area(data))
 
-    svg.append('svg:g')
-      .attr('class', 'x axis')
-      .attr('transform', `translate(1, ${h})`)
-      .call(xAxis)
+    if (!lightGraph) {
+      svg.append('svg:g')
+        .attr('class', 'x axis')
+        .attr('transform', `translate(1, ${h})`)
+        .call(xAxis)
 
-    svg.append('svg:g')
-      .attr('class', 'y axis')
-      .attr('transform', `translate(${w}, 0)`)
-      .call(yAxis)
+      svg.append('svg:g')
+        .attr('class', 'y axis')
+        .attr('transform', `translate(${w}, 0)`)
+        .call(yAxis)
 
-    svg.selectAll('line.y')
-      .data(y.ticks(5))
-      .enter()
-      .append('line')
-      .attr('x1', 0)
-      .attr('x2', w)
-      .attr('y1', y)
-      .attr('y2', y)
-      .style('stroke', '#000000')
-      .style('stroke-opacity', 0.1)
+      svg.selectAll('line.y')
+        .data(y.ticks(5))
+        .enter()
+        .append('line')
+        .attr('x1', 0)
+        .attr('x2', w)
+        .attr('y1', y)
+        .attr('y2', y)
+        .style('stroke', '#000000')
+        .style('stroke-opacity', 0.1)
+    }
 
     svg.append('svg:path')
       .attr('class', 'line')
       .attr('d', line(data))
 
-    svg.append('svg:text')
-      .attr('x', 80)
-      .attr('y', -10)
-      .attr('text-anchor', 'end')
-      .text('Stars in time')
-      .style('stroke', '#555')
-      .style('fill', '#555')
-      .style('stroke-width', 0.2)
-      .style('font-size', '18px')
-      .style('font-weight', 'bold')
+    if (!lightGraph && data.length < 100) {
+      svg.append('svg:text')
+        .attr('x', 80)
+        .attr('y', -10)
+        .attr('text-anchor', 'end')
+        .text('Stars in time')
+        .style('stroke', '#555')
+        .style('fill', '#555')
+        .style('stroke-width', 0.2)
+        .style('font-size', '18px')
+        .style('font-weight', 'bold')
 
-    if (data.length < 100) {
       svg.selectAll('circle')
         .data(data)
         .enter()
@@ -176,7 +178,7 @@ class StarsEvolution extends Component {
 
     // mouse move
 
-    if (reposToDraw.length === 1 && data.length > 1) {
+    if (!lightGraph && reposToDraw.length === 1 && data.length > 1) {
       this.addMouseSupport(svg, { w, h, x, y }, data)
     }
 

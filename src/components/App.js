@@ -17,7 +17,7 @@ if (process.env.BROWSER) {
 class App extends Component {
 
   componentDidMount () {
-    const socket = io.connect(`http://localhost:${config.socketPort}`)
+    const socket = io.connect(`${config.socketUrl}:${config.socketPort}`)
 
     socket.on('repoFetched', repo => {
       this.props.dispatch(repoResolved(repo))

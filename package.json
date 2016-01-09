@@ -12,7 +12,6 @@
     "start:api": "NODE_PATH=$NODE_PATH:./src nodemon --watch src/api --watch src/config index -- --api",
     "start": "npm run start:app & npm run start:api & wait",
     "lint": "eslint src webpack bin scripts",
-    "fetch": "NODE_PATH=$NODE_PATH:./src babel-node scripts/fetch",
     "pm2:setup": "pm2 deploy ecosystem.json production setup",
     "deploy": "pm2 deploy ecosystem.json production"
   },

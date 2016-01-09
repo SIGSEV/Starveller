@@ -19,7 +19,7 @@ const job = (repo, done) => {
   const hard = true
   const { name } = repo
 
-  log(`Starting job for ${name}`)
+  log(`Starting job for ${name}.`)
 
   // collect stars
   RepoService.fetchStars(name, hard ? 1 : repo.cache.lastPage)
@@ -53,7 +53,8 @@ const job = (repo, done) => {
 
     })
     .then(() => {
-      log(`Finished work for ${name}`)
+      log(`Finished work for ${name}.`)
+      RepoService.shot(repo)
       done()
     })
     .catch(err => {

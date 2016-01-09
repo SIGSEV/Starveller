@@ -1,7 +1,9 @@
 import q from 'q'
 import r from 'superagent'
+import webshot from 'webshot'
 
 import Repo from 'api/Repo.model'
+import config from 'config'
 
 const githubToken = process.env.GITHUB
 
@@ -9,7 +11,7 @@ const githubToken = process.env.GITHUB
  * Fetch all repos summaries
  */
 export const getAll = () => {
-  return q.nfcall(::Repo.find, {}, 'name summary')
+  return q.nfcall(::Repo.find, {}, 'name summary shot')
 }
 
 /**
@@ -81,7 +83,7 @@ export const createEvent = ({ name, data: { title, link, comment } }) => {
   return updateByName(name, { $push: { events: { title, link, comment } } })
 }
 
-export const fetchRepo = (name) => {
+export const fetchRepo = name => {
 
   return q.Promise((resolve, reject) => {
     r.get(`https://api.github.com/repos/${name}`)
@@ -103,6 +105,38 @@ export const fetchRepo = (name) => {
           }
         })
       })
+  })
+
+}
+
+export const shot = repo => {
+
+  const { name } = repo
+  const url = `${config.clientUrl}${name}/shot`
+  const stream = webshot(url, {
+    phantomPath: '/usr/bin/phantomjs',
+    shotOffset: {
+      top: 70,
+      left: 82,
+      right: 162,
+      bottom: 317
+    },
+    errorIfJSException: true
+  })
+  // top: 50, left: 62, right: 124, bottom: 268
+
+  const chunks = []
+
+  stream.on('data', chunk => {
+    chunks.push(chunk)
+  })
+
+  stream.on('end', () => {
+    repo.shot = Buffer.concat(chunks).toString('base64')
+    repo.save()
+    /* eslint-disable no-console */
+    console.log(`[SCREENSHOTED]> ${name}`)
+    /* eslint-enable no-console */
   })
 
 }

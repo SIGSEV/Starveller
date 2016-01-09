@@ -13,18 +13,10 @@ if (process.env.BROWSER) {
 
 @connect(
   state => ({
-    repos: state.repos.list,
     chosen: state.repos.chosen
   })
 )
 class Builder extends Component {
-
-  constructor (props) {
-    super(props)
-
-    this.state = {
-    }
-  }
 
   handleAddRepo ({ value: repo }) {
     const { chosen } = this.props
@@ -34,10 +26,7 @@ class Builder extends Component {
   }
 
   render () {
-    const { repos, chosen } = this.props
-    const options = repos
-      .filter(repo => !contains(chosen, repo))
-      .map(r => ({ value: r, label: r.name }))
+    const { chosen } = this.props
 
     return (
       <div className='Builder'>

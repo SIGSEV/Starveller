@@ -1,3 +1,4 @@
+import _ from 'lodash'
 import r from 'superagent'
 import { pushState } from 'redux-router'
 import { createAction } from 'redux-actions'
@@ -29,15 +30,28 @@ export const fetchRepo = basicRepo => dispatch => new Promise((resolve, reject) 
 
 })
 
-export const askRepo = name => dispatch => new Promise((resolve, reject) => {
+const cacheRepo = createAction('REPO_CACHE', githubRepo => githubRepo)
 
-  r.post(`${api}/repos`)
-    .send({ name })
-    .end((err, res) => {
-      if (err) { return reject(err) }
-      dispatch(repoResolved(res.body))
-      resolve()
-    })
+export const askRepo = repo => (dispatch, getState) => new Promise((resolve, reject) => {
+
+  const state = getState()
+
+  const repoInCache = _.find(state.list, r => r.name === name)
+
+  if (!repoInCache) {
+    dispatch(cacheRepo(repo))
+  }
+
+  if (!repo.stars) {
+
+    r.post(`${api}/repos`)
+      .send({ name: repo.name })
+      .end((err, res) => {
+        if (err) { return reject(err) }
+        dispatch(repoResolved(res.body))
+        resolve()
+      })
+  }
 
 })
 
@@ -63,6 +77,11 @@ export const fetchReposList = () => dispatch => new Promise((resolve, reject) =>
     })
 
 })
+
+export const goToRepo = repo => dispatch => {
+  dispatch(repoFetched(repo))
+  dispatch(pushState(null, `${repo.name}`))
+}
 
 /**
  * Fetch a repo, then navigate to its page

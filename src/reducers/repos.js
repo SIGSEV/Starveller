@@ -16,6 +16,11 @@ export default handleActions({
   REPO_FETCH: (state, { payload: basicRepo }) => ({ ...state, current: basicRepo }),
 
   /**
+   * Repo will fetch, set a basic preview into current repo
+   */
+  REPO_CACHE: (state, { payload: githubRepo }) => ({ ...state, list: [...state.list, githubRepo] }),
+
+  /**
    * Fill the current repo
    */
   REPO_FETCHED: (state, { payload: current }) => ({ ...state, current }),

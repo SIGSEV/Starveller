@@ -2,7 +2,7 @@ import { contains } from 'lodash'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
-import Select from 'components/SelectYolo'
+import RepoSearch from 'components/RepoSearch'
 import StarsEvolution from 'components/graphs/StarsEvolution'
 
 import { chosenChoose } from 'actions/repos'
@@ -43,11 +43,8 @@ class Builder extends Component {
       <div className='Builder'>
         <div className='repos-graphs'>
           <div className='repos-graphs--list'>
-            <Select
-              options={options}
-              placeholder='Find a repo'
-              onChange={::this.handleAddRepo}
-              className='repo-search'/>
+            <RepoSearch
+              onRepoSelect={::this.handleRepoSelect} />
           </div>
           <div className='repos-graphs--view'>
             <StarsEvolution repos={chosen} />

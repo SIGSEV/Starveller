@@ -11,7 +11,7 @@ if (process.env.BROWSER) {
 
 @connect(
   state => ({
-    isShot: state.router.location.pathname.endsWith('/shot')
+    isShot: state.router && state.router.location.pathname.endsWith('/shot')
   })
 )
 class App extends Component {

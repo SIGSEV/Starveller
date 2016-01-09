@@ -1,17 +1,15 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router'
-import { shuffle } from 'lodash'
 
-import { resetRepo, fetchAndGo, askRepo } from 'actions/repos'
+import { goToRepo } from 'actions/repos'
 
-import Select from 'components/SelectYolo'
+import RepoSearch from 'components/RepoSearch'
 import ReposCollection from 'components/ReposCollection'
 
 @connect(
   state => ({
-    reposList: state.repos.list,
-    trendingRepos: state.repos.trending
+    trending: state.repos.trending
   })
 )
 class Home extends Component {
@@ -20,33 +18,18 @@ class Home extends Component {
     super(props)
 
     this.state = {
-      randomRepos: shuffle(props.reposList).slice(0, 4)
     }
   }
 
-  handleSearch (search) {
-    if (search && search.value) {
-      const repo = search.value
-      this.props.dispatch(fetchAndGo(repo))
-    } else {
-      this.props.dispatch(resetRepo())
-    }
-  }
-
-  fetch () {
-    const { value } = this.refs.createRepo
-
-    this.props.dispatch(askRepo(value))
+  handleRepoSelect (repo) {
+    this.props.dispatch(goToRepo(repo))
   }
 
   render () {
-    const { reposList, trendingRepos } = this.props
-
-    const options = reposList.map(r => ({ value: r, label: r.name }))
+    const { trending } = this.props
 
     return (
       <div>
-
         <div className='contained'>
 
           <h1>
@@ -56,16 +39,9 @@ class Home extends Component {
           </h1>
 
           <div className='search-container'>
-            <Select
-              options={options}
-              placeholder='Find a repo'
-              onChange={::this.handleSearch}
+            <RepoSearch
+              onRepoSelect={::this.handleRepoSelect}
               className='repo-search'/>
-          </div>
-
-          <div>
-            <input type='text' ref='createRepo'/>
-            <button onClick={::this.fetch}>{'fetch'}</button>
           </div>
 
           <hr />
@@ -81,7 +57,7 @@ class Home extends Component {
             {' selection:'}
           </h2>
 
-          <ReposCollection repos={trendingRepos} />
+          <ReposCollection repos={trending} />
 
           <div className='collection-actions'>
             <Link to='/browse'>
@@ -127,7 +103,6 @@ class Home extends Component {
           </p>
 
         </div>
-
       </div>
     )
   }

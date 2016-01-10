@@ -101,8 +101,10 @@ export const initRepo = name => {
   })
 
   .then(repo => {
-    worker.push(repo)
-    return repo
+    if (!repo.lastFetch || moment(repo.lastFetch).diff(moment(), 'days') < -1) {
+      worker.push(repo)
+    }
+    return _.omit(repo, 'cache')
   })
 
 }

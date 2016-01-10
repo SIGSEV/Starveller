@@ -1,14 +1,12 @@
-import { debounce } from 'lodash'
+import { debounce, values } from 'lodash'
 import r from 'superagent'
 import React, { Component, PropTypes } from 'react'
 import Select from 'react-select'
 import { connect } from 'react-redux'
 
-import { askRepo } from 'actions/repos'
-
 @connect(
   state => ({
-    repos: state.repos.list
+    repos: values(state.repos.all)
   })
 )
 class RepoSearch extends Component {
@@ -63,7 +61,6 @@ class RepoSearch extends Component {
   }
 
   handleChange ({ value: repo }) {
-    this.props.dispatch(askRepo(repo))
     this.props.onRepoSelect(repo)
   }
 

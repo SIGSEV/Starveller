@@ -1,4 +1,3 @@
-import _ from 'lodash'
 import r from 'superagent'
 import { pushState } from 'redux-router'
 import { createAction } from 'redux-actions'
@@ -8,98 +7,23 @@ import config from 'config'
 const api = config.getApi()
 
 /**
- * Fetch a single repo
+ * Get random repos
  */
 
-const repoFetch = createAction('REPO_FETCH', basicRepo => basicRepo)
-const repoFetched = createAction('REPO_FETCHED')
-export const repoResolved = createAction('REPO_RESOLVED')
+const trendingFetched = createAction('TRENDING_FETCHED')
 
-export const fetchRepo = basicRepo => dispatch => new Promise((resolve, reject) => {
-
-  const { name } = basicRepo
-
-  dispatch(repoFetch(basicRepo))
-
-  r.get(`${api}/repos/${name}`)
-    .end((err, res) => {
-      if (err) { return reject(err) }
-      dispatch(repoFetched(res.body))
-      resolve()
-    })
-
-})
-
-const cacheRepo = createAction('REPO_CACHE', githubRepo => githubRepo)
-
-export const askRepo = repo => (dispatch, getState) => new Promise((resolve, reject) => {
-
-  const state = getState()
-
-  const repoInCache = _.find(state.list, r => r.name === name)
-
-  if (!repoInCache) {
-    dispatch(cacheRepo(repo))
-  }
-
-  if (!repo.stars) {
-
-    r.post(`${api}/repos`)
-      .send({ name: repo.name })
+export const fetchTrendingRepos = () => dispatch => {
+  return new Promise((resolve, reject) => {
+    r.get(`${api}/random-repos`)
       .end((err, res) => {
-        if (err) { return reject(err) }
-        dispatch(repoResolved(res.body))
+        if (err) {
+          return reject(err)
+        }
+        dispatch(trendingFetched(res.body))
         resolve()
       })
-  }
-
-})
-
-/**
- * Reset the current repo
- */
-
-export const resetRepo = createAction('REPO_RESET')
-
-/**
- * Fetch a basic list of repos
- */
-
-const reposListFetched = createAction('REPOS_LIST_FETCHED')
-
-export const fetchReposList = () => dispatch => new Promise((resolve, reject) => {
-
-  r.get(`${api}/repos`)
-    .end((err, res) => {
-      if (err) { return reject(err) }
-      dispatch(reposListFetched(res.body))
-      resolve()
-    })
-
-})
-
-/**
- * Navigate to a repo
- */
-export const goToRepo = repo => dispatch => {
-  dispatch(repoFetched(repo))
-  dispatch(pushState(null, `${repo.name}`))
+  })
 }
-
-/**
- * Fetch a repo, then navigate to its page
- */
-export const fetchAndGo = (repo) => dispatch => {
-
-  dispatch(fetchRepo(repo))
-    .then(() => { dispatch(goToRepo(repo)) })
-
-}
-
-/**
- * Add a repo to builder
- */
-export const chosenChoose = createAction('CHOSEN_CHOOSE')
 
 /**
  * Clear repo cache
@@ -108,11 +32,38 @@ export const deleteFromCache = repo => (dispatch, getState) => {
   return new Promise((resolve, reject) => {
     r.put(`${api}/repos/${repo._id}`)
       .end((err, res) => {
-        if (err) {
-          console.log(err)
-          return reject(err)
-        }
-        console.log(res)
+        if (err) { return reject(err) }
       })
   })
 }
+
+/**
+ * Go to repo
+ */
+export const goToRepo = repo => dispatch => {
+  dispatch(setCurrent(repo))
+  dispatch(pushState(null, `${repo.name}`))
+}
+
+export const setCurrent = createAction('SET_CURRENT', repo => repo)
+
+/**
+ * Ask for a repo
+ */
+export const askRepo = repo => dispatch => new Promise((resolve, reject) => {
+  if (repo.stars) { return resolve() }
+  r.get(`${api}/repos/${repo.name}`)
+    .end((err, res) => {
+      if (err) { return reject(err) }
+      const repo = res.body
+      dispatch(repoResolved(repo))
+      resolve(repo)
+    })
+})
+
+export const askAndGo = repo => dispatch => {
+  return dispatch(askRepo(repo))
+    .then(repo => dispatch(goToRepo(repo)))
+}
+
+export const repoResolved = createAction('REPO_RESOLVED', repo => repo)

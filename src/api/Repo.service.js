@@ -5,6 +5,8 @@ import webshot from 'webshot'
 import Repo from 'api/Repo.model'
 import config from 'config'
 
+import { initRepo } from 'api/github.worker'
+
 const githubToken = process.env.GITHUB
 
 /**
@@ -107,6 +109,16 @@ export const fetchRepo = name => {
       })
   })
 
+}
+
+export const ask = repoName => {
+  return getByName(repoName)
+    .then(repo => {
+      if (!repo) {
+        return initRepo(repoName)
+      }
+      return repo
+    })
 }
 
 export const shot = repo => {

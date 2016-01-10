@@ -2,13 +2,15 @@ import React, { Component } from 'react'
 import { Link } from 'react-router'
 import { connect } from 'react-redux'
 
-import { fetchRepo } from 'actions/repos'
+import { askRepo, goToRepo } from 'actions/repos'
 
 @connect()
 class RepoLink extends Component {
 
   handleClick () {
-    this.props.dispatch(fetchRepo(this.props.repo))
+    const { repo } = this.props
+    this.props.dispatch(askRepo(repo))
+    this.props.dispatch(goToRepo(repo))
   }
 
   render () {

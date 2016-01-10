@@ -5,44 +5,13 @@ import createLocation from 'history/lib/createLocation'
 import { RoutingContext, match } from 'react-router'
 import { renderToString, renderToStaticMarkup } from 'react-dom/server'
 
-import { fetchRepo, fetchReposList } from 'actions/repos'
+import { askRepo, setCurrent, fetchTrendingRepos } from 'actions/repos'
 
 import config from 'config'
 import routes from 'routes'
 import createStore from 'createStore'
 
-const Html = ({ content, state, stats: { style, main = 'bundle.js' } }) => (
-  <html>
-    <head>
-
-      <base href='/'/>
-      <meta charSet='utf-8'/>
-      <meta name='viewport' content='width=device-width' />
-      <link rel='icon' href='assets/favicon.ico' type='image/x-icon'/>
-
-      <title>{'[::]'}</title>
-
-      <link href='https://fonts.googleapis.com/css?family=Rambla:400,700' rel='stylesheet' type='text/css' />
-      <link href='https://cdnjs.cloudflare.com/ajax/libs/octicons/3.3.0/octicons.min.css' rel='stylesheet' type='text/css' />
-      <script src='https://cdn.socket.io/socket.io-1.3.7.js'></script>
-
-      {style && (
-        <link href={`dist/${style}`} rel='stylesheet'/>
-      )}
-
-      {state && (
-        <script dangerouslySetInnerHTML={{ __html: `window.__INITIAL_STATE__ = ${JSON.stringify(state)}` }}/>
-      )}
-
-    </head>
-    <body>
-
-      <div id='root' dangerouslySetInnerHTML={{ __html: content }}/>
-      <script src={`dist/${main}`}></script>
-
-    </body>
-  </html>
-)
+import Html from 'Html'
 
 export default (req, res) => {
 
@@ -50,20 +19,28 @@ export default (req, res) => {
 
   match({ routes, location }, (err, redirectLocation, renderProps) => {
 
-    if (err) { return res.redirect('/fail') }
-    if (!renderProps) { return res.redirect('/fail') }
+    if (err) {
+      return res.redirect('/fail')
+    }
+
+    if (!renderProps) {
+      return res.redirect('/fail')
+    }
 
     const store = createStore()
 
     const { params } = renderProps
     const { owner, reponame } = params
 
-    const init = [
-      store.dispatch(fetchReposList())
-    ]
+    const init = []
+
+    init.push(store.dispatch(fetchTrendingRepos()))
 
     if (owner && reponame) {
-      init.push(store.dispatch(fetchRepo({ name: `${owner}/${reponame}` })))
+      init.push(
+        store.dispatch(askRepo({ name: `${owner}/${reponame}` }))
+          .then(repo => store.dispatch(setCurrent(repo)))
+      )
     }
 
     Promise.all(init).then(() => {
@@ -92,7 +69,12 @@ export default (req, res) => {
 
       res.end(page)
 
-    }).catch(() => { res.redirect('/fail') })
+    }).catch(err => {
+      /* eslint-disable no-console */
+      console.log(err.stack)
+      /* eslint-enable no-console */
+      res.redirect('/fail')
+    })
 
   })
 

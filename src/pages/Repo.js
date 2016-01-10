@@ -10,7 +10,7 @@ import { deleteFromCache } from 'actions/repos'
 
 @connect(
   state => ({
-    repo: state.repos.current
+    repo: state.repos.all[state.repos.current]
   })
 )
 class Repo extends Component {

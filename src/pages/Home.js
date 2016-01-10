@@ -2,20 +2,20 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router'
 
-import { goToRepo } from 'actions/repos'
+import { askAndGo } from 'actions/repos'
 
 import RepoSearch from 'components/RepoSearch'
 import ReposCollection from 'components/ReposCollection'
 
 @connect(
   state => ({
-    trending: state.repos.trending
+    trending: state.repos.trending.map(id => state.repos.all[id])
   })
 )
 class Home extends Component {
 
   handleRepoSelect (repo) {
-    this.props.dispatch(goToRepo(repo))
+    this.props.dispatch(askAndGo(repo))
   }
 
   render () {

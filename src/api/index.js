@@ -1,17 +1,24 @@
+import _ from 'lodash'
 import express from 'express'
+import { shuffle } from 'lodash'
 
 import './db'
 import * as repo from 'api/Repo.service'
-import { initRepo } from 'api/github.worker'
 
 const router = express.Router()
 
-router.get('/repos', (req, res) => {
-  response(repo.getAll, res)
+router.get('/random-repos', (req, res) => {
+  repo.getAll()
+    .then(repos => shuffle(repos).slice(0, 4))
+    .then(repos => res.send(repos.map(r => r.toObject())))
+    .catch(err => res.send(err.code || 500, err))
 })
 
 router.post('/repos', (req, res) => {
-  response(initRepo.bind(this, req.body.name), res)
+  repo.ask(req.body.name)
+    .then(repo => _.omit(repo.toObject(), 'cache'))
+    .then(repo => res.send(repo))
+    .catch(err => res.send(err.code || 500, err))
 })
 
 router.put('/repos', (req, res) => {
@@ -20,7 +27,10 @@ router.put('/repos', (req, res) => {
 
 router.get('/repos/:user/:repo', (req, res) => {
   const name = `${req.params.user}/${req.params.repo}`
-  response(repo.getOnePopulated.bind(this, name, req.query.months), res)
+  repo.ask(name)
+    .then(repo => _.omit(repo.toObject(), 'cache'))
+    .then(repo => res.send(repo))
+    .catch(err => res.send(err.code || 500, err))
 })
 
 router.post('/repos/:user/:repo/events', (req) => {

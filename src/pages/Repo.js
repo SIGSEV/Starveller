@@ -40,7 +40,9 @@ class Repo extends Component {
             </a>
             {repo.name}
             {' - '}
-            <a href='' onClick={::this.handleClearCache}>{'Clear cache'}</a>
+            {process.env.NODE_ENV === 'development' && (
+              <a href='' onClick={::this.handleClearCache}>{'Clear cache'}</a>
+            )}
           </div>
 
         </header>

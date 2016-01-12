@@ -25,30 +25,11 @@ class Home extends Component {
       <div>
         <div className='contained'>
 
-          <h1>
-            {'Add a new dimension to Github st'}
-            <i className='mega-octicon octicon-star' />
-            {'rs.'}
-          </h1>
-
           <div className='search-container'>
             <RepoSearch
               onRepoSelect={::this.handleRepoSelect}
               className='repo-search'/>
           </div>
-
-          <hr />
-
-          <h2>
-            {'No idea? You can '}
-            <Link to='create'>
-              <i className='octicon octicon-plus' />
-              {' submit a repo'}
-            </Link>
-            {' or check this '}
-            <strong>{'awesome'}</strong>
-            {' selection:'}
-          </h2>
 
           <ReposCollection repos={trending} />
 
@@ -75,13 +56,6 @@ class Home extends Component {
               <strong>{'very good'}</strong>
               {' indicator of the "health" of a project. But sometimes they can be "false positive". Observe star progression to see if the repo is still liked!'}
             </p>
-          </div>
-
-          <div className='z' style={{ margin: '4em 0' }}>
-            <Link to='create' className='b'>
-              <i className='octicon octicon-plus' />
-              {'Submit your repo now!'}
-            </Link>
           </div>
 
           <hr />

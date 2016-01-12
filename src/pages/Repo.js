@@ -3,11 +3,17 @@ if (process.env.BROWSER) { require('styles/Repo.scss') }
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router'
+import { prefetch } from 'react-fetcher'
 
 import StarsEvolution from 'components/graphs/StarsEvolution'
 
-import { deleteFromCache } from 'actions/repos'
+import { askRepo, setCurrent } from 'actions/repos'
 
+@prefetch(({ dispatch, params }) => {
+  const { owner, reponame } = params
+  return dispatch(askRepo({ name: `${owner}/${reponame}` }))
+    .then(repo => dispatch(setCurrent(repo)))
+})
 @connect(
   state => ({
     repo: state.repos.all[state.repos.current]

@@ -1,12 +1,14 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router'
+import { prefetch } from 'react-fetcher'
 
-import { askAndGo } from 'actions/repos'
+import { askAndGo, fetchTrendingRepos } from 'actions/repos'
 
 import RepoSearch from 'components/RepoSearch'
 import ReposCollection from 'components/ReposCollection'
 
+@prefetch(({ dispatch }) => dispatch(fetchTrendingRepos()))
 @connect(
   state => ({
     trending: state.repos.trending.map(id => state.repos.all[id])

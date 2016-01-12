@@ -4,8 +4,7 @@ import { Provider } from 'react-redux'
 import createLocation from 'history/lib/createLocation'
 import { RoutingContext, match } from 'react-router'
 import { renderToString, renderToStaticMarkup } from 'react-dom/server'
-
-import { askRepo, setCurrent, fetchTrendingRepos } from 'actions/repos'
+import { getPrefetchedData } from 'react-fetcher'
 
 import config from 'config'
 import routes from 'routes'
@@ -29,25 +28,22 @@ export default (req, res) => {
 
     const store = createStore()
 
-    const { params } = renderProps
-    const { owner, reponame } = params
+    const { dispatch } = store
 
-    const init = []
-
-    init.push(store.dispatch(fetchTrendingRepos()))
-
-    if (owner && reponame) {
-      init.push(
-        store.dispatch(askRepo({ name: `${owner}/${reponame}` }))
-          .then(repo => store.dispatch(setCurrent(repo)))
-      )
+    const locals = {
+      path: renderProps.location.pathname,
+      query: renderProps.location.query,
+      params: renderProps.params,
+      dispatch
     }
 
-    Promise.all(init).then(() => {
+    const components = renderProps.routes.map(route => route.component)
+
+    getPrefetchedData(components, locals).then(() => {
 
       const app = (
         <Provider store={store}>
-          <RoutingContext {...renderProps}/>
+          <RoutingContext {...renderProps} />
         </Provider>
       )
 

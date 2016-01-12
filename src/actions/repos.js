@@ -7,6 +7,26 @@ import config from 'config'
 const api = config.getApi()
 
 /**
+ * Get all repos
+ */
+
+const reposFetched = createAction('REPOS_FETCHED')
+
+export const fetchAllRepos = () => dispatch => {
+  return new Promise((resolve, reject) => {
+    r.get(`${api}/repos`)
+      .end((err, res) => {
+        if (err) {
+          return reject(err)
+        }
+        const repos = res.body
+        dispatch(reposFetched(repos))
+        resolve(repos)
+      })
+  })
+}
+
+/**
  * Get random repos
  */
 

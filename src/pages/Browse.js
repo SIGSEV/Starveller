@@ -1,16 +1,24 @@
+import { connect } from 'react-redux'
+import { values } from 'lodash'
 import React, { Component } from 'react'
-import { Link } from 'react-router'
 
+@connect(
+  state => ({
+    list: values(state.repos.all)
+  })
+)
 class Browse extends Component {
 
   render () {
+    const { list } = this.props
+
     return (
-      <div className='z' style={{ minHeight: 400 }}>
-        {'Here you will be able to browse awesome repos.'}
-        <Link to='/' style={{ marginTop: '1em' }}>
-          <i className='octicon octicon-chevron-left' />
-          {' Back to home'}
-        </Link>
+      <div>
+        {list.map(repo => (
+          <div key={repo._id}>
+            {repo.name}
+          </div>
+        ))}
       </div>
     )
   }

@@ -38,6 +38,16 @@ export default handleActions({
     }
   },
 
+  // Add some repos to cache
+
+  REPOS_FETCHED: (state, { payload: repos }) => ({
+    ...state,
+    all: {
+      ...state.all,
+      ..._.indexBy(repos, '_id')
+    }
+  }),
+
   // Enrich a repo
 
   REPO_RESOLVED: (state, { payload: repo }) => {

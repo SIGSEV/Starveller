@@ -1,7 +1,11 @@
 import { connect } from 'react-redux'
 import { values } from 'lodash'
 import React, { Component } from 'react'
+import { prefetch } from 'react-fetcher'
 
+import { fetchAllRepos } from 'actions/repos'
+
+@prefetch(({ dispatch }) => dispatch(fetchAllRepos()))
 @connect(
   state => ({
     list: values(state.repos.all)

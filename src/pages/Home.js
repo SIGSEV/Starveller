@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { Link } from 'react-router'
 import { prefetch } from 'react-fetcher'
 
-import { askAndGo, fetchTrendingRepos } from 'actions/repos'
+import { askandgo, fetchTrendingRepos } from 'actions/repos'
 
 import RepoSearch from 'components/RepoSearch'
 import ReposCollection from 'components/ReposCollection'

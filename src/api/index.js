@@ -7,6 +7,12 @@ import * as repo from 'api/Repo.service'
 
 const router = express.Router()
 
+router.get('/repos', (req, res) => {
+  repo.getAll()
+    .then(repos => res.send(repos.map(r => r.toObject())))
+    .catch(err => res.send(err.code || 500, err))
+})
+
 router.get('/random-repos', (req, res) => {
   repo.getAll()
     .then(repos => shuffle(repos).slice(0, 4))

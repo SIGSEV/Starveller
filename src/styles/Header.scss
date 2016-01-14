@@ -1,0 +1,27 @@
+.Header {
+  background: #F9F9F9;
+  padding: 1.5em 0;
+}
+
+.Header--content {
+  display: flex;
+  align-items: center;
+}
+
+.Header--search {
+  flex-grow: 1;
+  padding-right: 3rem;
+  > input {
+    width: 100%;
+    max-width: 450px;
+    padding: 0.5em;
+  }
+}
+
+.Header--links {
+  display: inline-flex;
+
+  > a + a {
+    margin-left: 2rem;
+  }
+}

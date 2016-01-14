@@ -7,7 +7,6 @@ body {
   font-weight: 300;
   font-size: 16px;
 
-  background: $bg;
   color: rgba(black, 0.6);
 }
 
@@ -40,12 +39,6 @@ input {
   }
 }
 
-h1 {
-  text-align: center;
-  font-size: 3rem;
-  padding: 1em;
-}
-
 h2 {
   margin-bottom: 2em;
   font-size: 1.2rem;
@@ -64,36 +57,24 @@ hr {
 }
 
 .container {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  transition: 150ms linear background;
-
-  > section {
-    flex-grow: 1;
-  }
-  > footer {
-    flex-shrink: 0;
-    padding: 2rem;
-    margin-top: 5rem;
-    font-size: 0.8rem;
-    text-align: center;
-
-    strong {
-      font-weight: 700;
-    }
-  }
-}
-
-.contained {
-  max-width: 640px;
-  min-width: 300px;
+  max-width: 900px;
+  min-width: 600px;
   margin: 0 auto;
   padding: 0 1em;
+  display: flex;
+  flex-direction: column;
 
-  strong {
-    font-weight: 700;
+  h1 {
+    font-size: 2rem;
+    font-weight: bold;
+    margin: 2em 0;
   }
+
+  h3 {
+    font-size: 1.1rem;
+    font-weight: bold;
+  }
+
 }
 
 .explain {
@@ -189,5 +170,25 @@ hr {
   height: 100px;
   .Select {
     width: 100%;
+  }
+}
+
+.App {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  > section {
+    flex-grow: 1;
+  }
+  > footer {
+    flex-shrink: 0;
+    margin-top: 5rem;
+    padding: 1rem;
+    font-size: 0.8rem;
+    text-align: center;
+
+    strong {
+      font-weight: 700;
+    }
   }
 }

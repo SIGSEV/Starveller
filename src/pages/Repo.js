@@ -2,7 +2,6 @@ if (process.env.BROWSER) { require('styles/Repo.scss') }
 
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Link } from 'react-router'
 import { prefetch } from 'react-fetcher'
 
 import StarsEvolution from 'components/graphs/StarsEvolution'
@@ -28,11 +27,6 @@ class Repo extends Component {
       <div>
 
         <header className='repo-header'>
-
-          <Link to='/' className='back'>
-            <i className='octicon octicon-chevron-left' />
-            {' Back'}
-          </Link>
 
           <div className='repo-name'>
             <a target='_blank' href={`https://github.com/${repo.name}`} style={{ marginRight: '0.5em' }}>

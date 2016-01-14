@@ -4,6 +4,8 @@ import { connect } from 'react-redux'
 import config from 'config'
 import { repoResolved } from 'actions/repos'
 
+import Header from 'components/Header'
+
 if (process.env.BROWSER) {
   require('styles/main.scss')
   require('react-select/dist/react-select.css')
@@ -23,11 +25,10 @@ class App extends Component {
   render () {
 
     return (
-      <div className='container'>
+      <div className='App'>
+        <Header />
 
-        <section>
-          {this.props.children}
-        </section>
+        <section>{this.props.children}</section>
 
         <footer>
           <div className='credits'>
@@ -39,7 +40,6 @@ class App extends Component {
             </a>
           </div>
         </footer>
-
       </div>
     )
   }

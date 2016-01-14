@@ -2,6 +2,7 @@ import r from 'superagent'
 import { pushState } from 'redux-router'
 import { createAction } from 'redux-actions'
 
+import { loadTrending, trendingFinished, loadRepos, reposFinished } from 'actions/loader'
 import config from 'config'
 
 const api = config.getApi()
@@ -14,11 +15,14 @@ const reposFetched = createAction('REPOS_FETCHED')
 
 export const fetchAllRepos = () => dispatch => {
   return new Promise((resolve, reject) => {
+
+    dispatch(loadRepos())
+
     r.get(`${api}/repos`)
       .end((err, res) => {
-        if (err) {
-          return reject(err)
-        }
+        dispatch(reposFinished())
+        if (err) { return reject(err) }
+
         const repos = res.body
         dispatch(reposFetched(repos))
         resolve(repos)
@@ -34,11 +38,14 @@ const trendingFetched = createAction('TRENDING_FETCHED')
 
 export const fetchTrendingRepos = () => dispatch => {
   return new Promise((resolve, reject) => {
+
+    dispatch(loadTrending())
+
     r.get(`${api}/random-repos`)
       .end((err, res) => {
-        if (err) {
-          return reject(err)
-        }
+        dispatch(trendingFinished())
+        if (err) { return reject(err) }
+
         dispatch(trendingFetched(res.body))
         resolve()
       })

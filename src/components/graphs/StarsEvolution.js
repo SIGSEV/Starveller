@@ -9,7 +9,7 @@ class StarsEvolution extends Component {
 
   static defaultProps = {
     repos: []
-  }
+  };
 
   constructor (props) {
     super(props)

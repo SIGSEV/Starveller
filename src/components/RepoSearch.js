@@ -13,7 +13,7 @@ class RepoSearch extends Component {
 
   static propTypes = {
     onRepoSelect: PropTypes.func.isRequired
-  }
+  };
 
   constructor (props) {
     super(props)

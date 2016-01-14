@@ -1,9 +1,8 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Link } from 'react-router'
 import { prefetch } from 'react-fetcher'
 
-import { askAndGo, fetchTrendingRepos } from 'actions/repos'
+import { askAndGo, fetchTrendingRepos, browseRepos } from 'actions/repos'
 
 import RepoSearch from 'components/RepoSearch'
 import ReposCollection from 'components/ReposCollection'
@@ -18,6 +17,10 @@ class Home extends Component {
 
   handleRepoSelect (repo) {
     this.props.dispatch(askAndGo(repo))
+  }
+
+  goToBrowse () {
+    this.props.dispatch(browseRepos())
   }
 
   render () {
@@ -36,10 +39,10 @@ class Home extends Component {
           <ReposCollection repos={trending} />
 
           <div className='collection-actions'>
-            <Link to='/browse'>
+            <a onClick={::this.goToBrowse}>
               {'Browse all repos '}
               <i className='octicon octicon-chevron-right' />
-            </Link>
+            </a>
           </div>
 
           <hr />

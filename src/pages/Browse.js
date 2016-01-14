@@ -8,17 +8,18 @@ import { fetchAllRepos } from 'actions/repos'
 @prefetch(({ dispatch }) => dispatch(fetchAllRepos()))
 @connect(
   state => ({
-    list: values(state.repos.all)
+    list: values(state.repos.all),
+    loading: state.loader.repos
   })
 )
 class Browse extends Component {
 
   render () {
-    const { list } = this.props
+    const { list, loading } = this.props
 
     return (
       <div>
-        {list.map(repo => (
+        {!loading && list.map(repo => (
           <div key={repo._id}>
             {repo.name}
           </div>

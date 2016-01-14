@@ -65,6 +65,16 @@ export const deleteFromCache = repo => (dispatch, getState) => {
 }
 
 /**
+ * Browse
+ */
+export const browseRepos = () => dispatch => {
+  return new Promise((resolve, reject) => {
+    dispatch(fetchAllRepos())
+    dispatch(pushState(null, `browse`))
+  })
+}
+
+/**
  * Go to repo
  */
 export const goToRepo = repo => dispatch => {

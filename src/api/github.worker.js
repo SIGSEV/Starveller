@@ -54,7 +54,6 @@ const job = (repo, done) => {
     })
     .then(() => {
       log(`Finished work for ${name}.`)
-      RepoService.shot(repo)
       done()
     })
     .catch(err => {

@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { bindActionCreators  } from 'redux'
 import { Link } from 'react-router'
 
-import { fetchAllRepos } from 'actions/repos'
+import { fetchAllRepos, fetchTrendingRepos } from 'actions/repos'
 
 if (process.env.BROWSER) {
   require('styles/Header.scss')
@@ -11,7 +11,7 @@ if (process.env.BROWSER) {
 
 @connect(
   () => ({}),
-  dispatch => bindActionCreators({ fetchAllRepos }, dispatch)
+  dispatch => bindActionCreators({ fetchAllRepos, fetchTrendingRepos }, dispatch)
 )
 class Header extends Component {
 
@@ -19,13 +19,28 @@ class Header extends Component {
     return (
       <div className='Header'>
         <div className='Header--content'>
-          <Link to='/' style={{ marginRight: '3em' }}>{'Starveller'}</Link>
+
+          <Link
+            to='/'
+            onClick={this.props.fetchTrendingRepos}
+            style={{ marginRight: '3em' }}>
+            {'Starveller'}
+          </Link>
+
           <div className='Header--search'>
             <input placeholder='Search for a repo, user...' type='text' />
           </div>
+
           <div className='Header--links'>
-            <Link to='browse' onClick={this.props.fetchAllRepos}>{'Browse all'}</Link>
+
+            <Link
+              to='browse'
+              onClick={this.props.fetchAllRepos}>
+              {'Browse all'}
+            </Link>
+
             <Link to='about'>{'About'}</Link>
+
           </div>
         </div>
       </div>

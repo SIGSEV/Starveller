@@ -4,9 +4,6 @@ import { prefetch } from 'react-fetcher'
 
 import { askAndGo, fetchTrendingRepos, browseRepos } from 'actions/repos'
 
-import RepoSearch from 'components/RepoSearch'
-import ReposCollection from 'components/ReposCollection'
-
 @prefetch(({ dispatch }) => dispatch(fetchTrendingRepos()))
 @connect(
   state => ({
@@ -14,14 +11,6 @@ import ReposCollection from 'components/ReposCollection'
   })
 )
 class Home extends Component {
-
-  handleRepoSelect (repo) {
-    this.props.dispatch(askAndGo(repo))
-  }
-
-  goToBrowse () {
-    this.props.dispatch(browseRepos())
-  }
 
   render () {
     const { trending } = this.props

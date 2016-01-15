@@ -1,3 +1,4 @@
+import _ from 'lodash'
 import { connect } from 'react-redux'
 import { values } from 'lodash'
 import React, { Component } from 'react'
@@ -25,6 +26,8 @@ class Browse extends Component {
   render () {
     const { list, loading } = this.props
 
+    const sortedList = _.sortByOrder(list, 'summary.starsCount', 'desc')
+
     return (
       <div className='container'>
 
@@ -43,11 +46,12 @@ class Browse extends Component {
             </ul>
           </div>
           <div className='repos-list-list'>
-            {!loading && list.map(repo => (
+            {!loading && sortedList.map(repo => (
               <RepoItem onSelect={this.props.askAndGo} key={repo._id} repo={repo} />
             ))}
-            {loading && (
-              <div>{'loading'}</div>
+            {loading && Array.apply(null, { length: Math.ceil(window.innerHeight / 166) }).map((e, i) => (
+                <RepoItem key={i} blank />
+              )
             )}
           </div>
         </div>

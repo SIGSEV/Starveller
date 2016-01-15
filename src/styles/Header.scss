@@ -1,9 +1,16 @@
 .Header {
+  display: flex;
+  align-items: center;
+  height: 100px;
   background: #F9F9F9;
-  padding: 1.5em 0;
 }
 
 .Header--content {
+  width: 100%;
+  max-width: 1000px;
+  min-width: 600px;
+  margin: 0 auto;
+  padding: 0 1em;
   display: flex;
   align-items: center;
 }
@@ -13,8 +20,12 @@
   padding-right: 3rem;
   > input {
     width: 100%;
-    max-width: 450px;
     padding: 0.5em;
+    background: white;
+
+    &:focus {
+      box-shadow: rgba(black, 0.2) 0 0 10px;
+    }
   }
 }
 

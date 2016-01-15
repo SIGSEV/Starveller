@@ -1,0 +1,54 @@
+@import 'colors';
+
+.RepoItem {
+  display: flex;
+  height: 150px;
+  border: 1px solid rgba(black, 0.1);
+  padding: 1em;
+  cursor: pointer;
+
+  > header {
+    margin-right: 1em;
+
+    .img {
+      width: 35px;
+      height: 35px;
+      background: rgba(black, 0.2);
+      border-radius: 3px;
+    }
+  }
+
+  > section {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+.RepoItem--slash {
+  margin: 0 0.25em;
+}
+
+.RepoItem--name {
+  font-size: 1.4rem;
+  margin-bottom: 0.25em;
+  color: rgba(black, 0.7);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 600px;
+  strong {
+    font-weight: bold;
+  }
+}
+
+.RepoItem--desc {
+  font-size: 0.9rem;
+  height: 2.5em;
+  width: 400px;
+  overflow: hidden;
+}
+
+.RepoItem--tags {
+  margin-top: auto;
+  color: rgba(black, 0.4);
+}

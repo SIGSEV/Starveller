@@ -5,6 +5,7 @@ import config from 'config'
 import { repoResolved } from 'actions/repos'
 
 import Header from 'components/Header'
+import Messages from 'components/Messages'
 
 if (process.env.BROWSER) {
   require('styles/main.scss')
@@ -29,6 +30,8 @@ class App extends Component {
         <Header />
 
         <section>{this.props.children}</section>
+
+        <Messages />
 
         <footer>
           <div className='credits'>

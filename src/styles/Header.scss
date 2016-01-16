@@ -1,7 +1,9 @@
+@import './variables';
+
 .Header {
   display: flex;
   align-items: center;
-  height: 100px;
+  height: $navHeight;
   background: #F9F9F9;
 }
 

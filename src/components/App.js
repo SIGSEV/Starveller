@@ -9,7 +9,6 @@ import Messages from 'components/Messages'
 
 if (process.env.BROWSER) {
   require('styles/main.scss')
-  require('react-select/dist/react-select.css')
 }
 
 @connect()

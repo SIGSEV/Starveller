@@ -5,15 +5,19 @@ import { Link } from 'react-router'
 
 import RepoSearch from 'components/RepoSearch'
 
-import { refreshAllRepos, refreshTrendingRepos } from 'actions/repos'
+import { refreshAllRepos, refreshTrendingRepos, askAndGo } from 'actions/repos'
 
 if (process.env.BROWSER) { require('styles/Header.scss') }
 
 @connect(
   () => ({}),
-  dispatch => bindActionCreators({ refreshAllRepos, refreshTrendingRepos }, dispatch)
+  dispatch => bindActionCreators({ refreshAllRepos, refreshTrendingRepos, askAndGo }, dispatch)
 )
 class Header extends Component {
+
+  goToRepo (name) {
+    this.props.askAndGo({ name })
+  }
 
   render () {
     return (
@@ -28,9 +32,7 @@ class Header extends Component {
           </Link>
 
           <div className='Header--search'>
-            <RepoSearch onSelect={name => {
-              console.log(name)
-            }} />
+            <RepoSearch onSelect={::this.goToRepo} />
           </div>
 
           <div className='Header--links'>

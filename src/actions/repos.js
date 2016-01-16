@@ -1,4 +1,5 @@
 import r from 'superagent'
+import { pushState } from 'redux-router'
 import moment from 'moment'
 import { createAction } from 'redux-actions'
 
@@ -75,6 +76,11 @@ export const refreshTrendingRepos = fnCacheFactory(fetchTrendingRepos, 'trending
 export const resetCurrent = createAction('RESET_CURRENT')
 export const setCurrent = createAction('SET_CURRENT', repo => repo)
 
+export const goToRepo = repo => dispatch => {
+  dispatch(setCurrent(repo))
+  dispatch(pushState(null, `${repo.name}`))
+}
+
 /**
  * Ask for a repo
  */
@@ -88,6 +94,11 @@ export const askRepo = repo => dispatch => new Promise((resolve, reject) => {
       resolve(repo)
     })
 })
+
+export const askAndGo = repo => dispatch => {
+  return dispatch(askRepo(repo))
+    .then(repo => dispatch(goToRepo(repo)))
+}
 
 export const askAndSetCurrent = repo => dispatch => {
   dispatch(setCurrent(repo))

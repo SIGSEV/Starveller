@@ -1,15 +1,13 @@
-import { debounce, values } from 'lodash'
+import _ from 'lodash'
+import cx from 'classnames'
 import r from 'superagent'
 import React, { Component, PropTypes } from 'react'
-import { connect } from 'react-redux'
+import ScrollArea from 'react-scrollbar'
+
+import searchRepos from 'helpers/search-repos'
 
 if (process.env.BROWSER) { require('styles/RepoSearch.scss') }
 
-@connect(
-  state => ({
-    repos: values(state.repos.all)
-  })
-)
 class RepoSearch extends Component {
 
   static propTypes = {
@@ -18,51 +16,152 @@ class RepoSearch extends Component {
 
   constructor (props) {
     super(props)
+
+    this.debouncedSearch = _.debounce(::this.search, 500)
+    this.state = _.clone(RepoSearch.defaultState)
   }
 
-  getOptions (input, done) {
+  static defaultState = {
+    results: [],
+    loading: false,
+    cancelSearch: null,
+    err: null,
+    selected: 0
+  };
 
-    const fromCache = this.props.repos
-      .map(r => ({ value: r, label: r.name }))
+  static formatResults = res => {
+    return []
+  };
 
-    if (input.length < 3) {
-      return done(null, {
-        options: fromCache
-      })
+  handleChange (e) {
+    const { value } = e.target
+    const { loading } = this.state
+
+    // reset all results on input clear
+    if (loading && value === '') {
+      this.state.cancelSearch()
+      return this.setState(_.clone(RepoSearch.defaultState))
     }
 
-    r.get(`https://api.github.com/search/repositories?q=${input}&sort=stars`)
-      .end((err, res) => {
-        if (err) { return done(err) }
-        const { items } = res.body
+    this.debouncedSearch(value)
+  }
 
-        const fromGithub = items
-          .map(r => {
-            const repo = {
-              label: r.full_name,
-              value: {
-                name: r.full_name,
-                summary: {
-                  starsCount: r.stargazers_count
-                }
-              }
-            }
-            return repo
+  handleResulClick (repoName) {
+    this.props.onSelect(repoName)
+    this.setState(_.clone(RepoSearch.defaultState))
+    this.refs.input.value = ''
+  }
+
+  handleKeyDown (e) {
+
+    const { selected, results } = this.state
+
+    switch (e.which) {
+      case 38:
+        if (selected > 0) {
+          this.setState({ selected: selected - 1 })
+        }
+        break;
+      case 40:
+        if (selected < results.length - 1) {
+          this.setState({ selected: selected + 1 })
+        }
+        break;
+      case 13:
+        if (results.length) {
+          this.handleResulClick(results[selected].name)
+        }
+        break;
+    }
+
+  }
+
+  search (value) {
+    const { loading } = this.state
+
+    // cancel current search if loading
+    if (loading) {
+      this.state.cancelSearch()
+    }
+
+    // reset all results on input clear
+    if (value === '') {
+      return this.setState(_.clone(RepoSearch.defaultState))
+    }
+
+    // used in cancel closure
+    let validResults = true
+
+    this.setState({
+      loading: true,
+      cancelSearch: () => { validResults = false }
+    })
+
+    searchRepos(value)
+      .then(results => {
+        if (validResults) {
+          this.setState({
+            ..._.clone(RepoSearch.defaultState),
+            results
           })
-
-        const options = [
-          ...fromGithub,
-          ...fromCache
-        ]
-
-        done(null, { options })
+        }
       })
+      .catch(err => {
+        this.setState({
+          ..._.clone(RepoSearch.defaultState),
+          results: [],
+          err
+        })
+      })
+
   }
 
   render () {
+    const { results, loading, selected } = this.state
+
     return (
       <div className='RepoSearch'>
-        <input placeholder='Search for a repo, user...' type='text' />
+
+        <input
+          ref='input'
+          onChange={::this.handleChange}
+          onKeyDown={::this.handleKeyDown}
+          placeholder='Search for a repo, user...'
+          type='text' />
+
+        {loading && (
+          <div className='RepoSearch--loader'>
+            {'loading...'}
+          </div>
+        )}
+
+        {!!results.length && (
+          <ScrollArea className='RepoSearch--results'>
+            {results.map(r => (
+              <div
+                key={r.name}
+                onClick={this.handleResulClick.bind(this, r.name)}
+                className={cx('RepoSearch--result', { active: r.name === results[selected].name })}>
+
+                <div>
+                  <strong>{r.name}</strong>
+                  {!!r.desc && (
+                    <div className='RepoSearch--desc'>
+                      {r.desc}
+                    </div>
+                  )}
+                </div>
+
+                <div className='RepoSearch--result-side'>
+                  {`${r.stars} `}
+                  <span className='octicon octicon-star'></span>
+                </div>
+
+              </div>
+            ))}
+          </ScrollArea>
+        )}
+
       </div>
     )
   }

@@ -48,7 +48,13 @@ class Repo extends Component {
         <section className='graphs-container'>
 
           <section className='graph'>
-            <StarsEvolution repo={repo} loading={!repo.complete} />
+            {!repo.complete
+              ? (
+                <div className='graph-loader'>
+                  <span className='mega-octicon octicon-sync' />
+                </div>
+              )
+              : <StarsEvolution repo={repo} />}
           </section>
 
         </section>

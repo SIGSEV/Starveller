@@ -39,9 +39,10 @@ class StarsEvolution extends Component {
 
   draw () {
 
-    const { repo, repos, loading, lightGraph } = this.props
+    // clear current graph
+    d3.select(container).selectAll('*').remove()
 
-    if (loading) { return }
+    const { repo, repos, lightGraph } = this.props
 
     const reposToDraw = repo ? [repo] : repos
 
@@ -109,10 +110,6 @@ class StarsEvolution extends Component {
       0,
       d3.max(data, d => { return d.y })
     ])
-
-    // clear current graph
-
-    d3.select(container).selectAll('*').remove()
 
     // create svg
 
@@ -246,17 +243,9 @@ class StarsEvolution extends Component {
   }
 
   render () {
-    const { loading } = this.props
-
     return (
       <div className='graph-stars-evolution'>
-        {loading
-          ? (
-            <div className='graph-loader'>
-              <span className='mega-octicon octicon-sync' />
-            </div>
-          )
-          : <div ref='container' />}
+        <div ref='container' />
       </div>
     )
   }

@@ -22,7 +22,7 @@ router.get('/random-repos', (req, res) => {
 
 router.post('/repos', (req, res) => {
   repo.ask(req.body.name)
-    .then(repo => _.omit(repo.toObject(), 'cache'))
+    .then(repo => _.omit(repo.toObject(), ['cache', 'shot']))
     .then(repo => res.send(repo))
     .catch(err => res.send(err.code || 500, err))
 })
@@ -34,7 +34,7 @@ router.put('/repos', (req, res) => {
 router.get('/repos/:user/:repo', (req, res) => {
   const name = `${req.params.user}/${req.params.repo}`
   repo.ask(name)
-    .then(repo => _.omit(repo.toObject(), 'cache'))
+    .then(repo => _.omit(repo.toObject(), ['cache', 'shot']))
     .then(repo => res.send(repo))
     .catch(err => res.send(err.code || 500, err))
 })

@@ -2,7 +2,6 @@ import _ from 'lodash'
 import cx from 'classnames'
 import r from 'superagent'
 import React, { Component, PropTypes } from 'react'
-import ScrollArea from 'react-scrollbar'
 
 import searchRepos from 'helpers/search-repos'
 
@@ -136,7 +135,7 @@ class RepoSearch extends Component {
         )}
 
         {!!results.length && (
-          <ScrollArea className='RepoSearch--results'>
+          <div className='RepoSearch--results'>
             {results.map(r => (
               <div
                 key={r.name}
@@ -159,7 +158,7 @@ class RepoSearch extends Component {
 
               </div>
             ))}
-          </ScrollArea>
+          </div>
         )}
 
       </div>

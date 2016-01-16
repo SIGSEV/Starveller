@@ -65,6 +65,21 @@ export default handleActions({
         [repo._id]: repo
       }
     }
+  },
+
+  REPO_DELETED: (state, { payload: repoId }) => {
+    const deleteIfIn = list => {
+      if (_.find(list, repoId)) {
+        return list.filter(list, id => id !== repoId)
+      }
+      return list
+    }
+
+    return {
+      current: deleteIfIn(state.current),
+      trending: deleteIfIn(state.trending),
+      all: _.omit(state.all, repoId)
+    }
   }
 
 }, state)

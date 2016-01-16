@@ -3,10 +3,18 @@ import { connect } from 'react-redux'
 
 import RepoLink from 'components/RepoLink'
 
+import { deleteRepo } from 'actions/repos'
+
 if (process.env.BROWSER) { require('styles/RepoItem.scss') }
 
 @connect()
 class RepoItem extends Component {
+
+  deleteRepo (e) {
+    e.preventDefault()
+    const { dispatch, repo } = this.props
+    dispatch(deleteRepo(repo))
+  }
 
   renderBlank () {
     return (
@@ -27,8 +35,7 @@ class RepoItem extends Component {
     const [author, name] = repo.name.split('/')
 
     return (
-      <RepoLink
-        repo={repo}
+      <div
         className='RepoItem'>
 
         <header>
@@ -36,13 +43,23 @@ class RepoItem extends Component {
         </header>
 
         <section>
-          <div className='RepoItem--name'>
-            {author}
-            <span className='RepoItem--slash'>{'/'}</span>
-            <strong>
-              {name}
-            </strong>
+          <div className='RepoItem--title'>
+            <RepoLink repo={repo} className='RepoItem--name'>
+              {author}
+              <span className='RepoItem--slash'>{'/'}</span>
+              <strong>
+                {name}
+              </strong>
+            </RepoLink>
+
+            {process.env.NODE_ENV !== 'production' && (
+              <span>
+                {' - '}
+                <a href='' onClick={::this.deleteRepo}>{'delete'}</a>
+              </span>
+            )}
           </div>
+
           <div className='RepoItem--desc'>
             {repo.summary.description}
           </div>
@@ -51,7 +68,7 @@ class RepoItem extends Component {
           </div>
         </section>
 
-      </RepoLink>
+      </div>
     )
 
   }

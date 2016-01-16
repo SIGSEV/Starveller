@@ -34,6 +34,12 @@ router.put('/repos', (req, res) => {
   response(repo.createRepo.bind(this, req.body.name), res)
 })
 
+router.delete('/repos', (req, res) => {
+  repo.removeByName(req.body.name)
+    .then(() => res.sendStatus(200))
+    .catch(err => res.send(err.code || 500, err))
+})
+
 router.get('/repos/:user/:repo', (req, res) => {
   const name = `${req.params.user}/${req.params.repo}`
   repo.ask(name)

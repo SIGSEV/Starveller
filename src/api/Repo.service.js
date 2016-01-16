@@ -1,6 +1,7 @@
 import q from 'q'
 import r from 'superagent'
 import webshot from 'webshot'
+import { Schema } from 'mongoose'
 
 import Repo from 'api/Repo.model'
 import config from 'config'

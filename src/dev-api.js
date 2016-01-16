@@ -13,6 +13,7 @@ server.use(morgan('[API] :method :url :status :response-time ms - :res[content-l
 server.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', `http://localhost:${config.port}`)
   res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept')
+  res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE')
   next()
 })
 

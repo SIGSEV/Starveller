@@ -95,4 +95,18 @@ export const askAndSetCurrent = repo => dispatch => {
     .then(repo => dispatch(setCurrent(repo)))
 }
 
+/**
+ * Delete repo
+ */
+const repoDeleted = createAction('REPO_DELETED')
+
+export const deleteRepo = repo => dispatch => {
+  r.delete(`${api}/repos`)
+    .send(repo)
+    .end((err, res) => {
+      if (err) { return }
+      dispatch(repoDeleted(repo._id))
+    })
+}
+
 export const repoResolved = createAction('REPO_RESOLVED', repo => repo)

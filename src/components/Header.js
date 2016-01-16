@@ -3,11 +3,11 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { Link } from 'react-router'
 
+import RepoSearch from 'components/RepoSearch'
+
 import { refreshAllRepos, refreshTrendingRepos } from 'actions/repos'
 
-if (process.env.BROWSER) {
-  require('styles/Header.scss')
-}
+if (process.env.BROWSER) { require('styles/Header.scss') }
 
 @connect(
   () => ({}),
@@ -28,7 +28,9 @@ class Header extends Component {
           </Link>
 
           <div className='Header--search'>
-            <input placeholder='Search for a repo, user...' type='text' />
+            <RepoSearch onSelect={name => {
+              console.log(name)
+            }} />
           </div>
 
           <div className='Header--links'>

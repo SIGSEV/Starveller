@@ -19,20 +19,11 @@
 
 .Header--search {
   flex-grow: 1;
-  padding-right: 3rem;
-  > input {
-    width: 100%;
-    padding: 0.5em;
-    background: white;
-
-    &:focus {
-      box-shadow: rgba(black, 0.2) 0 0 10px;
-    }
-  }
 }
 
 .Header--links {
   display: inline-flex;
+  margin-left: 3rem;
 
   > a + a {
     margin-left: 2rem;

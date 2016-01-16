@@ -1,8 +1,9 @@
 import { debounce, values } from 'lodash'
 import r from 'superagent'
 import React, { Component, PropTypes } from 'react'
-import Select from 'react-select'
 import { connect } from 'react-redux'
+
+if (process.env.BROWSER) { require('styles/RepoSearch.scss') }
 
 @connect(
   state => ({
@@ -12,13 +13,11 @@ import { connect } from 'react-redux'
 class RepoSearch extends Component {
 
   static propTypes = {
-    onRepoSelect: PropTypes.func.isRequired
+    onSelect: PropTypes.func.isRequired
   };
 
   constructor (props) {
     super(props)
-
-    this.debouncedLoadOptions = debounce(::this.getOptions, 500)
   }
 
   getOptions (input, done) {
@@ -60,38 +59,11 @@ class RepoSearch extends Component {
       })
   }
 
-  handleChange ({ value: repo }) {
-    this.props.onRepoSelect(repo)
-  }
-
-  renderOption (option) {
-    const repo = option.value
-
-    const { name, summary } = repo
-    const { starsCount } = summary
-
-    return (
-      <div className='repo-option'>
-        <div className='name'>
-          <i className='octicon octicon-repo' />
-          <h4>{name}</h4>
-        </div>
-        <div className='infos'>
-          <span>{starsCount}</span>
-          <i className='octicon octicon-star' />
-        </div>
-      </div>
-    )
-  }
-
   render () {
     return (
-      <Select.Async
-        autoload={false}
-        loadOptions={this.debouncedLoadOptions}
-        optionRenderer={::this.renderOption}
-        placeholder='Search repo...'
-        onChange={::this.handleChange} />
+      <div className='RepoSearch'>
+        <input placeholder='Search for a repo, user...' type='text' />
+      </div>
     )
   }
 

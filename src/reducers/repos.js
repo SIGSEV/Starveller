@@ -12,6 +12,13 @@ const state = {
 
 export default handleActions({
 
+  // Reset the 'current' list
+
+  RESET_CURRENT: state => ({
+    ...state,
+    current: []
+  }),
+
   // Reset the 'current' list to a single repo
 
   SET_CURRENT: (state, { payload: repo }) => {

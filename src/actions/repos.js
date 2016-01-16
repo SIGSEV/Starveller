@@ -1,11 +1,27 @@
 import r from 'superagent'
-import { pushState } from 'redux-router'
+import moment from 'moment'
 import { createAction } from 'redux-actions'
 
 import { loadTrending, trendingFinished, loadRepos, reposFinished } from 'actions/loader'
 import config from 'config'
 
 const api = config.getApi()
+
+/**
+ * Cache utility, use timers reducer
+ */
+
+const fnCacheFactory = (action, timerName, minutes) => () => (dispatch, getState) => {
+
+  const state = getState()
+  const now = moment()
+  const lastFetch = moment(state.timers[timerName])
+
+  if (now.diff(lastFetch, 'minutes') > minutes) {
+    dispatch(action())
+  }
+
+}
 
 /**
  * Get all repos
@@ -30,6 +46,8 @@ export const fetchAllRepos = () => dispatch => {
   })
 }
 
+export const refreshAllRepos = fnCacheFactory(fetchAllRepos, 'all', 1)
+
 /**
  * Get random repos
  */
@@ -52,26 +70,9 @@ export const fetchTrendingRepos = () => dispatch => {
   })
 }
 
-/**
- * Clear repo cache
- */
-export const deleteFromCache = repo => (dispatch, getState) => {
-  return new Promise((resolve, reject) => {
-    r.put(`${api}/repos/${repo._id}`)
-      .end((err, res) => {
-        if (err) { return reject(err) }
-      })
-  })
-}
+export const refreshTrendingRepos = fnCacheFactory(fetchTrendingRepos, 'trending', 1)
 
-/**
- * Go to repo
- */
-export const goToRepo = repo => dispatch => {
-  dispatch(setCurrent(repo))
-  dispatch(pushState(null, `${repo.name}`))
-}
-
+export const resetCurrent = createAction('RESET_CURRENT')
 export const setCurrent = createAction('SET_CURRENT', repo => repo)
 
 /**
@@ -88,9 +89,10 @@ export const askRepo = repo => dispatch => new Promise((resolve, reject) => {
     })
 })
 
-export const askAndGo = repo => dispatch => {
+export const askAndSetCurrent = repo => dispatch => {
+  dispatch(setCurrent(repo))
   return dispatch(askRepo(repo))
-    .then(repo => dispatch(goToRepo(repo)))
+    .then(repo => dispatch(setCurrent(repo)))
 }
 
 export const repoResolved = createAction('REPO_RESOLVED', repo => repo)

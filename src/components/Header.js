@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { bindActionCreators  } from 'redux'
+import { bindActionCreators } from 'redux'
 import { Link } from 'react-router'
 
-import { fetchAllRepos, fetchTrendingRepos } from 'actions/repos'
+import { refreshAllRepos, refreshTrendingRepos } from 'actions/repos'
 
 if (process.env.BROWSER) {
   require('styles/Header.scss')
@@ -11,7 +11,7 @@ if (process.env.BROWSER) {
 
 @connect(
   () => ({}),
-  dispatch => bindActionCreators({ fetchAllRepos, fetchTrendingRepos }, dispatch)
+  dispatch => bindActionCreators({ refreshAllRepos, refreshTrendingRepos }, dispatch)
 )
 class Header extends Component {
 
@@ -22,7 +22,7 @@ class Header extends Component {
 
           <Link
             to='/'
-            onClick={this.props.fetchTrendingRepos}
+            onClick={this.props.refreshTrendingRepos}
             style={{ marginRight: '3em' }}>
             {'Starveller'}
           </Link>
@@ -35,7 +35,7 @@ class Header extends Component {
 
             <Link
               to='browse'
-              onClick={this.props.fetchAllRepos}>
+              onClick={this.props.refreshAllRepos}>
               {'Browse all'}
             </Link>
 

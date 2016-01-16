@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { prefetch } from 'react-fetcher'
 
-import { askAndGo, fetchTrendingRepos, browseRepos } from 'actions/repos'
+import { fetchTrendingRepos } from 'actions/repos'
 
 @prefetch(({ dispatch }) => dispatch(fetchTrendingRepos()))
 @connect(
@@ -19,6 +19,14 @@ class Home extends Component {
       <div className='container'>
 
         <h1>{'Hi there.'}</h1>
+
+        <hr />
+
+        <h3>{'Trending'}</h3>
+
+        {trending.map(repo => (
+          <div key={repo._id}>{repo.name}</div>
+        ))}
 
       </div>
     )

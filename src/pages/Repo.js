@@ -20,8 +20,16 @@ import { askRepo, setCurrent } from 'actions/repos'
 )
 class Repo extends Component {
 
+  renderPlaceholder () {
+    return (
+      <div></div>
+    )
+  }
+
   render () {
     const { repo } = this.props
+
+    if (!repo) { return this.renderPlaceholder() }
 
     return (
       <div>

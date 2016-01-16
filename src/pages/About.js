@@ -7,6 +7,7 @@ class About extends Component {
       <div className='container'>
 
         <h1>{'About.'}</h1>
+        <h3>{'Motherfucker.'}</h3>
 
       </div>
     )

@@ -3,11 +3,10 @@ import { connect } from 'react-redux'
 import { values } from 'lodash'
 import React, { Component } from 'react'
 import { prefetch } from 'react-fetcher'
-import { bindActionCreators } from 'redux'
 
 import RepoItem from 'components/RepoItem'
 
-import { fetchAllRepos, askAndGo } from 'actions/repos'
+import { fetchAllRepos } from 'actions/repos'
 
 if (process.env.BROWSER) {
   require('styles/Browse.scss')
@@ -18,8 +17,7 @@ if (process.env.BROWSER) {
   state => ({
     list: values(state.repos.all),
     loading: state.loader.repos
-  }),
-  dispatch => bindActionCreators({ askAndGo }, dispatch)
+  })
 )
 class Browse extends Component {
 
@@ -47,7 +45,7 @@ class Browse extends Component {
           </div>
           <div className='repos-list-list'>
             {!loading && sortedList.map(repo => (
-              <RepoItem onSelect={this.props.askAndGo} key={repo._id} repo={repo} />
+              <RepoItem key={repo._id} repo={repo} />
             ))}
             {loading && Array.apply(null, { length: Math.ceil(window.innerHeight / 166) }).map((e, i) => (
                 <RepoItem key={i} blank />

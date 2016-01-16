@@ -2,7 +2,8 @@
   "extends": ["zavatta", "zavatta-react"],
   "rules": {
     "camelcase": 0,
-    "no-alert": 0
+    "no-alert": 0,
+    "prefer-spread": 0
   },
   "globals": {
     "io": "false"

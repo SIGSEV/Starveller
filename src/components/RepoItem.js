@@ -1,8 +1,11 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
+
 import RepoLink from 'components/RepoLink'
 
 if (process.env.BROWSER) { require('styles/RepoItem.scss') }
 
+@connect()
 class RepoItem extends Component {
 
   renderBlank () {
@@ -22,12 +25,11 @@ class RepoItem extends Component {
     if (blank) { return this.renderBlank() }
 
     const [author, name] = repo.name.split('/')
-    const onSelect = this.props.onSelect || (() => {})
+
     return (
-      <div
-        onClick={() => { onSelect(repo) }}
-        className='RepoItem'
-        {...this.props}>
+      <RepoLink
+        repo={repo}
+        className='RepoItem'>
 
         <header>
           <div className='img' />
@@ -49,7 +51,7 @@ class RepoItem extends Component {
           </div>
         </section>
 
-      </div>
+      </RepoLink>
     )
 
   }

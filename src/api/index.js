@@ -7,22 +7,24 @@ import * as repo from 'api/Repo.service'
 
 const router = express.Router()
 
+const lightRepo = r => _.omit(r.toObject(), ['cache', 'shot', 'stars'])
+
 router.get('/repos', (req, res) => {
   repo.getAll()
-    .then(repos => res.send(repos.map(r => r.toObject())))
+    .then(repos => res.send(repos.map(lightRepo)))
     .catch(err => res.send(err.code || 500, err))
 })
 
 router.get('/random-repos', (req, res) => {
   repo.getAll()
     .then(repos => shuffle(repos).slice(0, 4))
-    .then(repos => res.send(repos.map(r => r.toObject())))
+    .then(repos => res.send(repos.map(lightRepo)))
     .catch(err => res.send(err.code || 500, err))
 })
 
 router.post('/repos', (req, res) => {
   repo.ask(req.body.name)
-    .then(repo => _.omit(repo.toObject(), ['cache', 'shot']))
+    .then(lightRepo)
     .then(repo => res.send(repo))
     .catch(err => res.send(err.code || 500, err))
 })
@@ -34,7 +36,7 @@ router.put('/repos', (req, res) => {
 router.get('/repos/:user/:repo', (req, res) => {
   const name = `${req.params.user}/${req.params.repo}`
   repo.ask(name)
-    .then(repo => _.omit(repo.toObject(), ['cache', 'shot']))
+    .then(lightRepo)
     .then(repo => res.send(repo))
     .catch(err => res.send(err.code || 500, err))
 })

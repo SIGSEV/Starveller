@@ -79,7 +79,7 @@ export const setCurrent = createAction('SET_CURRENT', repo => repo)
  * Ask for a repo
  */
 export const askRepo = repo => dispatch => new Promise((resolve, reject) => {
-  if (repo.stars) { return resolve() }
+  if (repo.stars) { return resolve(repo) }
   r.get(`${api}/repos/${repo.name}`)
     .end((err, res) => {
       if (err) { return reject(err) }

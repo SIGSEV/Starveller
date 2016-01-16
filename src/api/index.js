@@ -8,6 +8,7 @@ import * as repo from 'api/Repo.service'
 const router = express.Router()
 
 const lightRepo = r => _.omit(r.toObject(), ['cache', 'shot', 'stars'])
+const fullRepo = r => _.omit(r.toObject(), ['cache', 'shot'])
 
 router.get('/repos', (req, res) => {
   repo.getAll()
@@ -36,7 +37,7 @@ router.put('/repos', (req, res) => {
 router.get('/repos/:user/:repo', (req, res) => {
   const name = `${req.params.user}/${req.params.repo}`
   repo.ask(name)
-    .then(lightRepo)
+    .then(fullRepo)
     .then(repo => res.send(repo))
     .catch(err => res.send(err.code || 500, err))
 })

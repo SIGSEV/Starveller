@@ -12,7 +12,6 @@ export default handleActions({
     const { timer } = state[index]
     clearTimeout(timer)
 
-    if (index === -1) { return state }
     return [
       ...state.slice(0, index),
       ...state.slice(index + 1)

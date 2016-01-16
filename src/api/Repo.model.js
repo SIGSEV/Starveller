@@ -20,10 +20,7 @@ const RepoSchema = new Schema({
   },
 
   stars: {
-    byDay: [{ date: Date, stars: Number }],
-    byWeek: [{ date: Date, stars: Number }],
-    byMonth: [{ date: Date, stars: Number }],
-    byYear: [{ date: Date, stars: Number }]
+    byDay: [{ date: Date, stars: Number }]
   },
 
   events: [{

@@ -41,10 +41,7 @@ const job = (repo, done) => {
           stars: allStars
         },
         stars: {
-          byDay: groupDatesByFormat(starsDates, 'YYYY MM DD'),
-          byWeek: groupDatesByFormat(starsDates, 'YYYY ww'),
-          byMonth: groupDatesByFormat(starsDates, 'YYYY MM'),
-          byYear: groupDatesByFormat(starsDates, 'YYYY')
+          byDay: groupDatesByFormat(starsDates, 'YYYY MM DD')
         }
       })
 

@@ -1,7 +1,6 @@
 import q from 'q'
 import r from 'superagent'
 import webshot from 'webshot'
-import { Schema } from 'mongoose'
 
 import Repo from 'api/Repo.model'
 import config from 'config'
@@ -22,6 +21,15 @@ export const getAll = () => {
  */
 export const getByName = name => {
   return q.nfcall(::Repo.findOne, { name })
+}
+
+/**
+ * Get nbars for a repo
+ */
+export const getBars = (name, n = 20) => {
+  return q.nfcall(::Repo.findOne, { name }, 'stars.byDay')
+    .then(({ stars: ({ byDay: stars }) }) => stars)
+    .then(stars => stars.slice(-n))
 }
 
 /**

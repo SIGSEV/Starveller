@@ -2,6 +2,7 @@ import path from 'path'
 import React from 'react'
 import { Provider } from 'react-redux'
 import createLocation from 'history/lib/createLocation'
+import { createMemoryHistory } from 'history'
 import { RoutingContext, match } from 'react-router'
 import { renderToString, renderToStaticMarkup } from 'react-dom/server'
 import { getPrefetchedData } from 'react-fetcher'
@@ -26,7 +27,7 @@ export default (req, res) => {
       return res.redirect('/fail')
     }
 
-    const store = createStore()
+    const store = createStore(createMemoryHistory())
 
     const { dispatch } = store
 

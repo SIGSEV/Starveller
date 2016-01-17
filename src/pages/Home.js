@@ -3,6 +3,7 @@ import { Link } from 'react-router'
 import { connect } from 'react-redux'
 import { prefetch } from 'react-fetcher'
 
+import DaysBars from 'components/graphs/DaysBars'
 import RepoSearch from 'components/RepoSearch'
 import RepoLink from 'components/RepoLink'
 
@@ -77,8 +78,11 @@ const FeatTitle = ({ repo }) => {
 
 const Feat1 = ({ repo }) => (
   <div className='feat feat-1'>
-    <FeatTitle repo={repo} />
-    <div className='feat--lang'>{'Javascript'}</div>
+    <div className='feat-front'>
+      <FeatTitle repo={repo} />
+      <div className='feat--lang'>{'Javascript'}</div>
+    </div>
+    <DaysBars stars={[2, 2, 5, 12, 24, 37, 55, 64, 64, 64, 72, 75, 84, 102, 225, 310, 350, 350, 360]} />
   </div>
 )
 

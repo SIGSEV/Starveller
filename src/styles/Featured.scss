@@ -33,9 +33,21 @@
 
   &.feat-1 {
     justify-content: flex-end;
+    .graph-days-bars {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+    }
   }
 }
 
 .feat--title {
   font-size: 1.3em;
+}
+
+.feat-front {
+  position: relative;
+  z-index: 2;
 }

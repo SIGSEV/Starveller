@@ -40,9 +40,6 @@ class StarsEvolution extends Component {
 
   draw () {
 
-    // clear current graph
-    d3.select(container).selectAll('*').remove()
-
     const { repo, repos, lightGraph } = this.props
 
     const reposToDraw = repo ? [repo] : repos
@@ -54,6 +51,9 @@ class StarsEvolution extends Component {
 
     const { container } = this.refs
     const containerRect = container.getBoundingClientRect()
+
+    // clear current graph
+    d3.select(container).selectAll('*').remove()
 
     // data to show
     const data = _.has(repo, 'stars.byDay') && repo.stars.byDay.length

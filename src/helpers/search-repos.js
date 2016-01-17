@@ -1,4 +1,3 @@
-import _ from 'lodash'
 import r from 'superagent'
 
 const github = 'https://api.github.com'
@@ -9,7 +8,7 @@ const transformGithubRepo = repo => ({
   desc: repo.description
 })
 
-const searchRepos = (term, repos) => Promise.all([
+const searchRepos = term => Promise.all([
 
   // Github repos results
 

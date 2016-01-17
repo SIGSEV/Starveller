@@ -3,7 +3,8 @@ import moment from 'moment'
 import d3 from 'd3'
 import React, { Component } from 'react'
 
-import { getReposBoundaries } from 'helpers/repos'
+// TODO:
+// import { getReposBoundaries } from 'helpers/repos'
 
 class StarsEvolution extends Component {
 
@@ -48,7 +49,8 @@ class StarsEvolution extends Component {
 
     if (!reposToDraw.length) { return }
 
-    const boundaries = getReposBoundaries(reposToDraw)
+    // TODO:
+    // const boundaries = getReposBoundaries(reposToDraw)
 
     const { container } = this.refs
     const containerRect = container.getBoundingClientRect()

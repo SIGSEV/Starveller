@@ -34,10 +34,13 @@ class Builder extends Component {
   }
 
   render () {
-    const { repos, chosen } = this.props
-    const options = repos
-      .filter(repo => !contains(chosen, repo))
-      .map(r => ({ value: r, label: r.name }))
+    const { chosen } = this.props
+
+    // TODO:
+    //
+    // const options = repos
+    //   .filter(repo => !contains(chosen, repo))
+    //   .map(r => ({ value: r, label: r.name }))
 
     return (
       <div className='Builder'>

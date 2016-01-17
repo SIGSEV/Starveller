@@ -1,6 +1,5 @@
 import _ from 'lodash'
 import cx from 'classnames'
-import r from 'superagent'
 import React, { Component, PropTypes } from 'react'
 
 import searchRepos from 'helpers/search-repos'
@@ -13,13 +12,6 @@ class RepoSearch extends Component {
     onSelect: PropTypes.func.isRequired
   };
 
-  constructor (props) {
-    super(props)
-
-    this.debouncedSearch = _.debounce(::this.search, 500)
-    this.state = _.clone(RepoSearch.defaultState)
-  }
-
   static defaultState = {
     results: [],
     loading: false,
@@ -28,9 +20,12 @@ class RepoSearch extends Component {
     selected: 0
   };
 
-  static formatResults = res => {
-    return []
-  };
+  constructor (props) {
+    super(props)
+
+    this.debouncedSearch = _.debounce(::this.search, 500)
+    this.state = _.clone(RepoSearch.defaultState)
+  }
 
   componentDidMount () {
     if (this.props.autofocus) {
@@ -61,24 +56,21 @@ class RepoSearch extends Component {
 
     const { selected, results } = this.state
 
-    switch (e.which) {
-      case 38:
-        if (selected > 0) {
-          this.setState({ selected: selected - 1 })
-        }
-        break;
-      case 40:
-        if (selected < results.length - 1) {
-          this.setState({ selected: selected + 1 })
-        }
-        break;
-      case 13:
-        if (results.length) {
-          this.handleResulClick(results[selected].name)
-        }
-        break;
+    const isUp = e.which === 38
+    const isDown = e.which === 40
+    const isEnter = e.which === 13
+
+    if (isUp && selected > 0) {
+      this.setState({ selected: selected - 1 })
     }
 
+    if (isDown && selected < results.length - 1) {
+      this.setState({ selected: selected + 1 })
+    }
+
+    if (isEnter && results.length) {
+      this.handleResulClick(results[selected].name)
+    }
   }
 
   search (value) {

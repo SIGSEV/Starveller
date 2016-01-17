@@ -114,7 +114,7 @@ const repoDeleted = createAction('REPO_DELETED')
 export const deleteRepo = repo => dispatch => {
   r.delete(`${api}/repos`)
     .send(repo)
-    .end((err, res) => {
+    .end((err) => {
       if (err) { return }
       dispatch(repoDeleted(repo._id))
     })

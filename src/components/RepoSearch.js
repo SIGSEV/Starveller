@@ -32,6 +32,12 @@ class RepoSearch extends Component {
     return []
   };
 
+  componentDidMount () {
+    if (this.props.autofocus) {
+      this.refs.input.focus()
+    }
+  }
+
   handleChange (e) {
     const { value } = e.target
     const { loading } = this.state

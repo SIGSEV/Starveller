@@ -1,3 +1,4 @@
+import cx from 'classnames'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
@@ -10,7 +11,9 @@ import { refreshAllRepos, refreshTrendingRepos, askAndGo } from 'actions/repos'
 if (process.env.BROWSER) { require('styles/Header.scss') }
 
 @connect(
-  () => ({}),
+  state => ({
+    big: state.router.location.pathname === '/'
+  }),
   dispatch => bindActionCreators({ refreshAllRepos, refreshTrendingRepos, askAndGo }, dispatch)
 )
 class Header extends Component {
@@ -20,8 +23,10 @@ class Header extends Component {
   }
 
   render () {
+    const big = !!this.props.big
+
     return (
-      <div className='Header'>
+      <div className={cx('Header', { big })}>
         <div className='Header--content'>
 
           <Link
@@ -32,7 +37,9 @@ class Header extends Component {
           </Link>
 
           <div className='Header--search'>
-            <RepoSearch onSelect={::this.goToRepo} />
+            {!big && (
+              <RepoSearch onSelect={::this.goToRepo} />
+            )}
           </div>
 
           <div className='Header--links'>

@@ -2,12 +2,23 @@
 
 .Header {
   display: flex;
-  align-items: center;
-  height: $navHeight;
+  align-items: flex-start;
   background: #F9F9F9;
+
+  &.big {
+    height: 450px;
+    background: linear-gradient(25deg, #76CEF2, #6D80F2);
+
+    .Header--content {
+      a {
+        color: white;
+      }
+    }
+  }
 }
 
 .Header--content {
+  height: $navHeight;
   width: 100%;
   max-width: 1000px;
   min-width: 600px;
@@ -27,5 +38,29 @@
 
   > a + a {
     margin-left: 2rem;
+  }
+}
+
+.HomeMarged {
+  margin-top: -250px;
+  height: 250px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  h1 {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 0.25em;
+    color: white;
+  }
+
+  .RepoSearch {
+    width: 400px;
+    input {
+      padding: 1.25em;
+      border: none;
+      border-radius: 3px;
+    }
   }
 }

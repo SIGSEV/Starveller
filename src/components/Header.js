@@ -12,7 +12,7 @@ if (process.env.BROWSER) { require('styles/Header.scss') }
 
 @connect(
   state => ({
-    big: state.router.location.pathname === '/'
+    big: state.router && state.router.location.pathname === '/'
   }),
   dispatch => bindActionCreators({ refreshAllRepos, refreshTrendingRepos, askAndGo }, dispatch)
 )

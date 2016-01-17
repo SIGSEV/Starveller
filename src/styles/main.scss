@@ -17,15 +17,12 @@ strong {
 a {
   text-decoration: none;
   color: $blue;
-  border-bottom: 2px solid transparent;
   transition: 100ms border-color;
 
   &:hover, &:focus {
-    border-color: lighten($blue, 5);
     color: lighten($blue, 5);
   }
   &:active {
-    border-color: darken($blue, 5);
     color: darken($blue, 5);
   }
 }
@@ -43,10 +40,8 @@ input {
 }
 
 h2 {
-  margin-bottom: 2em;
   font-size: 1.2rem;
   font-weight: 700;
-  text-align: right;
   color: rgba(black, 0.4);
 
   strong {

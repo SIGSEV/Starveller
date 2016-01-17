@@ -2,8 +2,10 @@
 
 .f {
   display: flex;
-  align-items: center;
 }
+
+.fg { flex-grow: 1; }
+.fs { flex-shrink: 0; }
 
 .z {
   display: flex;
@@ -37,3 +39,11 @@
     border-color: rgba(black, 0.2);
   }
 }
+
+.mt  { margin-top: 1rem; }
+.mt2 { margin-top: 2rem; }
+
+.mb02 { margin-bottom: 0.25rem; }
+.mb05 { margin-bottom: 0.5rem; }
+.mb   { margin-bottom: 1rem; }
+.mb2  { margin-bottom: 2rem; }

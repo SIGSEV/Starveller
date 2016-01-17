@@ -4,28 +4,32 @@ import { shuffle } from 'lodash'
 
 import './db'
 import * as repo from 'api/Repo.service'
+import { getBars } from 'helpers/repos'
 
 const router = express.Router()
 
-const lightRepo = r => _.omit(r.toObject(), ['cache', 'shot', 'stars'])
+const toObj = r => r.toObject()
+const lightRepo = r => _.omit(r, ['cache', 'shot', 'stars'])
 const fullRepo = r => _.omit(r.toObject(), ['cache', 'shot'])
+const barsRepo = r => ({ ...r, bars: getBars(r, 30) })
 
 router.get('/repos', (req, res) => {
   repo.getAll()
-    .then(repos => res.send(repos.map(lightRepo)))
+    .then(repos => res.send(repos.map(_.flow(toObj, lightRepo))))
     .catch(err => res.send(err.code || 500, err))
 })
 
 router.get('/random-repos', (req, res) => {
   repo.getAll()
     .then(repos => shuffle(repos).slice(0, 4))
-    .then(repos => res.send(repos.map(lightRepo)))
+    .then(repos => repos.map(_.flow(toObj, barsRepo, lightRepo)))
+    .then(repos => res.send(repos))
     .catch(err => res.send(err.code || 500, err))
 })
 
 router.post('/repos', (req, res) => {
   repo.ask(req.body.name)
-    .then(lightRepo)
+    .then(_.flow(toObj, lightRepo))
     .then(repo => res.send(repo))
     .catch(err => res.send(err.code || 500, err))
 })

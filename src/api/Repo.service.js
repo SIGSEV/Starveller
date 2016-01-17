@@ -13,7 +13,7 @@ const githubToken = process.env.GITHUB
  * Fetch all repos summaries
  */
 export const getAll = () => {
-  return q.nfcall(::Repo.find, {}, 'name summary shot')
+  return q.nfcall(::Repo.find, {}, 'name summary shot stars')
 }
 
 /**

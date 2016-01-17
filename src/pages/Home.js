@@ -82,7 +82,7 @@ const Feat1 = ({ repo }) => (
       <FeatTitle repo={repo} />
       <div className='feat--lang'>{'Javascript'}</div>
     </div>
-    <DaysBars stars={[2, 2, 5, 12, 24, 37, 55, 64, 64, 64, 72, 75, 84, 102, 225, 310, 350, 350, 360]} />
+    <DaysBars stars={repo.bars} />
   </div>
 )
 

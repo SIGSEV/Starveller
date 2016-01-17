@@ -8,3 +8,15 @@ export const getReposBoundaries = (repos) => {
     maxDate: new Date()
   }
 }
+
+export const getBars = (repo, n) => {
+  if (!repo.stars || !repo.stars.byDay) { return }
+
+  const out = _.reduce(repo.stars.byDay, (res, e) => {
+    if (res.length === n) { return res }
+    return [...res, e.stars]
+  }, [])
+
+  for (let i = out.length; i < n; ++i) { out.unshift(0) }
+  return out;
+}

@@ -52,13 +52,6 @@ router.get('/repos/:user/:repo', (req, res) => {
     .catch(err => res.send(err.code || 500, err))
 })
 
-router.get('/repos/:user/:repo/bars', (req, res) => {
-  const name = `${req.params.user}/${req.params.repo}`
-  repo.getBars(name, req.query.n)
-    .then(stars => res.send(stars))
-    .catch(err => res.send(err.code || 500, err))
-})
-
 router.post('/repos/:user/:repo/events', (req) => {
   const name = `${req.params.user}/${req.params.repo}`
   response(repo.createEvent.bind(this, { name, data: req.body }))

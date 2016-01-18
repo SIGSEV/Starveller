@@ -26,7 +26,7 @@ export default (req, res) => {
       return res.redirect('/fail')
     }
 
-    const store = createStore(createMemoryHistory())
+    const store = createStore(createMemoryHistory(req.url))
 
     const { dispatch } = store
 

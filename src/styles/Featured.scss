@@ -16,7 +16,7 @@
 
     > div {
       flex-grow: 1;
-      border: 1px solid rgba(black, 0.15);
+      border: 1px solid rgba(black, 0.1);
 
       & + div { margin-top: 1rem; }
     }

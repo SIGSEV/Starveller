@@ -9,7 +9,7 @@
 
   .bar {
     width: 10px;
-    background: rgba(black, 0.15);
+    background: rgba(black, 0.06);
     & + .bar {
       margin-left: 2px;
     }

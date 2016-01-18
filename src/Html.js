@@ -15,6 +15,9 @@ const Html = ({ content, state, stats: { style, main = 'bundle.js' } }) => (
       <link href='https://cdnjs.cloudflare.com/ajax/libs/octicons/3.3.0/octicons.min.css' rel='stylesheet' type='text/css' />
       <script src='https://cdn.socket.io/socket.io-1.3.7.js'></script>
 
+      <script src='https://use.typekit.net/yue1czp.js'></script>
+      <script>{'try{Typekit.load({ async: true });}catch(e){}'}</script>
+
       {style && (
         <link href={`dist/${style}`} rel='stylesheet'/>
       )}

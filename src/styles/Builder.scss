@@ -13,4 +13,20 @@
     margin: 1em;
   }
 
+  .repos-selection {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .repos-selection-item {
+    margin: 0 0.5rem 0.5rem 0;
+    padding: 1rem;
+    background: lightgray;
+    cursor: pointer;
+    &.is-fetching {
+      background: pink;
+      cursor: default;
+    }
+  }
+
 }

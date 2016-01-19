@@ -80,6 +80,19 @@ export default handleActions({
       trending: deleteIfIn(state.trending),
       all: _.omit(state.all, repoId)
     }
-  }
+  },
+
+  REPO_SELECTED: (state, { payload: repo }) => ({
+    ...state,
+    current: [
+      repo._id,
+      ...state.current
+    ]
+  }),
+
+  REPO_DESELECTED: (state, { payload: repo }) => ({
+    ...state,
+    current: state.current.filter(r => r !== repo._id)
+  })
 
 }, state)

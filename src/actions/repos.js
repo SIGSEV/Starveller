@@ -121,3 +121,12 @@ export const deleteRepo = repo => dispatch => {
 }
 
 export const repoResolved = createAction('REPO_RESOLVED', repo => repo)
+
+const selectRepo = createAction('REPO_SELECTED', repo => repo)
+
+export const fetchAndSelectRepo = repoName => dispatch => {
+  dispatch(askRepo({ name: repoName }))
+    .then(r => dispatch(selectRepo(r)))
+}
+
+export const deselectRepo = createAction('REPO_DESELECTED', repo => repo)

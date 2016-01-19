@@ -9,8 +9,8 @@ import { getBars } from 'helpers/repos'
 const router = express.Router()
 
 const toObj = r => r.toObject()
-const lightRepo = r => _.omit(r, ['cache', 'shot', 'stars'])
-const fullRepo = r => _.omit(r.toObject(), ['cache', 'shot'])
+const lightRepo = r => _.omit(r, ['cache', 'stars'])
+const fullRepo = r => _.omit(r, ['cache'])
 const barsRepo = r => ({ ...r, bars: getBars(r, 30) })
 
 router.get('/repos', (req, res) => {
@@ -47,7 +47,7 @@ router.delete('/repos', (req, res) => {
 router.get('/repos/:user/:repo', (req, res) => {
   const name = `${req.params.user}/${req.params.repo}`
   repo.ask(name)
-    .then(fullRepo)
+    .then(_.flow(toObj, fullRepo))
     .then(repo => res.send(repo))
     .catch(err => res.send(err.code || 500, err))
 })

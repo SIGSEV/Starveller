@@ -1,12 +1,14 @@
+import shouldPureComponentUpdate from 'react-pure-render/function'
 import _ from 'lodash'
 import moment from 'moment'
 import d3 from 'd3'
 import React, { Component } from 'react'
 
-// TODO:
-// import { getReposBoundaries } from 'helpers/repos'
+import { getReposBoundaries } from 'helpers/repos'
 
 class StarsEvolution extends Component {
+
+  shouldComponentUpdate = shouldPureComponentUpdate
 
   static defaultProps = {
     repos: []
@@ -17,6 +19,7 @@ class StarsEvolution extends Component {
 
     this._isMounted = false
     this.drawDebounced = _.debounce(::this.drawIfMounted, 250)
+    this.drawRepo = ::this.drawRepo
   }
 
   componentDidMount () {
@@ -40,14 +43,9 @@ class StarsEvolution extends Component {
 
   draw () {
 
-    const { repo, repos, lightGraph } = this.props
+    const { repo, repos } = this.props
 
     const reposToDraw = repo ? [repo] : repos
-
-    if (!reposToDraw.length) { return }
-
-    // TODO:
-    // const boundaries = getReposBoundaries(reposToDraw)
 
     const { container } = this.refs
     const containerRect = container.getBoundingClientRect()
@@ -55,16 +53,9 @@ class StarsEvolution extends Component {
     // clear current graph
     d3.select(container).selectAll('*').remove()
 
-    // data to show
-    const data = _.has(repo, 'stars.byDay') && repo.stars.byDay.length
-      ? repo.stars.byDay.map(el => ({ y: el.stars, x: new Date(el.date) }))
-      : [{ x: new Date(), y: 0 }]
+    if (!reposToDraw.length) { return }
 
-    // add today to graph if needed
-    const lastElem = _.last(data)
-    if (!moment(lastElem.x).isSame(moment(), 'day')) {
-      data.push({ x: new Date(), y: lastElem.y })
-    }
+    const boundaries = getReposBoundaries(reposToDraw)
 
     // graph dimensions
     // ================
@@ -83,164 +74,94 @@ class StarsEvolution extends Component {
 
     const xAxis = d3.svg.axis()
       .scale(x)
-      .tickFormat(d3.time.format('%d/%m'))
+      .tickFormat(d3.time.format('%d/%m/%Y'))
 
     const yAxis = d3.svg.axis()
       .scale(y)
       .ticks(5)
       .orient('right')
 
+    // graph boundaries
+
+    x.domain([
+      boundaries.minDate,
+      boundaries.maxDate
+    ])
+
+    y.domain([
+      boundaries.minStars,
+      boundaries.maxStars
+    ])
+
     // area
 
-    const area = d3.svg.area()
+    this._area = d3.svg.area()
       .interpolate('linear')
       .x(d => x(d.x))
       .y0(h)
       .y1(d => y(d.y))
 
-    const line = d3.svg.line()
+    // line
+    this._line = d3.svg.line()
       .interpolate('linear')
       .x(d => x(d.x))
       .y(d => y(d.y))
 
-    x.domain([
-      data[0].x,
-      data[data.length - 1].x
-    ])
+    // drawing
+    // =======
 
-    y.domain([
-      0,
-      d3.max(data, d => { return d.y })
-    ])
-
-    // create svg
-
-    const svg = d3.select(container)
+    this._svg = d3.select(container)
       .append('svg:svg')
       .attr('width', w + m[1] + m[3])
       .attr('height', h + m[0] + m[2])
       .append('svg:g')
       .attr('transform', `translate(${m[3]}, ${m[0]})`)
 
-    svg.append('svg:path')
-      .attr('class', 'area')
-      .attr('d', area(data))
+    this._svg.append('svg:g')
+      .attr('class', 'x axis')
+      .attr('transform', `translate(1, ${h})`)
+      .call(xAxis)
 
-    if (!lightGraph) {
-      svg.append('svg:g')
-        .attr('class', 'x axis')
-        .attr('transform', `translate(1, ${h})`)
-        .call(xAxis)
+    this._svg.append('svg:g')
+      .attr('class', 'y axis')
+      .attr('transform', `translate(${w}, 0)`)
+      .call(yAxis)
 
-      svg.append('svg:g')
-        .attr('class', 'y axis')
-        .attr('transform', `translate(${w}, 0)`)
-        .call(yAxis)
+    this._svg.selectAll('line.y')
+      .data(y.ticks(5))
+      .enter()
+      .append('line')
+      .attr('x1', 0)
+      .attr('x2', w)
+      .attr('y1', y)
+      .attr('y2', y)
+      .style('stroke', '#000000')
+      .style('stroke-opacity', 0.1)
 
-      svg.selectAll('line.y')
-        .data(y.ticks(5))
-        .enter()
-        .append('line')
-        .attr('x1', 0)
-        .attr('x2', w)
-        .attr('y1', y)
-        .attr('y2', y)
-        .style('stroke', '#000000')
-        .style('stroke-opacity', 0.1)
-    }
-
-    svg.append('svg:path')
-      .attr('class', 'line')
-      .attr('d', line(data))
-
-    if (!lightGraph && data.length < 100) {
-      svg.append('svg:text')
-        .attr('x', 80)
-        .attr('y', -10)
-        .attr('text-anchor', 'end')
-        .text('Stars in time')
-        .style('stroke', '#555')
-        .style('fill', '#555')
-        .style('stroke-width', 0.2)
-        .style('font-size', '18px')
-        .style('font-weight', 'bold')
-
-      svg.selectAll('circle')
-        .data(data)
-        .enter()
-        .append('circle')
-        .attr('fill', '#008cdd')
-        .attr('r', 3)
-        .attr('cx', d => x(d.x))
-        .attr('cy', d => y(d.y))
-    }
-
-    // mouse move
-
-    if (!lightGraph && reposToDraw.length === 1 && data.length > 1) {
-      this.addMouseSupport(svg, { w, h, x, y }, data)
-    }
+    reposToDraw.forEach(this.drawRepo)
 
   }
 
-  addMouseSupport (svg, { w, h, x, y }, data) {
+  drawRepo (repo) {
 
-    const focus = svg.append('g')
-      .style('display', 'none')
+    // data to show
+    const data = _.has(repo, 'stars.byDay') && repo.stars.byDay.length
+      ? repo.stars.byDay.map(el => ({ y: el.stars, x: new Date(el.date) }))
+      : [{ x: new Date(), y: 0 }]
 
-    const bisectDate = d3.bisector(d => d.x).left
+    // add today to graph if needed
+    const lastElem = _.last(data)
+    if (!moment(lastElem.x).isSame(moment(), 'day')) {
+      data.push({ x: new Date(), y: lastElem.y })
+    }
 
-    focus.append('circle')
-      .attr('class', 'y')
-      .style('fill', 'none')
-      .style('stroke', '#008cdd')
-      .attr('r', 6)
-      .attr('z-index', 2)
+    this._svg.append('svg:path')
+      .attr('class', 'area')
+      .attr('d', this._area(data))
 
-    focus.append('line')
-      .attr('class', 'x')
-      .style('stroke', 'black')
-      .style('stroke-dasharray', '3,3')
-      .style('opacity', 0.3)
-      .attr('y1', 0)
-      .attr('y2', h)
-
-    focus.append('line')
-      .attr('class', 'y')
-      .style('stroke', 'black')
-      .style('stroke-dasharray', '3,3')
-      .style('opacity', 0.3)
-      .attr('x1', w)
-      .attr('x2', w)
-
-    svg.append('rect')
-      .attr('width', w)
-      .attr('height', h)
-      .style('fill', 'none')
-      .style('pointer-events', 'all')
-      .on('mouseover', () => { focus.style('display', null) })
-      .on('mouseout', () => { focus.style('display', 'none') })
-      .on('mousemove', function () {
-        /* eslint-disable no-invalid-this */
-        const x0 = x.invert(d3.mouse(this)[0])
-        /* eslint-enable */
-        const i = bisectDate(data, x0, 1)
-        const d0 = data[i - 1]
-        const d1 = data[i]
-        const d = x0 - d0.x > d1.x - x0 ? d1 : d0
-
-        focus.select('circle.y')
-          .attr('transform', `translate(${x(d.x)}, ${y(d.y)})`)
-
-        focus.select('line.y')
-          .attr('transform', `translate(${w * -1}, ${y(d.y)})`)
-          .attr('x2', w + w)
-
-        focus.select('line.x')
-          .attr('transform', `translate(${x(d.x)}, ${y(d.y)})`)
-          .attr('y2', h - y(d.y))
-
-      })
+    this._svg.append('svg:path')
+      .attr('class', 'line')
+      .attr('d', this._line(data))
 
   }
 

@@ -8,8 +8,6 @@ const RepoSchema = new Schema({
   name: { type: String, required: true },
   complete: { type: Boolean, default: false },
 
-  shot: String,
-
   summary: {
     createdAt: Date,
     lastFetch: Date,

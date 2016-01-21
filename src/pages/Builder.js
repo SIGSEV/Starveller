@@ -74,15 +74,12 @@ class Builder extends Component {
         <div className='repos-graphs'>
           <div className='repos-graphs--list'>
 
-            <RepoSearch
-              onSelect={::this.handleAddRepo} />
+            <div className='mb'>
+              <RepoSearch
+                onSelect={::this.handleAddRepo} />
+            </div>
 
             <div className='repos-selection'>
-              {reposInProgress.map(name => (
-                <div key={name} className='repos-selection-item is-fetching'>
-                  {name}
-                </div>
-              ))}
               {current.map((r, i) => (
                 <div
                   key={r._id}
@@ -90,6 +87,11 @@ class Builder extends Component {
                   style={{ background: battleColors[i] }}
                   onClick={this.removeRepo.bind(this, r)}>
                   {r.name}
+                </div>
+              ))}
+              {reposInProgress.map(name => (
+                <div key={name} className='repos-selection-item is-fetching'>
+                  {name}
                 </div>
               ))}
             </div>

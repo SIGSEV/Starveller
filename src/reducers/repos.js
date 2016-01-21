@@ -85,8 +85,8 @@ export default handleActions({
   REPO_SELECTED: (state, { payload: repo }) => ({
     ...state,
     current: [
-      repo._id,
-      ...state.current
+      ...state.current,
+      repo._id
     ]
   }),
 

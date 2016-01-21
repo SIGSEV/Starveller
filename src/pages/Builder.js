@@ -2,6 +2,8 @@ import _ from 'lodash'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
+import battleColors from 'helpers/battle-colors'
+
 import RepoSearch from 'components/RepoSearch'
 import StarsEvolution from 'components/graphs/StarsEvolution'
 
@@ -81,8 +83,12 @@ class Builder extends Component {
                   {name}
                 </div>
               ))}
-              {current.map(r => (
-                <div key={r._id} className='repos-selection-item' onClick={this.removeRepo.bind(this, r)}>
+              {current.map((r, i) => (
+                <div
+                  key={r._id}
+                  className='repos-selection-item'
+                  style={{ background: battleColors[i] }}
+                  onClick={this.removeRepo.bind(this, r)}>
                   {r.name}
                 </div>
               ))}

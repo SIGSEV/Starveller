@@ -4,6 +4,7 @@ import moment from 'moment'
 import d3 from 'd3'
 import React, { Component } from 'react'
 
+import battleColors from 'helpers/battle-colors'
 import { getReposBoundaries } from 'helpers/repos'
 
 class StarsEvolution extends Component {
@@ -142,7 +143,9 @@ class StarsEvolution extends Component {
 
   }
 
-  drawRepo (repo) {
+  drawRepo (repo, i) {
+
+    const color = battleColors[i] || 'black'
 
     // data to show
     const data = _.has(repo, 'stars.byDay') && repo.stars.byDay.length
@@ -155,12 +158,15 @@ class StarsEvolution extends Component {
       data.push({ x: new Date(), y: lastElem.y })
     }
 
+    /* disable fill for the moment
     this._svg.append('svg:path')
       .attr('class', 'area')
-      .attr('d', this._area(data))
+      .style('fill', color)
+      .attr('d', this._area(data))*/
 
     this._svg.append('svg:path')
       .attr('class', 'line')
+      .style('stroke', color)
       .attr('d', this._line(data))
 
   }

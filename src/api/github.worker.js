@@ -97,7 +97,12 @@ export const initRepo = name => {
   })
 
   .then(repo => {
-    if (!repo.lastFetch || moment(repo.lastFetch).diff(moment(), 'days') < -1) {
+    // prevent fetch too big repos
+    if (repo.summary.starsCount > 30000) {
+      /* eslint-disable no-console */
+      console.log(`repo ${repo.name} is too big. no fetch`)
+      /* eslint-enable no-console */
+    } else if (!repo.lastFetch || moment(repo.lastFetch).diff(moment(), 'days') < -1) {
       worker.push(repo)
     }
     return _.omit(repo, 'cache')

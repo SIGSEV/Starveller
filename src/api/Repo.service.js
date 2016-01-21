@@ -5,6 +5,8 @@ import webshot from 'webshot'
 import Repo from 'api/Repo.model'
 import config from 'config'
 
+import homeRepos from 'data/home-repos'
+
 import { initRepo } from 'api/github.worker'
 
 const githubToken = process.env.GITHUB
@@ -17,14 +19,7 @@ export const getAll = () => {
 }
 
 export const getTrending = () => {
-
-  const queries = [
-    'facebook/react',
-    'lodash/lodash',
-    'jashkenas/underscore',
-    'GuillaumeBadi/Verbal-Exprejon'
-  ].map(n => getByName(n, 'name summary stars'))
-
+  const queries = homeRepos.map(n => getByName(n, 'name summary stars'))
   return Promise.all(queries)
 }
 

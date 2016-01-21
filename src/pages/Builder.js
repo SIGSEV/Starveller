@@ -2,7 +2,7 @@ import _ from 'lodash'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
-import battleColors from 'helpers/battle-colors'
+import battleColors from 'data/battle-colors'
 
 import RepoSearch from 'components/RepoSearch'
 import StarsEvolution from 'components/graphs/StarsEvolution'

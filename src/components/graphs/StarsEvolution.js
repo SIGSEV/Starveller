@@ -4,7 +4,7 @@ import moment from 'moment'
 import d3 from 'd3'
 import React, { Component } from 'react'
 
-import battleColors from 'helpers/battle-colors'
+import battleColors from 'data/battle-colors'
 import { getReposBoundaries } from 'helpers/repos'
 
 class StarsEvolution extends Component {

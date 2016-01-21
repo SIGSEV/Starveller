@@ -38,7 +38,7 @@ class Header extends Component {
 
           <div className='Header--search'>
             {!big && (
-              <RepoSearch autofocus onSelect={::this.goToRepo} />
+              <RepoSearch onSelect={::this.goToRepo} />
             )}
           </div>
 

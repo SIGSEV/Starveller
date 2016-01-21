@@ -14,6 +14,7 @@ const barsRepo = r => ({ ...r, bars: getBars(r, 30) })
 
 router.get('/repos', (req, res) => {
   repo.getAll()
+    .then(repos => repos.filter(r => r.summary.starsCount < 40000))
     .then(repos => _.sortByOrder(repos, 'summary.starsCount', 'desc').slice(0, 10))
     .then(repos => res.send(repos.map(_.flow(toObj, lightRepo))))
     .catch(err => res.send(err.code || 500, err))

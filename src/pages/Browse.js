@@ -31,6 +31,8 @@ class Browse extends Component {
 
         <h1>{'Browse all repos'}</h1>
 
+        <p className='mb2' style={{ color: 'orangered' }}>{'Due to Github API limitations, we cannot fetch repo with more than 40.000 stars for the moment. Dont try, bro.'}</p>
+
         <div className='repos-list-container'>
           <div className='repos-list-filter'>
             <h3>{'Languages'}</h3>

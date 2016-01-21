@@ -98,7 +98,7 @@ export const initRepo = name => {
 
   .then(repo => {
     // prevent fetch too big repos
-    if (repo.summary.starsCount > 30000) {
+    if (repo.summary.starsCount > 40000) {
       /* eslint-disable no-console */
       console.log(`repo ${repo.name} is too big. no fetch`)
       /* eslint-enable no-console */

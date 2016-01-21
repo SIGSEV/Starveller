@@ -1,6 +1,5 @@
 import _ from 'lodash'
 import express from 'express'
-import { shuffle } from 'lodash'
 
 import './db'
 import * as repo from 'api/Repo.service'
@@ -20,8 +19,7 @@ router.get('/repos', (req, res) => {
 })
 
 router.get('/random-repos', (req, res) => {
-  repo.getAll()
-    .then(repos => shuffle(repos).slice(0, 4))
+  repo.getTrending()
     .then(repos => repos.map(_.flow(toObj, barsRepo, lightRepo)))
     .then(repos => res.send(repos))
     .catch(err => res.send(err.code || 500, err))

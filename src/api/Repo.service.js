@@ -13,14 +13,26 @@ const githubToken = process.env.GITHUB
  * Fetch all repos summaries
  */
 export const getAll = () => {
-  return q.nfcall(::Repo.find, {}, 'name summary shot stars')
+  return q.nfcall(::Repo.find, {}, 'name summary stars')
+}
+
+export const getTrending = () => {
+
+  const queries = [
+    'facebook/react',
+    'lodash/lodash',
+    'jashkenas/underscore',
+    'GuillaumeBadi/Verbal-Exprejon'
+  ].map(n => getByName(n, 'name summary stars'))
+
+  return Promise.all(queries)
 }
 
 /**
  * Get a full repo
  */
-export const getByName = name => {
-  return q.nfcall(::Repo.findOne, { name })
+export const getByName = (name, projection = {}) => {
+  return q.nfcall(::Repo.findOne, { name }, projection)
 }
 
 /**

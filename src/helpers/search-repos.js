@@ -1,4 +1,5 @@
 import r from 'superagent'
+import { sortBy } from 'lodash'
 
 const github = 'https://api.github.com'
 
@@ -31,7 +32,7 @@ const searchRepos = term => Promise.all([
     r.get(url)
       .end((err, res) => {
         if (err) { return reject(err) }
-        const items = res.body.items || res.body
+        const items = res.body.items || sortBy(res.body, repo => -repo.stargazers_count)
         resolve(items.map(transformGithubRepo))
       })
   })

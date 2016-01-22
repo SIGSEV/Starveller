@@ -1,5 +1,6 @@
 .repos-list-container {
   display: flex;
+
 }
 
 .repos-list-filter {
@@ -29,5 +30,15 @@
         margin-top: 1em;
       }
     }
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .repos-list-container {
+    flex-direction: column;
+  }
+  .repos-list-filter {
+    margin-right: 0;
+    margin-bottom: 1rem;
   }
 }

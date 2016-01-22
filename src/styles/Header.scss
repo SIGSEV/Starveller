@@ -21,7 +21,6 @@
   height: $navHeight;
   width: 100%;
   max-width: 1000px;
-  min-width: 600px;
   margin: 0 auto;
   padding: 0 1em;
   display: flex;
@@ -30,6 +29,12 @@
 
 .Header--search {
   flex-grow: 1;
+
+  .RepoSearch {
+    @media screen and (max-width: 600px) {
+      display: none;
+    }
+  }
 }
 
 .Header--links {
@@ -43,10 +48,17 @@
 
 .HomeMarged {
   margin-top: -250px;
+  padding: 0 2rem;
   height: 250px;
   display: flex;
   flex-direction: column;
   align-items: center;
+  text-align: center;
+
+  @media screen and (max-width: 600px) {
+    margin-top: -300px;
+    height: 300px;
+  }
 
   h1 {
     font-size: 2rem;
@@ -56,7 +68,8 @@
   }
 
   .RepoSearch {
-    width: 400px;
+    width: 100%;
+    max-width: 400px;
     input {
       padding: 1.25em;
       border: none;

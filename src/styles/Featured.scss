@@ -21,6 +21,25 @@
     }
   }
 
+  @media screen and (max-width: 600px) {
+    height: 800px;
+    flex-direction: column;
+    > div {
+      flex-basis: 100% !important;
+      flex-direction: column;
+
+      &:nth-child(1) { flex-basis: 33%; }
+      &:nth-child(2) { flex-basis: 33%; }
+      &:nth-child(3) { flex-basis: 33%; }
+
+      & + div { margin: 1rem 0 0 0; }
+
+      > div {
+        & + div { margin: 1rem 0 0 0; }
+      }
+    }
+  }
+
 }
 
 .feat {

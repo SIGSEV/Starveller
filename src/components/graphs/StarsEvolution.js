@@ -9,7 +9,7 @@ import { getReposBoundaries } from 'helpers/repos'
 
 class StarsEvolution extends Component {
 
-  shouldComponentUpdate = shouldPureComponentUpdate
+  shouldComponentUpdate = shouldPureComponentUpdate;
 
   static defaultProps = {
     repos: []

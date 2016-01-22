@@ -28,7 +28,7 @@ const job = (repo, done) => {
       const allStars = hard
         ? stars
         : repo.cache.stars
-            .concat(_.reject(stars, s => { return s.page === repo.cache.lastPage }))
+            .concat(_.reject(stars, s => s.page === repo.cache.lastPage))
             .sort((a, b) => moment(a.date).isBefore(b.date) ? 1 : -1)
 
       const starsDates = allStars.map(s => s.date)

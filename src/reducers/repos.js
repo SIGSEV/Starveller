@@ -27,7 +27,10 @@ export default handleActions({
       current: [repo._id],
       all: {
         ...state.all,
-        [repo._id]: repo
+        [repo._id]: {
+          ...state.all[repo._id] || {},
+          ...repo
+        }
       }
     }
   },
@@ -62,7 +65,10 @@ export default handleActions({
       ...state,
       all: {
         ...state.all,
-        [repo._id]: repo
+        [repo._id]: {
+          ...state.all[repo._id] || {},
+          ...repo
+        }
       }
     }
   },

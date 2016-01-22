@@ -115,6 +115,7 @@ export const fetchRepo = name => {
           name,
           summary: {
             lastFetch: new Date(),
+            language: src.language,
             createdAt: src.created_at,
             description: src.description,
             starsCount: src.stargazers_count,

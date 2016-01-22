@@ -12,6 +12,7 @@ const RepoSchema = new Schema({
     createdAt: Date,
     lastFetch: Date,
     description: String,
+    language: String,
     starsCount: { type: Number, default: 0 },
     forksCount: { type: Number, default: 0 },
     watchersCount: { type: Number, default: 0 }

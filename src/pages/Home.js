@@ -42,24 +42,22 @@ class Home extends Component {
             <Link to='/build'>{'Battle'}</Link>
           </div>
 
-          {trending.length >= 4 && (
-            <div className='Featured'>
+          <div className='Featured'>
 
-              <div>
-                <Feat1 repo={trending[0]} />
-              </div>
-
-              <div>
-                <Feat1 repo={trending[1]} />
-                <Feat1 repo={trending[2]} />
-              </div>
-
-              <div>
-                <Feat2 repo={trending[3]} />
-              </div>
-
+            <div>
+              <Feat1 repo={trending[0]} />
             </div>
-          )}
+
+            <div>
+              <Feat1 repo={trending[1]} />
+              <Feat1 repo={trending[2]} />
+            </div>
+
+            <div>
+              <Feat2 repo={trending[3]} />
+            </div>
+
+          </div>
 
         </div>
       </div>
@@ -78,21 +76,31 @@ const FeatTitle = ({ repo }) => {
   )
 }
 
-const Feat1 = ({ repo }) => (
-  <div className='feat feat-1'>
-    <div className='feat-front'>
+const Feat1 = ({ repo }) => {
+  if (!repo) { return <FeatFake /> }
+  return (
+    <div className='feat feat-1'>
+      <div className='feat-front'>
+        <FeatTitle repo={repo} />
+        <div className='feat--lang'>{'Javascript'}</div>
+      </div>
+      <DaysBars stars={repo.bars} />
+    </div>
+  )
+}
+
+const Feat2 = ({ repo }) => {
+  if (!repo) { return <FeatFake /> }
+  return (
+    <div className='feat feat-2'>
       <FeatTitle repo={repo} />
       <div className='feat--lang'>{'Javascript'}</div>
     </div>
-    <DaysBars stars={repo.bars} />
-  </div>
-)
+  )
+}
 
-const Feat2 = ({ repo }) => (
-  <div className='feat feat-2'>
-    <FeatTitle repo={repo} />
-    <div className='feat--lang'>{'Javascript'}</div>
-  </div>
+const FeatFake = () => (
+  <div className='feat feat-fake'/>
 )
 
 export default Home

@@ -17,21 +17,21 @@ router.get('/repos', (req, res) => {
     .then(repos => repos.filter(r => r.summary.starsCount < 40000))
     .then(repos => _.sortByOrder(repos, 'summary.starsCount', 'desc').slice(0, 10))
     .then(repos => res.send(repos.map(_.flow(toObj, lightRepo))))
-    .catch(err => res.send(err.code || 500, err))
+    .catch(err => res.status(err.code || 500).send(err))
 })
 
 router.get('/random-repos', (req, res) => {
   repo.getTrending()
     .then(repos => repos.map(_.flow(toObj, barsRepo, lightRepo)))
     .then(repos => res.send(repos))
-    .catch(err => res.send(err.code || 500, err))
+    .catch(err => res.status(err.code || 500).send(err))
 })
 
 router.post('/repos', (req, res) => {
   repo.ask(req.body.name)
     .then(_.flow(toObj, lightRepo))
     .then(repo => res.send(repo))
-    .catch(err => res.send(err.code || 500, err))
+    .catch(err => res.status(err.code || 500).send(err))
 })
 
 router.put('/repos', (req, res) => {
@@ -41,7 +41,7 @@ router.put('/repos', (req, res) => {
 router.delete('/repos', (req, res) => {
   repo.removeByName(req.body.name)
     .then(() => res.sendStatus(200))
-    .catch(err => res.send(err.code || 500, err))
+    .catch(err => res.status(err.code || 500).send(err))
 })
 
 router.get('/repos/:user/:repo', (req, res) => {
@@ -49,7 +49,7 @@ router.get('/repos/:user/:repo', (req, res) => {
   repo.ask(name)
     .then(_.flow(toObj, fullRepo))
     .then(repo => res.send(repo))
-    .catch(err => res.send(err.code || 500, err))
+    .catch(err => res.status(err.code || 500).send(err))
 })
 
 router.post('/repos/:user/:repo/events', (req) => {

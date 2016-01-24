@@ -20,3 +20,7 @@ export const getBars = (repo, n) => {
   for (let i = out.length; i < n; ++i) { out.unshift(0) }
   return out
 }
+
+export const reduceStars = (stars, maxSlices = 30) => {
+  return 5
+}

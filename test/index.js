@@ -1,6 +1,6 @@
 import { expect } from 'chai'
 
-import reduceBars from 'helpers/reduce-bars'
+import { reduceStars } from 'helpers/repos'
 
 describe('Reduce Bars', () => {
 
@@ -14,7 +14,7 @@ describe('Reduce Bars', () => {
       ['2016-02-02', 11]
     ]
 
-    expect(reduceBars(stars)).to.equal(5)
+    expect(reduceStars(stars)).to.equal(5)
   })
 
 })

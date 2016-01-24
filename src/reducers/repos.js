@@ -52,10 +52,7 @@ export default handleActions({
 
   REPOS_FETCHED: (state, { payload: repos }) => ({
     ...state,
-    all: {
-      ...state.all,
-      ..._.indexBy(repos, '_id')
-    }
+    all: _.merge({}, state.all, _.indexBy(repos, '_id'))
   }),
 
   // Enrich a repo

@@ -13,7 +13,7 @@
     "start": "npm run start:app & npm run start:api & wait",
     "test": "NODE_PATH=$NODE_PATH:./src mocha --compilers js:babel-register",
     "test:watch": "NODE_PATH=$NODE_PATH:./src mocha -w --compilers js:babel-register --reporter min",
-    "lint": "eslint src webpack bin",
+    "lint": "eslint src webpack bin test",
     "pm2:setup": "pm2 deploy ecosystem.json production setup",
     "deploy": "pm2 deploy ecosystem.json production"
   },

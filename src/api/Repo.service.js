@@ -15,7 +15,7 @@ const githubToken = process.env.GITHUB
  * Fetch all repos summaries
  */
 export const getAll = () => {
-  return q.nfcall(::Repo.find, {}, 'name summary stars')
+  return q.nfcall(::Repo.find, {}, 'name summary')
 }
 
 export const getTrending = () => {

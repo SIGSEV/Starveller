@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 
 import config from 'config'
 import { repoResolved } from 'actions/repos'
+import { repoProgress } from 'actions/loader'
 
 import Header from 'components/Header'
 import Messages from 'components/Messages'
@@ -19,6 +20,10 @@ class App extends Component {
 
     socket.on('repoFetched', repo => {
       this.props.dispatch(repoResolved(repo))
+    })
+
+    socket.on('repoProgress--update', data => {
+      this.props.dispatch(repoProgress(data))
     })
   }
 

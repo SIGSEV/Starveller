@@ -22,7 +22,7 @@ const job = (repo, done) => {
   log(`Starting job for ${name}.`)
 
   // collect stars
-  RepoService.fetchStars(name, hard ? 1 : repo.cache.lastPage)
+  RepoService.fetchStars(repo, hard ? 1 : repo.cache.lastPage)
     .then(stars => {
 
       const allStars = hard

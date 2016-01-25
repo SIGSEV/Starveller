@@ -15,7 +15,8 @@ import { askRepo, setCurrent } from 'actions/repos'
 })
 @connect(
   state => ({
-    repo: state.repos.all[state.repos.current]
+    repo: state.repos.all[state.repos.current],
+    progress: state.loader.progress[state.repos.current] || 0
   })
 )
 class Repo extends Component {
@@ -27,7 +28,7 @@ class Repo extends Component {
   }
 
   render () {
-    const { repo } = this.props
+    const { repo, progress } = this.props
 
     if (!repo) { return this.renderPlaceholder() }
 
@@ -50,8 +51,11 @@ class Repo extends Component {
           <section className='graph'>
             {!repo.complete
               ? (
-                <div className='graph-loader'>
-                  <span className='mega-octicon octicon-sync' />
+                <div>
+                  <div className='graph-loader'>
+                    <span className='mega-octicon octicon-sync' />
+                    <p>{progress}{' %'}</p>
+                  </div>
                 </div>
               )
               : <StarsEvolution repo={repo} />}

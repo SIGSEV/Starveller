@@ -4,6 +4,7 @@ import webshot from 'webshot'
 
 import Repo from 'api/Repo.model'
 import config from 'config'
+import { getSocketServer } from 'api/io'
 
 import homeRepos from 'data/home-repos'
 
@@ -61,10 +62,12 @@ export const getOnePopulated = name => {
   return q.nfcall(::Repo.findOne, { name }, '-cache')
 }
 
+const starProgress = {}
+
 /**
  * Fetch github stars
  */
-const fetchStarPage = (name, page) => {
+const fetchStarPage = (name, _id, starsCount, page, io) => {
 
   return q.Promise((resolve, reject) => {
 
@@ -76,8 +79,13 @@ const fetchStarPage = (name, page) => {
 
         const stars = res.body.map(star => ({ date: star.starred_at, page }))
 
+        starProgress[name] += res.body.length
+        const value = ((starProgress[name] / starsCount) * 100).toFixed(2)
+
+        io.repoProgress({ _id, value })
+
         if (res.body.length === 100) {
-          return fetchStarPage(name, ++page)
+          return fetchStarPage(name, _id, starsCount, ++page, io)
             .then(data => { resolve(data.concat(stars)) })
             .catch(reject)
         }
@@ -89,8 +97,10 @@ const fetchStarPage = (name, page) => {
 
 }
 
-export const fetchStars = (name, fromPage) => {
-  return fetchStarPage(name, fromPage)
+export const fetchStars = ({ _id, name, summary: { starsCount } }, fromPage) => {
+  starProgress[name] = 0
+  const io = getSocketServer()
+  return fetchStarPage(name, _id, starsCount, fromPage, io)
 }
 
 /**

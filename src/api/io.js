@@ -16,6 +16,13 @@ class SocketServer {
     this._io.emit('repoFetched', repo)
   }
 
+  /**
+   *  Emit an event to all connected client with a repo id and current fetch progress
+   */
+  repoProgress (data) {
+    this._io.emit('repoProgress--update', data)
+  }
+
 }
 
 let io = null

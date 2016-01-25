@@ -32,7 +32,7 @@ class Repo extends Component {
     if (!repo) { return this.renderPlaceholder() }
 
     return (
-      <div>
+      <div className='container mt2'>
 
         <header className='repo-header'>
 

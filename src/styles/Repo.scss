@@ -4,7 +4,7 @@
   @extend .f;
   align-items: baseline;
   margin-bottom: 1em;
-  padding: 2em;
+  padding: 2em 0;
 
   .back {
     margin-right: 2em;
@@ -25,7 +25,6 @@
 
   .graph {
     flex: 1;
-    margin: 1em;
   }
 
 }

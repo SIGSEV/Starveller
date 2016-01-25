@@ -59,6 +59,12 @@ class Home extends Component {
 
           </div>
 
+          <div className='z mt4'>
+            <Link to='browse' className='btn blue'>
+              {'Browse more...'}
+            </Link>
+          </div>
+
         </div>
       </div>
     )

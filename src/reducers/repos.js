@@ -43,7 +43,7 @@ export default handleActions({
       trending: repos.map(r => r._id),
       all: {
         ...state.all,
-        ..._.indexBy(repos, '_id')
+        ..._.keyBy(repos, '_id')
       }
     }
   },
@@ -52,7 +52,7 @@ export default handleActions({
 
   REPOS_FETCHED: (state, { payload: repos }) => ({
     ...state,
-    all: _.merge({}, state.all, _.indexBy(repos, '_id'))
+    all: _.merge({}, state.all, _.keyBy(repos, '_id'))
   }),
 
   // Enrich a repo

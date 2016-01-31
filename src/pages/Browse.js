@@ -24,7 +24,7 @@ class Browse extends Component {
   render () {
     const { list, loading } = this.props
 
-    const sortedList = _.sortByOrder(list, 'summary.starsCount', 'desc')
+    const sortedList = _.orderBy(list, 'summary.starsCount', 'desc')
 
     return (
       <div className='container'>

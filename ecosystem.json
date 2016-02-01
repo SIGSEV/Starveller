@@ -13,7 +13,7 @@
   "deploy": {
     "production": {
       "user"       : "pm2",
-      "host"       : "fugitive.link",
+      "host"       : "bangular.io",
       "ref"        : "origin/master",
       "repo"       : "git@github.com:SIGSEV/Starveller.git",
       "path"       : "/var/www/starveller",

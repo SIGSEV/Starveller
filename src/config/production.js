@@ -2,15 +2,15 @@ export default {
 
   env: 'production',
 
-  port: 3004,
+  port: 3044,
   socketPort: 3067,
 
-  clientUrl: 'http://starveller.fugitive.link/',
+  clientUrl: 'http://starveller.bangular.io/',
 
   getApi: () => {
     return process.env.BROWSER
       ? '/api'
-      : 'http://localhost:3004/api'
+      : 'http://localhost:3044/api'
   }
 
 }

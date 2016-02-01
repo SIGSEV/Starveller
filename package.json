@@ -43,7 +43,8 @@
     "socket.io": "^1.4.5",
     "superagent": "^1.7.2",
     "webshot": "^0.17.0",
-    "history": "^2.0.0-rc2"
+    "history": "^2.0.0-rc2",
+    "node-schedule": "^0.6.0"
   },
   "devDependencies": {
     "autoprefixer-loader": "^3.2.0",

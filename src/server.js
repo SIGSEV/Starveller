@@ -26,6 +26,8 @@ if (config.env === 'production') {
     res.sendFile(path.join(config.assetsFolder, 'favicon.ico'))
   })
 
+  require('api/cron')
+
   initSocketServer()
 }
 

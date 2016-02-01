@@ -19,6 +19,10 @@ export const getAll = () => {
   return q.nfcall(::Repo.find, {}, 'name summary')
 }
 
+export const refreshAll = () => {
+  return getAll().then(repos => repos.forEach(repo => initRepo(repo.name)))
+}
+
 export const getTrending = () => {
   const queries = homeRepos.map(n => getByName(n, 'name summary stars'))
   return Promise.all(queries)

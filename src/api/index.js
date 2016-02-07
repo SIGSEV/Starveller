@@ -34,6 +34,13 @@ router.post('/repos', (req, res) => {
     .catch(err => res.status(err.code || 500).send(err))
 })
 
+router.put('/repos/:id/refresh', (req, res) => {
+  repo.refreshOne(req.body.name)
+    .then(_.flow(toObj, fullRepo))
+    .then(repo => res.send(repo))
+    .catch(err => res.status(err.code || 500).send(err))
+})
+
 router.put('/repos', (req, res) => {
   response(repo.createRepo.bind(this, req.body.name), res)
 })

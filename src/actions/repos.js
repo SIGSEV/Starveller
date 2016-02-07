@@ -120,6 +120,18 @@ export const deleteRepo = repo => dispatch => {
     })
 }
 
+/**
+ * Refresh repo
+ */
+export const refreshRepo = repo => dispatch => {
+  r.put(`${api}/repos/${repo._id}/refresh`)
+    .send(repo)
+    .end((err, res) => {
+      if (err) { return }
+      dispatch(repoResolved(res.body))
+    })
+}
+
 export const repoResolved = createAction('REPO_RESOLVED', repo => repo)
 
 const selectRepo = createAction('REPO_SELECTED', repo => repo)

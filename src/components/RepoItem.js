@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 
 import RepoLink from 'components/RepoLink'
 
-import { deleteRepo } from 'actions/repos'
+import { deleteRepo, refreshRepo } from 'actions/repos'
 
 if (process.env.BROWSER) { require('styles/RepoItem.scss') }
 
@@ -14,6 +14,12 @@ class RepoItem extends Component {
     e.preventDefault()
     const { dispatch, repo } = this.props
     dispatch(deleteRepo(repo))
+  }
+
+  refreshRepo (e) {
+    e.preventDefault()
+    const { dispatch, repo } = this.props
+    dispatch(refreshRepo(repo))
   }
 
   renderBlank () {
@@ -56,6 +62,8 @@ class RepoItem extends Component {
               <span>
                 {' - '}
                 <a href='' onClick={::this.deleteRepo}>{'delete'}</a>
+                {' - '}
+                <a href='' onClick={::this.refreshRepo}>{'refresh'}</a>
               </span>
             )}
           </div>

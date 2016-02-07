@@ -2,6 +2,7 @@ import _ from 'lodash'
 import mongoose, { Schema } from 'mongoose'
 
 import { getSocketServer } from 'api/io'
+import { toObj, fullRepo } from 'api/transformRepo'
 
 const RepoSchema = new Schema({
 
@@ -39,7 +40,8 @@ RepoSchema.post('save', repo => {
   const io = getSocketServer()
   if (!repo.complete || !io) { return }
 
-  io.repoFetched(_.omit(repo.toObject(), 'cache'))
+  const finalRepo = _.flow(toObj, fullRepo)(repo)
+  io.repoFetched(finalRepo)
 })
 
 export default mongoose.model('Repo', RepoSchema)

@@ -3,13 +3,11 @@ import express from 'express'
 
 import './db'
 import * as repo from 'api/Repo.service'
+import { toObj, lightRepo, fullRepo } from 'api/transformRepo'
 import { getBars } from 'helpers/repos'
 
 const router = express.Router()
 
-const toObj = r => r.toObject()
-const lightRepo = r => _.omit(r, ['cache', 'stars'])
-const fullRepo = r => _.omit(r, ['cache'])
 const barsRepo = r => ({ ...r, bars: getBars(r, 30) })
 
 router.get('/repos', (req, res) => {

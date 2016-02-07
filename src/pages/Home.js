@@ -3,9 +3,8 @@ import { Link } from 'react-router'
 import { connect } from 'react-redux'
 import { prefetch } from 'react-fetcher'
 
-import DaysBars from 'components/graphs/DaysBars'
 import RepoSearch from 'components/RepoSearch'
-import RepoLink from 'components/RepoLink'
+import { Feat1, Feat2 } from 'components/Featured'
 
 import { fetchTrendingRepos, askAndGo } from 'actions/repos'
 
@@ -71,43 +70,5 @@ class Home extends Component {
   }
 
 }
-
-const FeatTitle = ({ repo }) => {
-  const [author, name] = repo.name.split('/')
-  return (
-    <RepoLink repo={repo} className='feat--title mb02'>
-      {`${author}/`}
-      <strong>{name}</strong>
-    </RepoLink>
-  )
-}
-
-const Feat1 = ({ repo }) => {
-  if (!repo) { return <FeatFake /> }
-  return (
-    <div className='feat feat-1'>
-      <div className='feat-front'>
-        <FeatTitle repo={repo} />
-        <div className='feat--lang'>{'Javascript'}</div>
-      </div>
-      <DaysBars stars={repo.bars} />
-    </div>
-  )
-}
-
-const Feat2 = ({ repo }) => {
-  if (!repo) { return <FeatFake /> }
-  return (
-    <div className='feat feat-2'>
-      <FeatTitle repo={repo} />
-      <div className='feat--lang'>{'Javascript'}</div>
-      <div className='feat--desc'>{repo.summary.description}</div>
-    </div>
-  )
-}
-
-const FeatFake = () => (
-  <div className='feat feat-fake'/>
-)
 
 export default Home

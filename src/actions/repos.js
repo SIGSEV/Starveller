@@ -1,5 +1,5 @@
 import r from 'superagent'
-import { pushState } from 'redux-router'
+import { push } from 'redux-router'
 import moment from 'moment'
 import { createAction } from 'redux-actions'
 
@@ -78,7 +78,7 @@ export const setCurrent = createAction('SET_CURRENT', repo => repo)
 
 export const goToRepo = repo => dispatch => {
   dispatch(setCurrent(repo))
-  dispatch(pushState(null, `${repo.name}`))
+  dispatch(push(null, `${repo.name}`))
 }
 
 /**

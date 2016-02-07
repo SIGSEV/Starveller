@@ -42,10 +42,14 @@ class Header extends Component {
             <Link
               to='browse'
               onClick={this.props.refreshAllRepos}>
-              {'Browse all'}
+              <strong>
+                {'Browse'}
+              </strong>
             </Link>
 
-            <Link to='about'>{'About'}</Link>
+            <Link to='battle'>
+              <strong>{'Compare'}</strong>
+            </Link>
 
           </div>
         </div>

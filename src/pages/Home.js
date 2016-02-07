@@ -37,9 +37,9 @@ class Home extends Component {
 
           <div className='f mb2'>
             <h2 className='fg'>{'Featured repos'}</h2>
-            <Link to='/browse'>{'Browse all'}</Link>
+            <Link to='browse'>{'Browse all'}</Link>
             <span className='bullet' />
-            <Link to='/build'>{'Battle'}</Link>
+            <Link to='battle'>{'Battle'}</Link>
           </div>
 
           <div className='Featured'>

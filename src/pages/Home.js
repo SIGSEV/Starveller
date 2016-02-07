@@ -101,6 +101,7 @@ const Feat2 = ({ repo }) => {
     <div className='feat feat-2'>
       <FeatTitle repo={repo} />
       <div className='feat--lang'>{'Javascript'}</div>
+      <div className='feat--desc'>{repo.summary.description}</div>
     </div>
   )
 }

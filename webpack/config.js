@@ -6,7 +6,7 @@ const env = process.env.NODE_ENV || 'development'
 export default {
 
   resolve: {
-    modulesDirectories: ['node_modules', 'src'],
+    modulesDirectories: ['node_modules', 'src']
   },
 
   loaders: [{

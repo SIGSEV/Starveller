@@ -40,7 +40,7 @@ const searchRepos = term => Promise.all([
 ])
   .then(([githubRepos]) => {
     const res = [
-      ...githubRepos,
+      ...githubRepos
     ]
     return res
   })

@@ -74,7 +74,7 @@ worker.drain = (...args) => {
 
 export default worker
 
-export const initRepo = name => {
+export const initRepo = (name, forceStarsFetch) => {
 
   // fetch repo from db, and summary from github
   return q.all([
@@ -97,14 +97,15 @@ export const initRepo = name => {
   })
 
   .then(repo => {
-    // prevent fetch too big repos
-    if (repo.summary.starsCount > 40000) {
-      /* eslint-disable no-console */
-      console.log(`repo ${repo.name} is too big. no fetch`)
-      /* eslint-enable no-console */
-    } else if (!repo.lastFetch || moment(repo.lastFetch).diff(moment(), 'days') < -1) {
+
+    const shouldFetchStars = !!forceStarsFetch
+      || !repo.lastFetch
+      || moment(repo.lastFetch).diff(moment(), 'days') < -1
+
+    if (shouldFetchStars && repo.summary.starsCount < 40000) {
       worker.push(repo)
     }
+
     return _.omit(repo, 'cache')
   })
 

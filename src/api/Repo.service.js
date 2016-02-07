@@ -20,7 +20,7 @@ export const getAll = () => {
 }
 
 export const refreshAll = () => {
-  return getAll().then(repos => repos.forEach(repo => initRepo(repo.name)))
+  return getAll().then(repos => repos.forEach(repo => initRepo(repo.name, true)))
 }
 
 export const getTrending = () => {

@@ -11,7 +11,11 @@ import render from 'middlewares/render'
 
 const server = express()
 
-server.use(morgan('dev'))
+const morganFormat = config.env === 'development'
+  ? 'dev'
+  : ':date[clf] :remote-addr :method :url :status :response-time ms - :res[content-length]'
+
+server.use(morgan(morganFormat))
 
 if (config.env === 'development') {
   require('middlewares/dev-server').default(server)

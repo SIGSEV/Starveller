@@ -78,7 +78,7 @@ export const setCurrent = createAction('SET_CURRENT', repo => repo)
 
 export const goToRepo = repo => dispatch => {
   dispatch(setCurrent(repo))
-  dispatch(push(null, `${repo.name}`))
+  dispatch(push(`${repo.name}`))
 }
 
 /**

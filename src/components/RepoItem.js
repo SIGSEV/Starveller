@@ -38,14 +38,19 @@ class RepoItem extends Component {
     // placeholder for RepoItem, while loading
     if (blank) { return this.renderBlank() }
 
+    const { picture } = repo.summary
     const [author, name] = repo.name.split('/')
+
+    const imageStyle = {
+      background: picture ? `url(${picture})` : 'rgba(0, 0, 0, 0.1)'
+    }
 
     return (
       <div
         className='RepoItem'>
 
         <header>
-          <div className='img' />
+          <div className='img' style={imageStyle} />
         </header>
 
         <section>

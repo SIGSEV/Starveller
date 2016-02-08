@@ -10,6 +10,7 @@ const RepoSchema = new Schema({
   complete: { type: Boolean, default: false },
 
   summary: {
+    picture: String,
     createdAt: Date,
     lastFetch: Date,
     description: String,

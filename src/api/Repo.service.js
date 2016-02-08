@@ -132,6 +132,7 @@ export const fetchRepo = name => {
         resolve({
           name,
           summary: {
+            picture: src.owner.avatar_url,
             lastFetch: new Date(),
             language: src.language,
             createdAt: src.created_at,

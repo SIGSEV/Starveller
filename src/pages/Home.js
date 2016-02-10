@@ -36,8 +36,6 @@ class Home extends Component {
 
           <div className='f mb2'>
             <h2 className='fg'>{'Featured repos'}</h2>
-            <Link to='browse'>{'Browse all'}</Link>
-            <span className='bullet' />
             <Link to='battle'>{'Battle'}</Link>
           </div>
 
@@ -56,12 +54,6 @@ class Home extends Component {
               <Feat2 repo={trending[3]} />
             </div>
 
-          </div>
-
-          <div className='z mt4'>
-            <Link to='browse' className='btn blue'>
-              {'Browse more...'}
-            </Link>
           </div>
 
         </div>

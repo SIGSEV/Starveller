@@ -1,6 +1,5 @@
 import q from 'q'
 import r from 'superagent'
-import webshot from 'webshot'
 
 import Repo from 'api/Repo.model'
 import config from 'config'
@@ -150,41 +149,7 @@ export const fetchRepo = name => {
 export const ask = repoName => {
   return getByName(repoName)
     .then(repo => {
-      if (!repo) {
-        return initRepo(repoName)
-      }
+      if (!repo) { return initRepo(repoName) }
       return repo
     })
-}
-
-export const shot = repo => {
-
-  const { name } = repo
-  const url = `${config.clientUrl}${name}/shot`
-  const stream = webshot(url, {
-    phantomPath: '/usr/bin/phantomjs',
-    shotOffset: {
-      top: 70,
-      left: 82,
-      right: 162,
-      bottom: 317
-    },
-    errorIfJSException: true
-  })
-  // top: 50, left: 62, right: 124, bottom: 268
-
-  const chunks = []
-
-  stream.on('data', chunk => {
-    chunks.push(chunk)
-  })
-
-  stream.on('end', () => {
-    repo.shot = Buffer.concat(chunks).toString('base64')
-    repo.save()
-    /* eslint-disable no-console */
-    console.log(`[SCREENSHOTED]> ${name}`)
-    /* eslint-enable no-console */
-  })
-
 }

@@ -31,7 +31,7 @@ class Repo extends Component {
   renderLimitError () {
     return (
       <div className='mt3' style={{ color: 'orangered', textAlign: 'center' }}>
-        <p className='mb'>{'Due to Github API limitations, we cannot fetch repo with more than 40.000 stars for the moment.'}</p>
+        <p className='mb'>{'Due to Github API limitations, we cannot fetch repo with more than 40.000 stars at the moment.'}</p>
         <p>
           <a href='' target='_blank'>Sign the petition here</a>
           <span className='bullet' />

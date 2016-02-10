@@ -11,6 +11,7 @@ const RepoSchema = new Schema({
 
   summary: {
     picture: String,
+    mainColor: String,
     createdAt: Date,
     lastFetch: Date,
     description: String,

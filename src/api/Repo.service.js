@@ -1,8 +1,8 @@
 import q from 'q'
 import r from 'superagent'
+import Vibrant from 'node-vibrant'
 
 import Repo from 'api/Repo.model'
-import config from 'config'
 import { getSocketServer } from 'api/io'
 
 import homeRepos from 'data/home-repos'
@@ -118,6 +118,23 @@ export const createEvent = ({ name, data: { title, link, comment } }) => {
   return updateByName(name, { $push: { events: { title, link, comment } } })
 }
 
+const extractColor = url => {
+  return q.Promise(resolve => {
+
+    r.get(url)
+      .end((err, res) => {
+        if (err) { return resolve(null) }
+        const v = new Vibrant(res.body)
+
+        v.getPalette((err, palette) => {
+          if (err || !palette.Vibrant) { return resolve(null) }
+          resolve(palette.Vibrant.getHex())
+        })
+      })
+
+  })
+}
+
 export const fetchRepo = name => {
 
   return q.Promise((resolve, reject) => {
@@ -128,19 +145,27 @@ export const fetchRepo = name => {
 
         const src = res.body
 
-        resolve({
-          name,
-          summary: {
-            picture: src.owner.avatar_url,
-            lastFetch: new Date(),
-            language: src.language,
-            createdAt: src.created_at,
-            description: src.description,
-            starsCount: src.stargazers_count,
-            forksCount: src.forks,
-            watchersCount: src.subscribers_count
-          }
-        })
+        const picture = src.owner.avatar_url
+        extractColor(picture)
+          .then(mainColor => {
+
+            resolve({
+              name,
+              summary: {
+                picture,
+                mainColor,
+                lastFetch: new Date(),
+                language: src.language,
+                createdAt: src.created_at,
+                description: src.description,
+                starsCount: src.stargazers_count,
+                forksCount: src.forks,
+                watchersCount: src.subscribers_count
+              }
+            })
+
+          })
+
       })
   })
 

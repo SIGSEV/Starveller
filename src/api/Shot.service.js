@@ -2,8 +2,6 @@ import webshot from 'webshot'
 import imgur from 'imgur'
 import dotenv from 'dotenv'
 
-import config from 'config'
-
 dotenv.load()
 
 imgur.setClientId(process.env.IMGUR_CLIENT)

@@ -7,7 +7,7 @@ import { Link } from 'react-router'
 
 import StarsEvolution from 'components/graphs/StarsEvolution'
 
-import { askRepo, setCurrent } from 'actions/repos'
+import { askRepo, setCurrent, refreshRepo } from 'actions/repos'
 
 @prefetch(({ dispatch, params }) => {
   const { owner, reponame } = params
@@ -27,6 +27,11 @@ class Repo extends Component {
       <div></div>
     )
   }
+
+  refreshRepo = (e) => {
+    e.preventDefault()
+    this.props.dispatch(refreshRepo(this.props.repo))
+  };
 
   renderLimitError () {
     return (
@@ -57,6 +62,12 @@ class Repo extends Component {
               <i className='octicon octicon-mark-github' />
             </a>
             {repo.name}
+            {process.env.NODE_ENV === 'development' && (
+              <span>
+                {' - '}
+                <a href="" onClick={this.refreshRepo}>{'refresh'}</a>
+              </span>
+            )}
           </div>
 
         </header>

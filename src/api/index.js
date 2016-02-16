@@ -2,6 +2,7 @@ import _ from 'lodash'
 import express from 'express'
 
 import './db'
+import config from 'config'
 import * as repo from 'api/Repo.service'
 import { toObj, lightRepo, fullRepo } from 'api/transformRepo'
 import { getBars } from 'helpers/repos'
@@ -33,6 +34,8 @@ router.post('/repos', (req, res) => {
 })
 
 router.put('/repos/:id/refresh', (req, res) => {
+  if (config.env === 'production') { return res.status(401).end() }
+
   repo.refreshOne(req.body.name)
     .then(_.flow(toObj, fullRepo))
     .then(repo => res.send(repo))
@@ -44,6 +47,8 @@ router.put('/repos', (req, res) => {
 })
 
 router.delete('/repos', (req, res) => {
+  if (config.env === 'production') { return res.status(401).end() }
+
   repo.removeByName(req.body.name)
     .then(() => res.sendStatus(200))
     .catch(err => res.status(err.code || 500).send(err))

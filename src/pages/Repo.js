@@ -4,11 +4,15 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { prefetch } from 'react-fetcher'
 import { Link } from 'react-router'
-import CopyButton from 'react-clipboard.js'
 
 import config from 'config'
 import StarsEvolution from 'components/graphs/StarsEvolution'
 import { askRepo, setCurrent, refreshRepo } from 'actions/repos'
+import { addMessage } from 'actions/messages'
+
+const Clipboard = process.env.BROWSER
+  ? require('clipboard')
+  : null
 
 @prefetch(({ dispatch, params }) => {
   const { owner, reponame } = params
@@ -23,6 +27,19 @@ import { askRepo, setCurrent, refreshRepo } from 'actions/repos'
 )
 class Repo extends Component {
 
+  copyToClipboard = (e) => {
+    const { markdownBadge } = this.getBadgeInfos()
+    const text = () => markdownBadge
+    const clipboard = new Clipboard(e.target, { text })
+    const destroyClipboard = () => clipboard.destroy()
+    clipboard.on('success', () => {
+      this.props.dispatch(addMessage({ type: 'info', data: 'Copied!' }))
+      destroyClipboard()
+    })
+    clipboard.on('error', destroyClipboard)
+    clipboard.onClick(e)
+  };
+
   renderPlaceholder () {
     return (
       <div></div>
@@ -33,6 +50,13 @@ class Repo extends Component {
     e.preventDefault()
     this.props.dispatch(refreshRepo(this.props.repo))
   };
+
+  getBadgeInfos () {
+    const { repo } = this.props
+    const badgeUrl = `${config.apiUrl}/repos/${repo.name}/badge`
+    const markdownBadge = `[![Week Stars](${badgeUrl})](${config.clientUrl}${repo.name})`
+    return { badgeUrl, markdownBadge }
+  }
 
   renderLimitError () {
     return (
@@ -53,8 +77,7 @@ class Repo extends Component {
     if (!repo) { return this.renderPlaceholder() }
     if (repo.summary.starsCount > 40000) { return this.renderLimitError() }
 
-    const badgeUrl = `${config.apiUrl}/repos/${repo.name}/badge`
-    const markdownBadge = `[![Week Stars](${badgeUrl})](${config.clientUrl}${repo.name})`
+    const { badgeUrl, markdownBadge } = this.getBadgeInfos()
 
     return (
       <div className='container mt2'>
@@ -76,9 +99,9 @@ class Repo extends Component {
 
           <div className='f'>
             <img src={badgeUrl} />
-            <CopyButton className='btn-small btn-copy ml' data-clipboard-text={markdownBadge}>
-              <i className='octicon octicon-clippy'></i>
-            </CopyButton>
+            <button onClick={this.copyToClipboard} style={{ marginLeft: '0.5rem' }}>
+              <span className='octicon octicon-clippy' />
+            </button>
           </div>
 
         </header>

@@ -53,7 +53,7 @@ class Repo extends Component {
     if (!repo) { return this.renderPlaceholder() }
     if (repo.summary.starsCount > 40000) { return this.renderLimitError() }
 
-    const badgeUrl = `${config.getApi()}/repos/${repo.name}/badge`
+    const badgeUrl = `${config.apiUrl}/repos/${repo.name}/badge`
     const markdownBadge = `[![Week Stars](${badgeUrl})](${config.clientUrl}${repo.name})`
 
     return (

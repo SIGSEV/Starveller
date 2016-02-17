@@ -17,7 +17,7 @@
       "ref"        : "origin/master",
       "repo"       : "git@github.com:SIGSEV/Starveller.git",
       "path"       : "/var/www/starveller",
-      "post-deploy": "pnpm i && npm run build && NODE_ENV=production NODE_PATH=$NODE_PATH:./src pm2 startOrRestart ecosystem.json --env production"
+      "post-deploy": "npm prune && pnpm i && npm run build && NODE_ENV=production NODE_PATH=$NODE_PATH:./src pm2 startOrRestart ecosystem.json --env production"
     }
   }
 }

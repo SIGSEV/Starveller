@@ -65,7 +65,7 @@ class Repo extends Component {
             {process.env.NODE_ENV === 'development' && (
               <span>
                 {' - '}
-                <a href="" onClick={this.refreshRepo}>{'refresh'}</a>
+                <a href='' onClick={this.refreshRepo}>{'refresh'}</a>
               </span>
             )}
           </div>

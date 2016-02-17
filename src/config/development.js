@@ -6,8 +6,6 @@ export default {
 
   clientUrl: 'http://localhost:3000/',
 
-  getApi: () => {
-    return 'http://localhost:3001'
-  }
+  getApi: () => 'http://localhost:3001'
 
 }

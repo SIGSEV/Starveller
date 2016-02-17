@@ -5,8 +5,8 @@ import { connect } from 'react-redux'
 import { prefetch } from 'react-fetcher'
 import { Link } from 'react-router'
 
+import config from 'config'
 import StarsEvolution from 'components/graphs/StarsEvolution'
-
 import { askRepo, setCurrent, refreshRepo } from 'actions/repos'
 
 @prefetch(({ dispatch, params }) => {
@@ -52,6 +52,8 @@ class Repo extends Component {
     if (!repo) { return this.renderPlaceholder() }
     if (repo.summary.starsCount > 40000) { return this.renderLimitError() }
 
+    const badgeUrl = `${config.getApi()}/repos/${repo.name}/badge`
+
     return (
       <div className='container mt2'>
 
@@ -69,6 +71,8 @@ class Repo extends Component {
               </span>
             )}
           </div>
+
+          <img src={badgeUrl} />
 
         </header>
 

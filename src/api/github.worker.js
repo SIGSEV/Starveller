@@ -4,6 +4,7 @@ import moment from 'moment'
 import _ from 'lodash'
 import q from 'q'
 
+import config from 'config'
 import Repo from 'api/Repo.model'
 import * as RepoService from 'api/Repo.service'
 
@@ -38,6 +39,7 @@ const job = (repo, done) => {
         complete: true,
         cache: {
           lastPage: Math.ceil(allStars.length / 100),
+          rank: getRepoRank(starsDates),
           stars: allStars
         },
         stars: {
@@ -114,6 +116,23 @@ export const initRepo = (name, forceStarsFetch) => {
 }
 
 // ---------------------------------------------
+
+function getRepoRank (starsDates) {
+
+  const oneWeekBefore = moment().subtract(7, 'days')
+  const relevant = starsDates.filter(date => moment(date).isAfter(oneWeekBefore))
+
+  const starsCount = relevant.length
+
+  const rank = config.ranks.reduce((res, cur, i) => {
+    if (starsCount >= cur) { return i + 2 }
+    return res
+  }, 1)
+
+  // Little security, just in case
+  return rank > 5 ? 5 : rank
+
+}
 
 function groupDatesByFormat (stars, format) {
 

@@ -39,6 +39,14 @@ export const getByName = (name, projection = {}) => {
 }
 
 /**
+ * Get the repo ranking for badge response
+ */
+export const getRanking = name => {
+  return q.nfcall(::Repo.findOne, { name }, 'cache')
+    .then(repo => repo.cache.rank)
+}
+
+/**
  * Get nbars for a repo
  */
 export const getBars = (name, n = 20) => {

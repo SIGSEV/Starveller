@@ -9,6 +9,8 @@ export default {
   port: 3000,
   socketPort: 3002,
 
+  ranks: [2, 5, 15, 30],
+
   assetsFolder: path.join(__dirname, '../assets'),
   distFolder: path.join(__dirname, '../../dist'),
 

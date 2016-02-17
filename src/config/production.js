@@ -7,10 +7,6 @@ export default {
 
   clientUrl: 'http://starveller.bangular.io/',
 
-  getApi: () => {
-    return process.env.BROWSER
-      ? '/api'
-      : 'http://localhost:3044/api'
-  }
+  getApi: () => process.env.BROWSER ? '/api' : 'http://localhost:3044/api'
 
 }

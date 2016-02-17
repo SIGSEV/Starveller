@@ -33,7 +33,8 @@ const RepoSchema = new Schema({
   cache: {
     lastFetch: { type: Date, default: new Date(0) },
     lastPage: { type: Number, default: 0 },
-    stars: { type: Array, default: [] }
+    stars: { type: Array, default: [] },
+    rank: { type: Number, default: 1 }
   }
 
 })

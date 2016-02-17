@@ -4,6 +4,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { prefetch } from 'react-fetcher'
 import { Link } from 'react-router'
+import CopyButton from 'react-clipboard.js'
 
 import config from 'config'
 import StarsEvolution from 'components/graphs/StarsEvolution'
@@ -53,6 +54,7 @@ class Repo extends Component {
     if (repo.summary.starsCount > 40000) { return this.renderLimitError() }
 
     const badgeUrl = `${config.getApi()}/repos/${repo.name}/badge`
+    const markdownBadge = `[![Week Stars](${badgeUrl})](${config.clientUrl}${repo.name})`
 
     return (
       <div className='container mt2'>
@@ -72,7 +74,12 @@ class Repo extends Component {
             )}
           </div>
 
-          <img src={badgeUrl} />
+          <div className='f'>
+            <img src={badgeUrl} />
+            <CopyButton className='btn-small btn-copy ml' data-clipboard-text={markdownBadge}>
+              <i className='octicon octicon-clippy'></i>
+            </CopyButton>
+          </div>
 
         </header>
 

@@ -33,6 +33,7 @@
     "node-vibrant": "^2.0.2",
     "q": "^1.4.1",
     "react": "^0.14.7",
+    "react-clipboard.js": "^0.1.7",
     "react-dom": "^0.14.7",
     "react-fetcher": "^0.3.0",
     "react-pure-render": "^1.0.2",

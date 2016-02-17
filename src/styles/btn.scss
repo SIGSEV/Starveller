@@ -15,3 +15,11 @@
     color: white;
   }
 }
+
+.btn-small {
+  padding: 0.25em 0.5em;
+  font-weight: bold;
+  &:hover {
+    color: rgba(black, 0.5);
+  }
+}

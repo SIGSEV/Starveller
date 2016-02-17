@@ -10,7 +10,7 @@
     "prod": "NODE_ENV=production npm run start:app",
     "start:app": "NODE_PATH=$NODE_PATH:./src node index --app",
     "start:api": "NODE_PATH=$NODE_PATH:./src nodemon --watch src/api --watch src/config index -- --api",
-    "start": "npm run start:app & npm run start:api & wait",
+    "start": "NODE_ENV=development npm run start:app & NODE_ENV=development npm run start:api & wait",
     "lint": "eslint src webpack bin",
     "pm2:setup": "pm2 deploy ecosystem.json production setup",
     "deploy": "pm2 deploy ecosystem.json production"

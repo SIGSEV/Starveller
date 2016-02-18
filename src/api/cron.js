@@ -6,7 +6,7 @@ console.log(`***************************************`)
 console.log(`**         SCHEDULING THINGS         **`)
 console.log(`***************************************`)
 
-schedule.scheduleJob('00 03 * * *', () => {
+schedule.scheduleJob('0 10 * * *', () => {
   console.log(`==> STARTING CRON, BRO`)
   refreshAll()
 })

@@ -50,14 +50,14 @@
 }
 
 .messagesTransition-leave.messagesTransition-leave-active {
-  animation: hide-alerter-message 0.5s;
+  animation: hide-alerter-message ease-out 0.5s;
 }
 
 @keyframes show-alerter-message {
   from {
     opacity: 0;
     max-height: 0;
-    transform: translate(0, 60px);
+    transform: translate(60px, 60px);
   }
   to {
     opacity: 1;

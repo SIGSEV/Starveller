@@ -7,6 +7,7 @@ import { Link } from 'react-router'
 
 import config from 'config'
 import StarsEvolution from 'components/graphs/StarsEvolution'
+import Badge from 'components/Badge'
 import { askRepo, setCurrent, refreshRepo } from 'actions/repos'
 import { addMessage } from 'actions/messages'
 
@@ -94,11 +95,11 @@ class Repo extends Component {
             {repo.name}
           </div>
 
-          <div className='f'>
-            <img src={badgeUrl} />
-            <button onClick={this.copyToClipboard} style={{ marginLeft: '0.5rem' }}>
+          <div className='f fa'>
+            <div className='ClipButton' onClick={this.copyToClipboard} style={{ marginRight: '0.5rem' }}>
               <span className='octicon octicon-clippy' />
-            </button>
+            </div>
+            <Badge src={badgeUrl} />
           </div>
 
         </header>

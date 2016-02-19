@@ -1,8 +1,7 @@
 @import './colors';
 
-.f {
-  display: flex;
-}
+.f { display: flex; }
+.fa { align-items: center; }
 
 .fg { flex-grow: 1; }
 .fs { flex-shrink: 0; }

@@ -33,6 +33,21 @@ class RepoSearch extends Component {
     }
   }
 
+  componentDidUpdate () {
+    const { selectedNode, scrollNode } = this
+    if (selectedNode && scrollNode) {
+      const selectedRect = selectedNode.getBoundingClientRect()
+      const scrollRect = scrollNode.getBoundingClientRect()
+      const diff = (selectedRect.top + selectedRect.height) - (scrollRect.top + scrollRect.height)
+      if (diff > 0) {
+        scrollNode.scrollTop += diff
+      }
+      if (selectedRect.top < scrollRect.top) {
+        scrollNode.scrollTop -= scrollRect.top - selectedRect.top
+      }
+    }
+  }
+
   handleChange (e) {
     const { value } = e.target
     const { loading } = this.state
@@ -133,29 +148,36 @@ class RepoSearch extends Component {
         )}
 
         {!!results.length && (
-          <div className='RepoSearch--results'>
-            {results.map(r => (
-              <div
-                key={r.name}
-                onClick={this.handleResulClick.bind(this, r.name)}
-                className={cx('RepoSearch--result', { active: r.name === results[selected].name })}>
+          <div className='RepoSearch--results' ref={node => this.scrollNode = node}>
+            {results.map(r => {
+              const active = r.name === results[selected].name
+              const additionnalProps = active
+                ? { ref: node => this.selectedNode = node }
+                : {}
+              return (
+                <div
+                  key={r.name}
+                  {...additionnalProps}
+                  onClick={this.handleResulClick.bind(this, r.name)}
+                  className={cx('RepoSearch--result', { active })}>
 
-                <div>
-                  <strong>{r.name}</strong>
-                  {!!r.desc && (
-                    <div className='RepoSearch--desc'>
-                      {r.desc}
-                    </div>
-                  )}
+                  <div>
+                    <strong>{r.name}</strong>
+                    {!!r.desc && (
+                      <div className='RepoSearch--desc'>
+                        {r.desc}
+                      </div>
+                    )}
+                  </div>
+
+                  <div className='RepoSearch--result-side'>
+                    {`${r.stars} `}
+                    <span className='octicon octicon-star'></span>
+                  </div>
+
                 </div>
-
-                <div className='RepoSearch--result-side'>
-                  {`${r.stars} `}
-                  <span className='octicon octicon-star'></span>
-                </div>
-
-              </div>
-            ))}
+              )
+            })}
           </div>
         )}
 

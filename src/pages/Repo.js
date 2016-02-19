@@ -85,16 +85,13 @@ class Repo extends Component {
         <header className='repo-header'>
 
           <div className='repo-name'>
-            <a target='_blank' href={`https://github.com/${repo.name}`} style={{ marginRight: '0.5em' }}>
+            <a
+              className='repo-name--github'
+              target='_blank' href={`https://github.com/${repo.name}`}
+              style={{ marginRight: '0.5em' }}>
               <i className='octicon octicon-mark-github' />
             </a>
             {repo.name}
-            {process.env.NODE_ENV === 'development' && (
-              <span>
-                {' - '}
-                <a href='' onClick={this.refreshRepo}>{'refresh'}</a>
-              </span>
-            )}
           </div>
 
           <div className='f'>
@@ -105,6 +102,12 @@ class Repo extends Component {
           </div>
 
         </header>
+
+        {process.env.NODE_ENV === 'development' && (
+          <span>
+            <a href='' onClick={this.refreshRepo}>{'refresh'}</a>
+          </span>
+        )}
 
         <section className='graphs-container'>
 

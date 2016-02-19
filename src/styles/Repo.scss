@@ -2,8 +2,8 @@
 
 .repo-header {
   @extend .f;
-  align-items: baseline;
-  justify-content: space-around;
+  align-items: center;
+  justify-content: space-between;
   margin-bottom: 1em;
   padding: 2em 0;
 
@@ -12,8 +12,14 @@
   }
 
   .repo-name {
+    display: flex;
+    align-items: center;
     font-weight: 700;
     font-size: 1.2em;
+  }
+
+  .repo-name--github {
+    @extend .z;
   }
 
 }

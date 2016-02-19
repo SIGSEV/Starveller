@@ -4,27 +4,29 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { Link } from 'react-router'
 
+import RepoSearch from 'components/RepoSearch'
+
 import { refreshAllRepos, refreshTrendingRepos, askAndGo } from 'actions/repos'
 
 if (process.env.BROWSER) { require('styles/Header.scss') }
 
 @connect(
   state => ({
-    big: state.router && state.router.location.pathname === '/'
+    isHome: state.router && state.router.location.pathname === '/'
   }),
   dispatch => bindActionCreators({ refreshAllRepos, refreshTrendingRepos, askAndGo }, dispatch)
 )
 class Header extends Component {
 
-  goToRepo (name) {
+  goToRepo = (name) => {
     this.props.askAndGo({ name })
   }
 
   render () {
-    const big = !!this.props.big
+    const { isHome } = this.props
 
     return (
-      <div className={cx('Header', { big })}>
+      <div className={cx('Header', { big: isHome })}>
         <div className='Header--content'>
 
           <Link
@@ -35,6 +37,9 @@ class Header extends Component {
           </Link>
 
           <div className='Header--search'>
+            {!isHome && (
+              <RepoSearch onSelect={this.goToRepo} />
+            )}
           </div>
 
           <div className='Header--links'>

@@ -77,7 +77,7 @@ class Repo extends Component {
     if (!repo) { return this.renderPlaceholder() }
     if (repo.summary.starsCount > 40000) { return this.renderLimitError() }
 
-    const { badgeUrl, markdownBadge } = this.getBadgeInfos()
+    const { badgeUrl } = this.getBadgeInfos()
 
     return (
       <div className='container mt2'>

@@ -78,7 +78,7 @@ export default worker
 
 export const initRepo = (name, forceStarsFetch) => {
 
-  console.log(`==> INITING REPO ${name}, BRO, should I force, bro? ${forceStarsFetch}`)
+  log(`==> INITING REPO ${name}, BRO, should I force, bro? ${forceStarsFetch}`)
 
   // fetch repo from db, and summary from github
   return q.all([

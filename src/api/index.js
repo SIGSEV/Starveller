@@ -64,13 +64,11 @@ router.get('/repos/:user/:repo', (req, res) => {
 
 router.get('/repos/:user/:repo/badge', (req, res) => {
   const name = `${req.params.user}/${req.params.repo}`
-  setTimeout(() => {
-    repo.getRanking(name)
-      .then(rank => {
-        res.sendFile(`${rank}.svg`, { root: `${__dirname}/../assets/badges` })
-      })
-      .catch(err => res.status(err.code || 500).send({ message: err.message }))
-  }, 1e3)
+  repo.getRanking(name)
+    .then(rank => {
+      res.sendFile(`${rank}.svg`, { root: `${__dirname}/../assets/badges` })
+    })
+    .catch(err => res.status(err.code || 500).send({ message: err.message }))
 })
 
 router.post('/repos/:user/:repo/events', (req) => {

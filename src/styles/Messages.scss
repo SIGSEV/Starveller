@@ -1,34 +1,81 @@
-@import './variables';
+@import 'colors';
 
 .Messages--container {
 
-  position: absolute;
-  right: 2em;
-  top: $navHeight + 20px;
+  position: fixed;
+  right: 1em;
+  bottom: 1em;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
 
   .Message {
-    padding: 0.5em 1em;
+    padding: 1em;
     max-width: 300px;
-    width: 300px;
     text-overflow: ellipsis;
     overflow: hidden;
-    border: 1px solid rgba(black, .1);
-    background: white;
-    & + .Message {
-      margin-top: 0.2em;
-    }
+    background: darken(white, 4);
+    border-radius: 5px;
+    box-shadow: rgba(black, 0.2) 0 3px 8px 1px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 1em;
   }
 
   .Message-info {
-    border-left-color: blue;
+    color: white;
+    background: $blue;
   }
 
   .Message-error {
-    border-left-color: red;
+    color: rgba(white, 0.7);
+    background: $red;
   }
 
   .Message-warning {
-    border-left-color: yellow;
+    background: orange;
   }
 
+}
+
+.messagesTransition-enter {
+  position: relative;
+  z-index: -1;
+  animation: show-alerter-message 0.5s;
+}
+
+.messagesTransition-leave {
+  position: relative;
+  z-index: -1;
+}
+
+.messagesTransition-leave.messagesTransition-leave-active {
+  animation: hide-alerter-message 0.5s;
+}
+
+@keyframes show-alerter-message {
+  from {
+    opacity: 0;
+    max-height: 0;
+    transform: translate(0, 60px);
+  }
+  to {
+    opacity: 1;
+    max-height: 100px;
+    transform: translate(0, 0);
+  }
+}
+
+
+@keyframes hide-alerter-message {
+  from {
+    max-height: 300px;
+    opacity: 1;
+    transform: translate(0, 0);
+  }
+  to {
+    max-height: 0;
+    opacity: 0;
+    transform: translate(0, 60px);
+  }
 }

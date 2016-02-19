@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
 import { connect } from 'react-redux'
 
 import { removeMessage } from 'actions/messages'
@@ -18,20 +19,26 @@ class Messages extends Component {
     const { messages } = this.props
 
     return (
-      <div className='Messages--container'>
+      <ReactCSSTransitionGroup
+        className='Messages--container'
+        transitionName='messagesTransition'
+        transitionEnterTimeout={500}
+        transitionLeaveTimeout={500}>
         {messages.map(({ data, id, type }) => {
           const className = `Message Message-${type}`
 
           return (
             <div
-              onClick={this._remove.bind(this, id)}
-              className={className}
               key={id}>
-              {data}
+              <div
+                onClick={this._remove.bind(this, id)}
+                className={className}>
+                {data}
+              </div>
             </div>
           )
         })}
-      </div>
+      </ReactCSSTransitionGroup>
     )
   }
 

@@ -3,7 +3,7 @@ import { handleActions } from 'redux-actions'
 
 export default handleActions({
 
-  ADD_MESSAGE: (state, { payload: message }) => [...state, message],
+  ADD_MESSAGE: (state, { payload: message }) => [...state, message].reverse().slice(0, 5).reverse(),
 
   REMOVE_MESSAGE: (state, { payload: id }) => {
     const index = findIndex(state, { id })

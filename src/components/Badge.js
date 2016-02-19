@@ -12,9 +12,15 @@ class Badge extends Component {
     const { src } = this.props
     const img = new Image()
     img.onload = () => {
-      this.setState({ loaded: true })
+      if (!this._unmounted) {
+        this.setState({ loaded: true })
+      }
     }
     img.src = src
+  }
+
+  componentWillUnmount () {
+    this._unmounted = true
   }
 
   render () {

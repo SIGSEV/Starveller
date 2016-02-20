@@ -38,7 +38,7 @@ class Header extends Component {
 
           <div className='Header--search'>
             {!isHome && (
-              <RepoSearch onSelect={this.goToRepo} />
+              <RepoSearch onSelect={this.goToRepo} setNameAfterSearch />
             )}
           </div>
 

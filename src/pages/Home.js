@@ -30,7 +30,7 @@ class Home extends Component {
         <div className='HomeMarged'>
           <h1>{'Dig into Github repo\'s popularity'}</h1>
           <h2 className='mb2'>{'See & analyze stars origin in time and more!'}</h2>
-          <RepoSearch onSelect={::this.goToRepo} />
+          <RepoSearch onSelect={::this.goToRepo} setNameAfterSearch />
         </div>
         <div className='container mt2'>
 

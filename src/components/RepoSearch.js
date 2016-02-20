@@ -1,11 +1,17 @@
 import _ from 'lodash'
 import cx from 'classnames'
+import { connect } from 'react-redux'
 import React, { Component, PropTypes } from 'react'
 
 import searchRepos from 'helpers/search-repos'
 
 if (process.env.BROWSER) { require('styles/RepoSearch.scss') }
 
+@connect(
+  state => ({
+    askInProgress: state.loader.ask
+  })
+)
 class RepoSearch extends Component {
 
   static propTypes = {
@@ -62,9 +68,12 @@ class RepoSearch extends Component {
   }
 
   handleResulClick (repoName) {
+    const { setNameAfterSearch } = this.props
     this.props.onSelect(repoName)
     this.setState(_.clone(RepoSearch.defaultState))
-    this.refs.input.value = ''
+    this.refs.input.value = setNameAfterSearch
+      ? repoName
+      : ''
   }
 
   handleKeyDown (e) {
@@ -130,20 +139,22 @@ class RepoSearch extends Component {
 
   render () {
     const { results, loading, selected } = this.state
+    const { askInProgress } = this.props
 
     return (
       <div className='RepoSearch'>
 
         <input
+          disabled={askInProgress}
           ref='input'
           onChange={::this.handleChange}
           onKeyDown={::this.handleKeyDown}
           placeholder='Search for a repo, user...'
           type='text' />
 
-        {loading && (
+        {(loading || askInProgress) && (
           <div className='RepoSearch--loader'>
-            {'loading...'}
+            <span className='octicon octicon-git-commit' />
           </div>
         )}
 

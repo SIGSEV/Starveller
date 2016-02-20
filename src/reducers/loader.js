@@ -4,11 +4,15 @@ const initial = {
 
   trending: false,
   repos: false,
+  ask: false,
   progress: {}
 
 }
 
 export default handleActions({
+
+  ASK_REPO_START: state => ({ ...state, ask: true }),
+  ASK_REPO_FINISH: state => ({ ...state, ask: false }),
 
   TRENDING_LOADING: state => ({ ...state, trending: true }),
   TRENDING_FINISHED: state => ({ ...state, trending: false }),

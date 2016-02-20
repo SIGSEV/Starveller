@@ -3,7 +3,15 @@ import { push } from 'redux-router'
 import moment from 'moment'
 import { createAction } from 'redux-actions'
 
-import { loadTrending, trendingFinished, loadRepos, reposFinished } from 'actions/loader'
+import {
+  askRepoStart,
+  askRepoFinish,
+  loadTrending,
+  trendingFinished,
+  loadRepos,
+  reposFinished
+} from 'actions/loader'
+
 import config from 'config'
 
 const api = config.getApi()
@@ -86,8 +94,10 @@ export const goToRepo = repo => dispatch => {
  */
 export const askRepo = repo => dispatch => new Promise((resolve, reject) => {
   if (repo.stars) { return resolve(repo) }
+  dispatch(askRepoStart())
   r.get(`${api}/repos/${repo.name}`)
     .end((err, res) => {
+      dispatch(askRepoFinish())
       if (err) { return reject(err) }
       const repo = res.body
       dispatch(repoResolved(repo))

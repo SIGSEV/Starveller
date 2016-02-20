@@ -2,7 +2,7 @@ import { handleActions } from 'redux-actions'
 
 const initial = {
 
-  trending: false,
+  featured: false,
   repos: false,
   ask: false,
   progress: {}
@@ -14,8 +14,8 @@ export default handleActions({
   ASK_REPO_START: state => ({ ...state, ask: true }),
   ASK_REPO_FINISH: state => ({ ...state, ask: false }),
 
-  TRENDING_LOADING: state => ({ ...state, trending: true }),
-  TRENDING_FINISHED: state => ({ ...state, trending: false }),
+  FEATURED_LOADING: state => ({ ...state, featured: true }),
+  FEATURED_FINISHED: state => ({ ...state, featured: false }),
 
   REPOS_LOADING: state => ({ ...state, repos: true }),
   REPOS_FINISHED: state => ({ ...state, repos: false }),

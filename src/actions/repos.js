@@ -6,8 +6,8 @@ import { createAction } from 'redux-actions'
 import {
   askRepoStart,
   askRepoFinish,
-  loadTrending,
-  trendingFinished,
+  loadFeatured,
+  featuredFinished,
   loadRepos,
   reposFinished
 } from 'actions/loader'
@@ -61,25 +61,25 @@ export const refreshAllRepos = fnCacheFactory(fetchAllRepos, 'all', 1)
  * Get random repos
  */
 
-const trendingFetched = createAction('TRENDING_FETCHED')
+const featuredFetched = createAction('FEATURED_FETCHED')
 
-export const fetchTrendingRepos = () => dispatch => {
+export const fetchFeaturedRepos = () => dispatch => {
   return new Promise((resolve, reject) => {
 
-    dispatch(loadTrending())
+    dispatch(loadFeatured())
 
     r.get(`${api}/random-repos`)
       .end((err, res) => {
-        dispatch(trendingFinished())
+        dispatch(featuredFinished())
         if (err) { return reject(err) }
 
-        dispatch(trendingFetched(res.body))
+        dispatch(featuredFetched(res.body))
         resolve()
       })
   })
 }
 
-export const refreshTrendingRepos = fnCacheFactory(fetchTrendingRepos, 'trending', 1)
+export const refreshFeaturedRepos = fnCacheFactory(fetchFeaturedRepos, 'featured', 1)
 
 export const resetCurrent = createAction('RESET_CURRENT')
 export const setCurrent = createAction('SET_CURRENT', repo => repo)

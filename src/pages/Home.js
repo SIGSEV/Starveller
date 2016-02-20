@@ -6,14 +6,14 @@ import { prefetch } from 'react-fetcher'
 import RepoSearch from 'components/RepoSearch'
 import { Feat1, Feat2 } from 'components/Featured'
 
-import { fetchTrendingRepos, askAndGo } from 'actions/repos'
+import { fetchFeaturedRepos, askAndGo } from 'actions/repos'
 
 if (process.env.BROWSER) { require('styles/Featured.scss') }
 
-@prefetch(({ dispatch }) => dispatch(fetchTrendingRepos()))
+@prefetch(({ dispatch }) => dispatch(fetchFeaturedRepos()))
 @connect(
   state => ({
-    trending: state.repos.trending.map(id => state.repos.all[id])
+    featured: state.repos.featured.map(id => state.repos.all[id])
   })
 )
 class Home extends Component {
@@ -23,7 +23,7 @@ class Home extends Component {
   }
 
   render () {
-    const { trending } = this.props
+    const { featured } = this.props
 
     return (
       <div>
@@ -42,16 +42,16 @@ class Home extends Component {
           <div className='Featured'>
 
             <div>
-              <Feat1 repo={trending[0]} />
+              <Feat1 repo={featured[0]} />
             </div>
 
             <div>
-              <Feat1 repo={trending[1]} />
-              <Feat1 repo={trending[2]} />
+              <Feat1 repo={featured[1]} />
+              <Feat1 repo={featured[2]} />
             </div>
 
             <div>
-              <Feat2 repo={trending[3]} />
+              <Feat2 repo={featured[3]} />
             </div>
 
           </div>

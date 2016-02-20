@@ -4,7 +4,7 @@ import { handleActions } from 'redux-actions'
 const state = {
 
   current: [],
-  trending: [],
+  featured: [],
 
   all: {}
 
@@ -35,12 +35,12 @@ export default handleActions({
     }
   },
 
-  // Set trending repos, adding them to all list
+  // Set featured repos, adding them to all list
 
-  TRENDING_FETCHED: (state, { payload: repos }) => {
+  FEATURED_FETCHED: (state, { payload: repos }) => {
     return {
       ...state,
-      trending: repos.map(r => r._id),
+      featured: repos.map(r => r._id),
       all: {
         ...state.all,
         ..._.keyBy(repos, '_id')
@@ -80,7 +80,7 @@ export default handleActions({
 
     return {
       current: deleteIfIn(state.current),
-      trending: deleteIfIn(state.trending),
+      featured: deleteIfIn(state.featured),
       all: _.omit(state.all, repoId)
     }
   },

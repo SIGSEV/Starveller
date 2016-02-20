@@ -26,7 +26,7 @@ export const refreshOne = (repoName) => {
   return initRepo(repoName, true)
 }
 
-export const getTrending = () => {
+export const getFeatured = () => {
   const queries = homeRepos.map(n => getByName(n, 'name summary stars'))
   return Promise.all(queries)
 }

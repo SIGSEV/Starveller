@@ -53,6 +53,7 @@
 
   max-height: 400px;
   overflow-y: auto;
+  overflow-x: hidden;
 
   .scrollbar-container {
     width: 5px !important;

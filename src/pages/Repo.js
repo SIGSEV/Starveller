@@ -100,12 +100,14 @@ class Repo extends Component {
             {repo.name}
           </div>
 
-          <div className='f fa'>
-            <div className='ClipButton' onClick={this.copyToClipboard} style={{ marginRight: '0.5rem' }}>
-              <span className='octicon octicon-clippy' />
+          {repo.complete && (
+            <div className='f fa'>
+              <div className='ClipButton' onClick={this.copyToClipboard} style={{ marginRight: '0.5rem' }}>
+                <span className='octicon octicon-clippy' />
+              </div>
+              <Badge src={badgeUrl} />
             </div>
-            <Badge src={badgeUrl} />
-          </div>
+          )}
 
         </header>
 

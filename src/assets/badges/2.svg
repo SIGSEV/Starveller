@@ -7,14 +7,14 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="104"
+   width="95"
    height="20"
-   id="svg4684"
+   id="svg2"
    version="1.1"
    inkscape:version="0.91 r13725"
    sodipodi:docname="2.svg">
   <metadata
-     id="metadata4702">
+     id="metadata20">
     <rdf:RDF>
       <cc:Work
          rdf:about="">
@@ -26,7 +26,7 @@
     </rdf:RDF>
   </metadata>
   <defs
-     id="defs4700" />
+     id="defs18" />
   <sodipodi:namedview
      pagecolor="#ffffff"
      bordercolor="#666666"
@@ -36,82 +36,77 @@
      guidetolerance="10"
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
-     inkscape:window-width="1760"
-     inkscape:window-height="1062"
-     id="namedview4698"
+     inkscape:window-width="1920"
+     inkscape:window-height="1080"
+     id="namedview16"
      showgrid="true"
-     inkscape:zoom="16"
-     inkscape:cx="85.862898"
-     inkscape:cy="9.1478238"
+     inkscape:zoom="45.254834"
+     inkscape:cx="62.014226"
+     inkscape:cy="4.0207518"
      inkscape:window-x="0"
-     inkscape:window-y="18"
-     inkscape:window-maximized="1"
-     inkscape:current-layer="svg4684">
+     inkscape:window-y="0"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="svg2">
     <inkscape:grid
        type="xygrid"
-       id="grid4147" />
+       id="grid4142" />
   </sodipodi:namedview>
   <g
-     id="g4686"
-     style="stroke:none"
-     shape-rendering="crispEdges">
+     shape-rendering="crispEdges"
+     id="g4">
     <path
-       d="M0 0h66v20H0z"
-       id="path4688"
-       style="stroke:none"
-       fill="#555" />
+       fill="#555"
+       d="M0 0h57v20H0z"
+       id="path6" />
     <path
-       d="M66 0h38v20H66z"
-       id="path4690"
-       style="stroke:none"
-       fill="#4c1" />
+       fill="#4c1"
+       d="M57 0h38v20H57z"
+       id="path8" />
   </g>
   <g
-     font-size="11"
-     id="g4692"
+     fill="#fff"
      text-anchor="middle"
      font-family="DejaVu Sans,Verdana,Geneva,sans-serif"
-     fill="#fff"
-     style="stroke:none">
+     font-size="11"
+     id="g10">
     <text
-       x="34"
+       x="29.5"
        y="14"
-       id="text4694"
-       style="stroke:none">trending</text>
+       id="text12">trending</text>
   </g>
   <rect
      style="fill:#ffffff;fill-opacity:1;stroke:none;stroke-opacity:1"
      id="rect4149"
-     width="2.8738286"
-     height="0.88761431"
-     x="72.057228"
-     y="13.118987" />
+     width="3"
+     height="2"
+     x="62.5"
+     y="13" />
   <rect
      style="fill:#555555;fill-opacity:1;stroke:none;stroke-opacity:1"
      id="rect4177"
-     width="2.8738286"
-     height="4.4380717"
-     x="83.559586"
-     y="9.5685291" />
+     width="3"
+     height="6"
+     x="74.5"
+     y="9" />
   <rect
      style="fill:#555555;fill-opacity:1;stroke:none;stroke-opacity:1"
      id="rect4179"
-     width="2.8738286"
-     height="6.2133002"
-     x="89.267021"
-     y="7.8454347" />
+     width="3"
+     height="8"
+     x="80.5"
+     y="7" />
   <rect
      style="fill:#ffffff;fill-opacity:1;stroke:none;stroke-opacity:1"
      id="rect4181"
-     width="2.8738286"
-     height="2.662843"
-     x="77.804886"
-     y="11.343758" />
+     width="3"
+     height="4"
+     x="68.5"
+     y="11" />
   <rect
      style="fill:#555555;fill-opacity:1;stroke:none;stroke-opacity:1"
      id="rect4183"
-     width="2.8738286"
-     height="7.9885287"
-     x="95.047859"
-     y="6.0180721" />
+     width="3"
+     height="10"
+     x="86.5"
+     y="5" />
 </svg>

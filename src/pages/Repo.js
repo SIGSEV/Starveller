@@ -117,8 +117,8 @@ class Repo extends Component {
               ? (
                 <div>
                   <div className='graph-loader'>
-                    <span className='mega-octicon octicon-sync' />
-                    <p>{progress}{' %'}</p>
+                    <div className='graph-loading-bar' style={{ transform: `scaleX(${progress/100})` }} />
+                    <p>{`${Math.round(progress)} %`}</p>
                   </div>
                 </div>
               )

@@ -8,7 +8,7 @@ import { Link } from 'react-router'
 import config from 'config'
 import StarsEvolution from 'components/graphs/StarsEvolution'
 import Badge from 'components/Badge'
-import { askRepo, setCurrent, refreshRepo } from 'actions/repos'
+import { askRepo, setCurrent, refreshRepo, deleteRepo } from 'actions/repos'
 import { addMessage } from 'actions/messages'
 
 const Clipboard = process.env.BROWSER
@@ -50,6 +50,11 @@ class Repo extends Component {
   refreshRepo = (e) => {
     e.preventDefault()
     this.props.dispatch(refreshRepo(this.props.repo))
+  };
+
+  deleteRepo = (e) => {
+    e.preventDefault()
+    this.props.dispatch(deleteRepo(this.props.repo))
   };
 
   getBadgeInfos () {
@@ -107,6 +112,8 @@ class Repo extends Component {
         {process.env.NODE_ENV === 'development' && (
           <span>
             <a href='' onClick={this.refreshRepo}>{'refresh'}</a>
+            {' - '}
+            <a href='' onClick={this.deleteRepo}>{'delete'}</a>
           </span>
         )}
 

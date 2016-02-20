@@ -124,7 +124,7 @@ class Repo extends Component {
               ? (
                 <div>
                   <div className='graph-loader'>
-                    <div className='graph-loading-bar' style={{ transform: `scaleX(${progress/100})` }} />
+                    <div className='graph-loading-bar' style={{ transform: `scaleX(${progress / 100})` }} />
                     <p>{`${Math.round(progress)} %`}</p>
                   </div>
                 </div>

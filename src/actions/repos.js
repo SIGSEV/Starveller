@@ -133,9 +133,9 @@ export const deleteRepo = repo => dispatch => {
 /**
  * Refresh repo
  */
-export const refreshRepo = repo => dispatch => {
+export const refreshRepo = (repo, full) => dispatch => {
   r.put(`${api}/repos/${repo._id}/refresh`)
-    .send(repo)
+    .send({ name: repo.name, full })
     .end((err, res) => {
       if (err) { return }
       dispatch(repoResolved(res.body))

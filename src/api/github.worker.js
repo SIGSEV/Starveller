@@ -15,22 +15,20 @@ const log = console.log.bind(console, '[GITHUB WORKER]> ')
 const logErr = msg => { console.log(chalk.red(`[GITHUB WORKER]>  ${msg}`)) }
 /* eslint-enable no-console */
 
-const job = (repo, done) => {
+const job = ({ repo, fullRefresh }, done) => {
 
-  const hard = true
   const { name } = repo
 
   log(`Starting job for ${name}.`)
 
   // collect stars
-  RepoService.fetchStars(repo, hard ? 1 : repo.cache.lastPage)
+  RepoService.fetchStars(repo, fullRefresh ? 1 : repo.cache.lastPage)
     .then(stars => {
 
-      const allStars = hard
+      const allStars = fullRefresh
         ? stars
-        : repo.cache.stars
-            .concat(_.reject(stars, s => s.page === repo.cache.lastPage))
-            .sort((a, b) => moment(a.date).isBefore(b.date) ? 1 : -1)
+        : stars.concat(_.reject(repo.cache.stars, s => s.page === repo.cache.lastPage))
+          .sort((a, b) => moment(a.date).isBefore(b.date) ? 1 : -1)
 
       const starsDates = allStars.map(s => s.date)
 
@@ -76,9 +74,9 @@ worker.drain = (...args) => {
 
 export default worker
 
-export const initRepo = (name, forceStarsFetch) => {
+export const initRepo = (name, fullRefresh) => {
 
-  log(`==> INITING REPO ${name}, BRO, should I force, bro? ${forceStarsFetch}`)
+  log(`==> INITING REPO ${name}, BRO, should I force, bro? ${fullRefresh}`)
 
   // fetch repo from db, and summary from github
   return q.all([
@@ -102,12 +100,12 @@ export const initRepo = (name, forceStarsFetch) => {
 
   .then(repo => {
 
-    const shouldFetchStars = !!forceStarsFetch
+    const shouldFetchStars = !!fullRefresh
       || !repo.lastFetch
       || moment(repo.lastFetch).diff(moment(), 'days') < -1
 
     if (shouldFetchStars && repo.summary.starsCount < 40000) {
-      worker.push(repo)
+      worker.push({ repo, fullRefresh })
     }
 
     return _.omit(repo, 'cache')

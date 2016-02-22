@@ -19,11 +19,11 @@ export const getAll = () => {
 }
 
 export const refreshAll = () => {
-  return getAll().then(repos => repos.forEach(repo => initRepo(repo.name, true)))
+  return getAll().then(repos => repos.forEach(repo => initRepo(repo.name)))
 }
 
-export const refreshOne = (repoName) => {
-  return initRepo(repoName, true)
+export const refreshOne = (repoName, fullRefresh) => {
+  return initRepo(repoName, fullRefresh)
 }
 
 export const getFeatured = () => {

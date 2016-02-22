@@ -47,9 +47,9 @@ class Repo extends Component {
     )
   }
 
-  refreshRepo = (e) => {
+  refreshRepo = (full, e) => {
     e.preventDefault()
-    this.props.dispatch(refreshRepo(this.props.repo))
+    this.props.dispatch(refreshRepo(this.props.repo, full))
   };
 
   deleteRepo = (e) => {
@@ -113,7 +113,9 @@ class Repo extends Component {
 
         {process.env.NODE_ENV === 'development' && (
           <span>
-            <a href='' onClick={this.refreshRepo}>{'refresh'}</a>
+            <a href='' onClick={this.refreshRepo.bind(this, true)}>{'full refresh'}</a>
+            {' - '}
+            <a href='' onClick={this.refreshRepo.bind(this, false)}>{'light refresh'}</a>
             {' - '}
             <a href='' onClick={this.deleteRepo}>{'delete'}</a>
           </span>

@@ -36,7 +36,7 @@ router.post('/repos', (req, res) => {
 router.put('/repos/:id/refresh', (req, res) => {
   if (config.env === 'production') { return res.status(401).end() }
 
-  repo.refreshOne(req.body.name)
+  repo.refreshOne(req.body.name, req.body.full)
     .then(_.flow(toObj, fullRepo))
     .then(repo => res.send(repo))
     .catch(err => res.status(err.code || 500).send({ message: err.message }))

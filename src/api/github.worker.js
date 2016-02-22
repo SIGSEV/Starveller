@@ -8,7 +8,7 @@ import config from 'config'
 import Repo from 'api/Repo.model'
 import * as RepoService from 'api/Repo.service'
 
-const concurrency = 5
+const concurrency = 2
 
 /* eslint-disable no-console */
 const log = console.log.bind(console, '[GITHUB WORKER]> ')

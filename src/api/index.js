@@ -19,7 +19,7 @@ router.get('/repos', (req, res) => {
     .catch(err => res.status(err.code || 500).send({ message: err.message }))
 })
 
-router.get('/random-repos', (req, res) => {
+router.get('/featured', (req, res) => {
   repo.getFeatured()
     .then(repos => repos.map(_.flow(toObj, barsRepo, lightRepo)))
     .then(repos => res.send(repos))

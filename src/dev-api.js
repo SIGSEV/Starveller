@@ -5,6 +5,7 @@ import morgan from 'morgan'
 import api from 'api'
 import config from 'config'
 import { initSocketServer } from 'api/io'
+import { refreshFeatured } from 'api/Repo.service'
 
 const server = express()
 
@@ -21,6 +22,8 @@ server.use(bodyParser.json())
 server.use(api)
 
 initSocketServer()
+
+setTimeout(() => refreshFeatured(), 2e3)
 
 server.listen(config.apiPort, 'localhost', (err) => {
   /* eslint-disable no-console */

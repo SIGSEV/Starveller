@@ -3,7 +3,6 @@ if (process.env.BROWSER) { require('styles/Repo.scss') }
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { prefetch } from 'react-fetcher'
-import { Link } from 'react-router'
 
 import config from 'config'
 import StarsEvolution from 'components/graphs/StarsEvolution'
@@ -67,12 +66,7 @@ class Repo extends Component {
   renderLimitError () {
     return (
       <div className='mt3' style={{ color: 'orangered', textAlign: 'center' }}>
-        <p className='mb'>{'Due to Github API limitations, we cannot fetch repo with more than 40.000 stars at the moment.'}</p>
-        <p>
-          <a href='' target='_blank'>Sign the petition here</a>
-          <span className='bullet' />
-          <Link to='/'>{'Bring me back'}</Link>
-        </p>
+        <p className='mb'>{'Due to Github API limitations, repos with more than 40.000 stars will have truncated data.'}</p>
       </div>
     )
   }
@@ -81,7 +75,6 @@ class Repo extends Component {
     const { repo, progress } = this.props
 
     if (!repo) { return this.renderPlaceholder() }
-    if (repo.summary.starsCount > 40000) { return this.renderLimitError() }
 
     const { badgeUrl } = this.getBadgeInfos()
 
@@ -120,6 +113,8 @@ class Repo extends Component {
             <a href='' onClick={this.deleteRepo}>{'delete'}</a>
           </span>
         )}
+
+        {repo.summary.starsCount > 40000 && this.renderLimitError()}
 
         <section className='graphs-container'>
 

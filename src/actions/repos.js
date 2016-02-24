@@ -58,7 +58,7 @@ export const fetchAllRepos = () => dispatch => {
 export const refreshAllRepos = fnCacheFactory(fetchAllRepos, 'all', 1)
 
 /**
- * Get random repos
+ * Get featured repos
  */
 
 const featuredFetched = createAction('FEATURED_FETCHED')
@@ -68,7 +68,7 @@ export const fetchFeaturedRepos = () => dispatch => {
 
     dispatch(loadFeatured())
 
-    r.get(`${api}/random-repos`)
+    r.get(`${api}/featured`)
       .end((err, res) => {
         dispatch(featuredFinished())
         if (err) { return reject(err) }

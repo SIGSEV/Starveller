@@ -104,7 +104,7 @@ export const initRepo = (name, fullRefresh) => {
       || !repo.lastFetch
       || moment(repo.lastFetch).diff(moment(), 'days') < -1
 
-    if (shouldFetchStars && repo.summary.starsCount < 40000) {
+    if (shouldFetchStars) {
       worker.push({ repo, fullRefresh })
     }
 

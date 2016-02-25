@@ -1,7 +1,6 @@
 import _ from 'lodash'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { push } from 'redux-router'
 
 import config from 'config'
 import battleColors from 'data/battle-colors'

@@ -78,7 +78,7 @@ class Repo extends Component {
 
           {repo.complete && (
             <div className='f fa'>
-              <Clip text={() => this.getBadgeInfos().markdownBadge} style={{ marginRight: '0.5rem' }} />
+              <Clip text={this.getBadgeInfos().markdownBadge} style={{ marginRight: '0.5rem' }} />
               <Badge src={badgeUrl} />
             </div>
           )}

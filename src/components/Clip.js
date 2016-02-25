@@ -10,12 +10,12 @@ const Clipboard = process.env.BROWSER
 class Clip extends Component {
 
   copyToClipboard = (e) => {
-    const { text } = this.props
-    const clipboard = new Clipboard(e.target, { text })
+    const { text, dispatch } = this.props
+    const clipboard = new Clipboard(e.target, { text: () => text })
     const destroyClipboard = () => clipboard.destroy()
 
     clipboard.on('success', () => {
-      this.props.dispatch(addMessage({ type: 'info', data: 'Copied!' }))
+      dispatch(addMessage({ type: 'info', data: 'Copied!' }))
       destroyClipboard()
     })
 

@@ -92,7 +92,7 @@ class Builder extends Component {
               <RepoSearch
                 onSelect={::this.handleAddRepo} />
 
-              {!!current.length && <Clip text={() => battleUrl} style={{ marginLeft: '1rem' }} />}
+              {!!current.length && <Clip text={battleUrl} style={{ marginLeft: '1rem' }} />}
             </div>
 
             <div className='repos-selection'>

@@ -184,7 +184,10 @@ hr {
     padding: 5rem 1rem 1rem 1rem;
     font-size: 0.8rem;
     text-align: center;
-    background-color: #F6F7F7;
+
+    &.on-home {
+      background-color: #F6F7F7;
+    }
 
     strong {
       font-weight: 700;

@@ -12,7 +12,7 @@ if (process.env.BROWSER) {
   require('styles/main.scss')
 }
 
-@connect()
+@connect(({ router }) => ({ isHome: router.location.pathname === '/' }))
 class App extends Component {
 
   componentDidMount () {
@@ -37,7 +37,7 @@ class App extends Component {
 
         <Messages />
 
-        <footer>
+        <footer className={this.props.isHome ? 'on-home' : ''}>
           <div className='credits'>
             {'Made with '}
             <strong>{'vim'}</strong>

@@ -19,6 +19,13 @@ router.get('/repos', (req, res) => {
     .catch(err => res.status(err.code || 500).send({ message: err.message }))
 })
 
+router.get('/trending', (req, res) => {
+  repo.getTrending()
+    .then(repos => repos.map(_.flow(toObj, barsRepo, lightRepo)))
+    .then(repos => res.send(repos))
+    .catch(err => res.status(err.code || 500).send({ message: err.message }))
+})
+
 router.get('/featured', (req, res) => {
   repo.getFeatured()
     .then(repos => repos.map(_.flow(toObj, barsRepo, lightRepo)))

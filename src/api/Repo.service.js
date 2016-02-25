@@ -5,16 +5,12 @@ import Vibrant from 'node-vibrant'
 import Repo from 'api/Repo.model'
 import { getSocketServer } from 'api/io'
 
+import featuredRepos from 'data/featuredRepos'
 import { initRepo } from 'api/github.worker'
 
 const githubToken = process.env.GITHUB
 
-let featuredRepos = [
-  'facebook/react',
-  'jashkenas/underscore',
-  '42Zavattas/generator-bangular',
-  'lodash/lodash'
-]
+let trendingRepos = []
 
 /**
  * Fetch all repos summaries
@@ -46,27 +42,33 @@ export const getFeatured = () => {
 }
 
 /**
- * Refresh the featured repos each day
+ * Retrieve the trending repos
+ */
+export const getTrending = () => {
+  const queries = trendingRepos.map(n => getByName(n, 'name summary stars'))
+  return Promise.all(queries)
+}
+
+/**
+ * Refresh the trending repos each day
  * Using Bridge API
  */
-export const refreshFeatured = () => {
+export const refreshTrending = () => {
 
-  console.log(`Starting featured refresh.`) // eslint-disable-line
+  console.log(`Starting trending refresh.`) // eslint-disable-line
 
   return new Promise((resolve, reject) => {
-    r.get('http://192.99.2.67:3001/github/trending')
+    r.get('http://bridge.sigsev.io/github/trending')
       .end((err, res) => {
         if (err) { return reject(err) }
-        const repos = res.body.slice(0, 4)
-        if (repos.length !== 4) { return reject(new Error('Not enough repos.')) }
+        const repos = res.body.slice(0, 8)
         resolve(repos.map(r => r.url.substring(1)))
       })
   })
   .then(names => Promise.all(names.map(name => initRepo(name))))
   .then(repos => {
-    const newNames = repos.map(r => r.name)
-    featuredRepos = newNames
-    console.log('Finished featured refresh.') // eslint-disable-line
+    trendingRepos = repos.map(r => r.name)
+    console.log('Finished trending refresh.') // eslint-disable-line
   })
 }
 

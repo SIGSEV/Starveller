@@ -5,6 +5,7 @@ const state = {
 
   current: [],
   featured: [],
+  trending: [],
 
   all: {}
 
@@ -47,6 +48,15 @@ export default handleActions({
       }
     }
   },
+
+  TRENDING_FETCHED: (state, { payload: repos }) => ({
+    ...state,
+    trending: repos.map(r => r._id),
+    all: {
+      ...state.all,
+      ..._.keyBy(repos, '_id')
+    }
+  }),
 
   // Add some repos to cache
 

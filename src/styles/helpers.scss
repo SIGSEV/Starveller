@@ -6,6 +6,11 @@
 .fg { flex-grow: 1; }
 .fs { flex-shrink: 0; }
 
+.fc {
+  @extend .f;
+  flex-direction: column;
+}
+
 .z {
   display: flex;
   flex-direction: column;
@@ -50,3 +55,9 @@
 .mb2  { margin-bottom: 2rem; }
 
 .ml { margin-left: 1rem; }
+
+.p1 { padding: 1rem; }
+.p2 { padding: 2rem; }
+.p3 { padding: 3rem; }
+
+.pb3 { padding-bottom: 3rem; }

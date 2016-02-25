@@ -9,7 +9,9 @@ import {
   loadFeatured,
   featuredFinished,
   loadRepos,
-  reposFinished
+  reposFinished,
+  loadTrending,
+  trendingFinished
 } from 'actions/loader'
 
 import config from 'config'
@@ -78,6 +80,23 @@ export const fetchFeaturedRepos = () => dispatch => {
       })
   })
 }
+
+const trendingFetched = createAction('TRENDING_FETCHED')
+
+export const fetchTrendingRepos = () => dispatch => new Promise((resolve, reject) => {
+
+  dispatch(loadTrending())
+
+  r.get(`${api}/trending`)
+    .end((err, res) => {
+      dispatch(trendingFinished())
+      if (err) { return reject(err) }
+
+      dispatch(trendingFetched(res.body))
+      resolve()
+    })
+
+})
 
 export const refreshFeaturedRepos = fnCacheFactory(fetchFeaturedRepos, 'featured', 1)
 

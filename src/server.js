@@ -7,7 +7,7 @@ import bodyParser from 'body-parser'
 import config from 'config'
 import api from 'api'
 import { initSocketServer } from 'api/io'
-import { refreshFeatured } from 'api/Repo.service'
+import { refreshTrending } from 'api/Repo.service'
 import render from 'middlewares/render'
 
 const server = express()
@@ -35,7 +35,7 @@ if (config.env === 'production') {
 
   initSocketServer()
 
-  setTimeout(() => refreshFeatured(), 2e3)
+  refreshTrending()
 }
 
 server.use('/assets', express.static(config.assetsFolder))

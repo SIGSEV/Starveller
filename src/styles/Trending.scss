@@ -1,0 +1,53 @@
+.Trending-container {
+  width: 70%;
+  margin-top: 2rem;
+  display: flex;
+  align-items: stretch;
+  > div {
+    flex-basis: 50%;
+    & + div {
+      margin-left: 1rem;
+    }
+  }
+}
+
+.Trending {
+  padding: 1rem;
+  background: white;
+  border: 1px solid #E6E6E6;
+  cursor: pointer;
+  height: 7.5rem;
+  display: flex;
+  position: relative;
+  color: rgba(black, .6);
+
+  .Pic {
+    margin-right: 1rem;
+    img {
+      width: 2rem;
+    }
+  }
+
+  .Title {
+    font-weight: bold;
+  }
+
+  .Desc {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 20rem;
+  }
+
+  .Infos {
+    color: #B2B2B2;
+  }
+
+  &:hover {
+    color: rgba(black, .8);
+  }
+
+  & + .Trending {
+    margin-top: 0.5rem;
+  }
+}

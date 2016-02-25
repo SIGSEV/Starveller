@@ -3,10 +3,21 @@
   margin-top: 2rem;
   display: flex;
   align-items: stretch;
+
   > div {
     flex-basis: 50%;
     & + div {
       margin-left: 1rem;
+    }
+  }
+
+  @media screen and (max-width: 1000px) {
+    flex-direction: column;
+    > div {
+      & + div {
+        margin-top: 0.5rem;
+        margin-left: 0;
+      }
     }
   }
 }

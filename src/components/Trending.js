@@ -14,7 +14,7 @@ export default ({ repo }) => {
       <div className='fc'>
         <span className='Title'>{repo.name}</span>
         <span className='Desc'>{repo.summary.description}</span>
-        <span className='Infos mt'>{repo.summary.language}</span>
+        <span className='Infos'>{repo.summary.language} - {repo.summary.starsCount} {'stars'}</span>
       </div>
     </RepoLink>
   )

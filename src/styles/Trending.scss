@@ -27,7 +27,7 @@
   background: white;
   border: 1px solid #E6E6E6;
   cursor: pointer;
-  height: 7.5rem;
+  height: 7rem;
   display: flex;
   position: relative;
   color: rgba(black, .6);
@@ -52,6 +52,7 @@
 
   .Infos {
     color: #B2B2B2;
+    margin-top: auto;
   }
 
   &:hover {

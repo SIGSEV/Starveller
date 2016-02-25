@@ -6,13 +6,9 @@ import { prefetch } from 'react-fetcher'
 
 import config from 'config'
 import StarsEvolution from 'components/graphs/StarsEvolution'
+import Clip from 'components/Clip'
 import Badge from 'components/Badge'
 import { askRepo, setCurrent, refreshRepo, deleteRepo } from 'actions/repos'
-import { addMessage } from 'actions/messages'
-
-const Clipboard = process.env.BROWSER
-  ? require('clipboard')
-  : null
 
 @prefetch(({ dispatch, params }) => {
   const { owner, reponame } = params
@@ -26,19 +22,6 @@ const Clipboard = process.env.BROWSER
   })
 )
 class Repo extends Component {
-
-  copyToClipboard = (e) => {
-    const { markdownBadge } = this.getBadgeInfos()
-    const text = () => markdownBadge
-    const clipboard = new Clipboard(e.target, { text })
-    const destroyClipboard = () => clipboard.destroy()
-    clipboard.on('success', () => {
-      this.props.dispatch(addMessage({ type: 'info', data: 'Copied!' }))
-      destroyClipboard()
-    })
-    clipboard.on('error', destroyClipboard)
-    clipboard.onClick(e)
-  };
 
   renderPlaceholder () {
     return (
@@ -95,9 +78,7 @@ class Repo extends Component {
 
           {repo.complete && (
             <div className='f fa'>
-              <div className='ClipButton' onClick={this.copyToClipboard} style={{ marginRight: '0.5rem' }}>
-                <span className='octicon octicon-clippy' />
-              </div>
+              <Clip text={() => this.getBadgeInfos().markdownBadge} style={{ marginRight: '0.5rem' }} />
               <Badge src={badgeUrl} />
             </div>
           )}

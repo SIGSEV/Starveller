@@ -1,9 +1,11 @@
 import _ from 'lodash'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { push } from 'redux-router'
 
+import config from 'config'
 import battleColors from 'data/battle-colors'
-
+import Clip from 'components/Clip'
 import RepoSearch from 'components/RepoSearch'
 import StarsEvolution from 'components/graphs/StarsEvolution'
 
@@ -28,8 +30,18 @@ class Builder extends Component {
     }
   }
 
+  componentWillMount () {
+    const query = this.props.params.query || ''
+
+    query.replace(/,/g, '/').split(';').forEach(repo => {
+      if (!repo) { return }
+      this.handleAddRepo(repo)
+    })
+  }
+
   componentWillReceiveProps (nextProps) {
     const { reposInProgress } = this.state
+
     const currentNames = nextProps.current.map(r => r.name)
 
     // if a repo has finish fetch, removing it from reposInProgress
@@ -69,14 +81,19 @@ class Builder extends Component {
     const { current } = this.props
     const { reposInProgress } = this.state
 
+    const battleUrl = `${config.clientUrl}battle/${current.map(r => r.name).join(';').replace(/\//g, ',')}`
+
     return (
       <div className='Builder'>
         <div className='repos-graphs'>
+
           <div className='repos-graphs--list'>
 
-            <div className='mb'>
+            <div className='repos-graphs--search mb'>
               <RepoSearch
                 onSelect={::this.handleAddRepo} />
+
+              {!!current.length && <Clip text={() => battleUrl} style={{ marginLeft: '1rem' }} />}
             </div>
 
             <div className='repos-selection'>
@@ -97,6 +114,7 @@ class Builder extends Component {
             </div>
 
           </div>
+
           <div className='repos-graphs--view'>
 
             <StarsEvolution repos={current} />

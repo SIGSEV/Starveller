@@ -13,6 +13,7 @@ export default (
   <Route path='/' component={App}>
     <Route path='fail' component={Fail} />
     <Route path='battle' component={Builder} />
+    <Route path='battle/:query' component={Builder} />
     <Route path='about' component={About} />
     <Route path=':owner/:reponame' component={Repo} />
     <IndexRoute component={Home}/>

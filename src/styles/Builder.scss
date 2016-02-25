@@ -29,4 +29,11 @@
     }
   }
 
+  .repos-graphs--search {
+    display: flex;
+    .RepoSearch {
+      flex: 1;
+    }
+  }
+
 }

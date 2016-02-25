@@ -3,8 +3,8 @@ import _ from 'lodash'
 export const getReposBoundaries = (repos) => {
   return {
     minStars: 0,
-    maxStars: _.max(repos, repo => repo.summary.starsCount).summary.starsCount,
-    minDate: new Date(_.min(repos, repo => new Date(repo.summary.createdAt).getTime()).summary.createdAt),
+    maxStars: _.max(repos.map(r => r.summary.starsCount)),
+    minDate: new Date(_.min(repos.map(r => new Date(r.summary.createdAt).getTime()))),
     maxDate: new Date()
   }
 }

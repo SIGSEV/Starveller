@@ -75,6 +75,7 @@ router.get('/repos/:user/:repo/badge', (req, res) => {
   const name = `${req.params.user}/${req.params.repo}`
 
   repo.checkRefresh(name)
+    .then(() => repo.ask(name))
     .then(() => repo.getRanking(name))
     .then(rank => {
       res.sendFile(`${rank}.svg`, { root: `${__dirname}/../assets/badges` })

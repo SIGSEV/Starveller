@@ -27,12 +27,8 @@ class SocketServer {
 
 let io = null
 
-export const initSocketServer = () => {
-  io = new SocketServer()
-}
+export const initSocketServer = () => io = new SocketServer()
 
-export const getSocketServer = () => {
-  return io
-}
+export const getSocketServer = () => io
 
 export default getSocketServer()

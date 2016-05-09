@@ -44,7 +44,10 @@ RepoSchema.post('save', repo => {
   if (!repo.complete || !io) { return }
 
   const finalRepo = _.flow(toObj, fullRepo)(repo)
-  io.repoFetched(finalRepo)
+  const { summary: { starsCount } } = repo
+
+  // Add a timeout for small repos, so the socket event will get catched by the browser
+  setTimeout(() => io.repoFetched(finalRepo), starsCount < 200 ? 500 : 0)
 })
 
 export default mongoose.model('Repo', RepoSchema)

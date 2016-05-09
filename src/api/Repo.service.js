@@ -15,39 +15,32 @@ let trendingRepos = []
 /**
  * Fetch all repos summaries
  */
-export const getAll = () => {
-  return q.nfcall(::Repo.find, {}, 'name summary')
-}
+export const getAll = () =>
+  q.nfcall(::Repo.find, {}, 'name summary')
 
 /**
  * Refresh all the repos, scheduled each day
  */
-export const refreshAll = () => {
-  return getAll().then(repos => repos.forEach(repo => initRepo(repo.name)))
-}
+export const refreshAll = () =>
+  getAll().then(repos => repos.forEach(repo => initRepo(repo.name)))
 
 /**
  * Refresh one repo, and perform a full refresh if boolean is true
  */
-export const refreshOne = (repoName, fullRefresh) => {
-  return initRepo(repoName, fullRefresh)
-}
+export const refreshOne = (repoName, fullRefresh) =>
+  initRepo(repoName, fullRefresh)
 
 /**
  * Retrieve the featured repos
  */
-export const getFeatured = () => {
-  const queries = featuredRepos.map(n => getByName(n, 'name summary stars'))
-  return Promise.all(queries)
-}
+export const getFeatured = () =>
+  Promise.all(featuredRepos.map(n => getByName(n, 'name summary stars')))
 
 /**
  * Retrieve the trending repos
  */
-export const getTrending = () => {
-  const queries = trendingRepos.map(n => getByName(n, 'name summary stars'))
-  return Promise.all(queries)
-}
+export const getTrending = () =>
+  Promise.all(trendingRepos.map(n => getByName(n, 'name summary stars')))
 
 /**
  * Refresh the trending repos each day
@@ -75,48 +68,40 @@ export const refreshTrending = () => {
 /**
  * Get a full repo
  */
-export const getByName = (name, projection = {}) => {
-  return q.nfcall(::Repo.findOne, { name }, projection)
-}
+export const getByName = (name, projection = {}) =>
+  q.nfcall(::Repo.findOne, { name }, projection)
 
 /**
  * Get the repo ranking for badge response
  */
-export const getRanking = name => {
-  return q.nfcall(::Repo.findOne, { name }, 'cache')
+export const getRanking = name =>
+  q.nfcall(::Repo.findOne, { name }, 'cache')
     .then(repo => repo.cache.rank)
-}
 
 /**
  * Get nbars for a repo
  */
-export const getBars = (name, n = 20) => {
-  return q.nfcall(::Repo.findOne, { name }, 'stars.byDay')
+export const getBars = (name, n = 20) =>
+  q.nfcall(::Repo.findOne, { name }, 'stars.byDay')
     .then(({ stars: ({ byDay: stars }) }) => stars)
     .then(stars => stars.slice(-n))
-}
 
 /**
  * Remove a repo
  */
-export const removeByName = name => {
-  return q.nfcall(::Repo.remove, { name })
-}
+export const removeByName = name => q.nfcall(::Repo.remove, { name })
 
 /**
  * Update repo
  */
-export const updateByName = (name, mods) => {
-  return q.nfcall(::Repo.update, { name }, mods)
+export const updateByName = (name, mods) =>
+  q.nfcall(::Repo.update, { name }, mods)
     .then(() => null)
-}
 
 /**
  * Get a populated repo, without cache
  */
-export const getOnePopulated = name => {
-  return q.nfcall(::Repo.findOne, { name }, '-cache')
-}
+export const getOnePopulated = name => q.nfcall(::Repo.findOne, { name }, '-cache')
 
 const starProgress = {}
 
@@ -223,10 +208,6 @@ export const fetchRepo = name => {
 
 }
 
-export const ask = repoName => {
-  return getByName(repoName)
-    .then(repo => {
-      if (!repo) { return initRepo(repoName) }
-      return repo
-    })
-}
+export const ask = repoName =>
+  getByName(repoName)
+    .then(repo => !repo ? initRepo(repoName) : repo)

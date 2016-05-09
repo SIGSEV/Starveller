@@ -141,7 +141,7 @@ const fetchStarPage = (name, _id, starsCount, page, io) => {
 
         if (res.body.length === 100) {
           return fetchStarPage(name, _id, starsCount, ++page, io)
-            .then(data => { resolve(data.concat(stars)) })
+            .then(data => resolve(data.concat(stars)))
             .catch(reject)
         }
 

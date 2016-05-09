@@ -132,10 +132,9 @@ const fetchStarPage = (name, _id, starsCount, page, io) => {
       .set('Accept', 'application/vnd.github.v3.star+json')
       .end((err, res) => {
 
+        if (err) { return reject(err) }
         // Finish once we reached the Github API limit
         if (res.statusCode === 422) { return resolve([]) }
-
-        if (err) { return reject(err) }
 
         const stars = res.body.map(star => ({ date: star.starred_at, page }))
 

@@ -1,6 +1,7 @@
 import q from 'q'
 import r from 'superagent'
 import Vibrant from 'node-vibrant'
+import moment from 'moment'
 
 import Repo from 'api/Repo.model'
 import { getSocketServer } from 'api/io'
@@ -17,6 +18,16 @@ let trendingRepos = []
  */
 export const getAll = () =>
   q.nfcall(::Repo.find, {}, 'name summary')
+
+/**
+ * Refresh a repo if its last fetch is greater than 1 day
+ */
+export const checkRefresh = repoName =>
+  getByName(repoName)
+    .then(repo =>
+        repo && moment().diff(repo.summary.lastFetch, 'days') >= 1
+        ? refreshOne(repoName)
+        : null)
 
 /**
  * Refresh all the repos, scheduled each day

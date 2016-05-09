@@ -63,7 +63,9 @@ router.delete('/repos', (req, res) => {
 
 router.get('/repos/:user/:repo', (req, res) => {
   const name = `${req.params.user}/${req.params.repo}`
-  repo.ask(name)
+
+  repo.checkRefresh(name)
+    .then(() => repo.ask(name))
     .then(_.flow(toObj, fullRepo))
     .then(repo => res.send(repo))
     .catch(err => res.status(err.code || 500).send({ message: err.message }))
@@ -71,7 +73,9 @@ router.get('/repos/:user/:repo', (req, res) => {
 
 router.get('/repos/:user/:repo/badge', (req, res) => {
   const name = `${req.params.user}/${req.params.repo}`
-  repo.getRanking(name)
+
+  repo.checkRefresh(name)
+    .then(() => repo.getRanking(name))
     .then(rank => {
       res.sendFile(`${rank}.svg`, { root: `${__dirname}/../assets/badges` })
     })

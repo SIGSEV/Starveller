@@ -7,6 +7,7 @@
     "react/sort-comp": 0
   },
   "globals": {
-    "io": "false"
+    "io": "false",
+    "Promise": "false"
   }
 }

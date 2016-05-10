@@ -6,11 +6,9 @@ import { createAction } from 'redux-actions'
 import {
   askRepoStart,
   askRepoFinish,
-  loadFeatured,
   featuredFinished,
   loadRepos,
   reposFinished,
-  loadTrending,
   trendingFinished
 } from 'actions/loader'
 

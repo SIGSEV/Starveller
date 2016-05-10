@@ -2,7 +2,7 @@ import { handleActions } from 'redux-actions'
 
 const state = {
 
-  featured: new Date(0),
+  home: new Date(0),
   all: new Date(0)
 
 }
@@ -14,9 +14,9 @@ export default handleActions({
     all: new Date()
   }),
 
-  FEATURED_FETCHED: state => ({
+  HOME_FETCHED: state => ({
     ...state,
-    featured: new Date()
+    home: new Date()
   })
 
 }, state)

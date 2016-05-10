@@ -7,14 +7,14 @@ import RepoSearch from 'components/RepoSearch'
 import { Feat1, Feat2 } from 'components/Featured'
 import Trending from 'components/Trending'
 
-import { fetchFeaturedRepos, fetchTrendingRepos, askAndGo } from 'actions/repos'
+import { fetchHomeRepos, askAndGo } from 'actions/repos'
 
 if (process.env.BROWSER) {
   require('styles/Featured.scss')
   require('styles/Trending.scss')
 }
 
-@prefetch(({ dispatch }) => dispatch(fetchTrendingRepos()) && dispatch(fetchFeaturedRepos()))
+@prefetch(({ dispatch }) => dispatch(fetchHomeRepos()))
 @connect(
   state => ({
     featured: state.repos.featured.map(id => state.repos.all[id]),

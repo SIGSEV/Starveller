@@ -6,7 +6,7 @@ import { Link } from 'react-router'
 
 import RepoSearch from 'components/RepoSearch'
 
-import { refreshAllRepos, refreshFeaturedRepos, askAndGo } from 'actions/repos'
+import { refreshHomeRepos, askAndGo } from 'actions/repos'
 
 if (process.env.BROWSER) { require('styles/Header.scss') }
 
@@ -14,7 +14,7 @@ if (process.env.BROWSER) { require('styles/Header.scss') }
   state => ({
     isHome: state.router && state.router.location.pathname === '/'
   }),
-  dispatch => bindActionCreators({ refreshAllRepos, refreshFeaturedRepos, askAndGo }, dispatch)
+  dispatch => bindActionCreators({ refreshHomeRepos, askAndGo }, dispatch)
 )
 class Header extends Component {
 
@@ -31,7 +31,7 @@ class Header extends Component {
 
           <Link
             to='/'
-            onClick={this.props.refreshFeaturedRepos}
+            onClick={this.props.refreshHomeRepos}
             style={{ marginRight: '3em' }}>
             {'Starveller'}
           </Link>

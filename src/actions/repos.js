@@ -35,7 +35,7 @@ const fnCacheFactory = (action, timerName, minutes) => () => (dispatch, getState
 }
 
 /**
- * Get all repos
+ * Repos getters
  */
 
 const reposFetched = createAction('REPOS_FETCHED')
@@ -57,52 +57,34 @@ export const fetchAllRepos = () => dispatch => {
   })
 }
 
-export const refreshAllRepos = fnCacheFactory(fetchAllRepos, 'all', 1)
-
-/**
- * Get featured repos
- */
-
 const featuredFetched = createAction('FEATURED_FETCHED')
-
-export const fetchFeaturedRepos = () => dispatch => {
-  return new Promise((resolve, reject) => {
-
-    dispatch(loadFeatured())
-
-    r.get(`${api}/featured`)
-      .end((err, res) => {
-        dispatch(featuredFinished())
-        if (err) { return reject(err) }
-
-        dispatch(featuredFetched(res.body))
-        resolve()
-      })
-  })
-}
-
 const trendingFetched = createAction('TRENDING_FETCHED')
 
-export const fetchTrendingRepos = () => dispatch => new Promise((resolve, reject) => {
-
-  dispatch(loadTrending())
-
-  r.get(`${api}/trending`)
-    .end((err, res) => {
-      dispatch(trendingFinished())
-      if (err) { return reject(err) }
-
-      dispatch(trendingFetched(res.body))
-      resolve()
-    })
-
+const fetchThing = url => new Promise((resolve, reject) => {
+  r.get(`${api}${url}`)
+    .end((err, res) => err ? reject(err) : resolve(res.body))
 })
 
-export const refreshFeaturedRepos = fnCacheFactory(fetchFeaturedRepos, 'featured', 1)
+// Fetch both featured and trending route for home page
+export const fetchHomeRepos = () => dispatch => Promise.all([
+  fetchThing('/featured'),
+  fetchThing('/trending')
+]).then(([featured, trending]) => {
+  dispatch(trendingFinished())
+  dispatch(trendingFetched(trending))
+  dispatch(featuredFinished())
+  dispatch(featuredFetched(featured))
+})
 
+// Refresh utils
+export const refreshAllRepos = fnCacheFactory(fetchAllRepos, 'all', 1)
+export const refreshHomeRepos = fnCacheFactory(fetchHomeRepos, 'home', 1)
+
+// Current methods
 export const resetCurrent = createAction('RESET_CURRENT')
 export const setCurrent = createAction('SET_CURRENT', repo => repo)
 
+// Change current and go to its route
 export const goToRepo = repo => dispatch => {
   dispatch(setCurrent(repo))
   dispatch(push(`${repo.name}`))

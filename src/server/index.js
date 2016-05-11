@@ -20,8 +20,8 @@ if (config.env === 'development') {
 
 if (config.env === 'production') {
 
-  const { initSocketServer } = require('api/io').default
-  const { refreshTrending } = require('api/Repo.service').default
+  const { initSocketServer } = require('api/io')
+  const { refreshTrending } = require('api/Repo.service')
 
   server.use(compression())
   server.use(bodyParser.json())

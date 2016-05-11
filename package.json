@@ -46,6 +46,7 @@
     "moment": "^2.13.0",
     "mongoose": "^4.4.16",
     "morgan": "^1.7.0",
+    "node-schedule": "^1.1.0",
     "node-vibrant": "^2.1.2",
     "postcss-import": "^8.0.2",
     "q": "^1.4.1",

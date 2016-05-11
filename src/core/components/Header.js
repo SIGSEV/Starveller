@@ -6,14 +6,11 @@ import { Link } from 'react-router'
 
 import RepoSearch from 'core/components/RepoSearch'
 
-import { refreshHomeRepos, askAndGo } from 'core/actions/repos'
+import { askAndGo } from 'core/actions/repos'
 
 if (process.env.BROWSER) { require('client/styles/Header.scss') }
 
-@connect(
-  null,
-  dispatch => bindActionCreators({ refreshHomeRepos, askAndGo }, dispatch)
-)
+@connect( null, dispatch => bindActionCreators({ askAndGo }, dispatch))
 class Header extends Component {
 
   goToRepo = (name) => {
@@ -27,10 +24,7 @@ class Header extends Component {
       <div className={cx('Header', { big: isHome })}>
         <div className='Header--content'>
 
-          <Link
-            to='/'
-            onClick={this.props.refreshHomeRepos}
-            style={{ marginRight: '3em' }}>
+          <Link to='/' style={{ marginRight: '3em' }}>
             {'Starveller'}
           </Link>
 

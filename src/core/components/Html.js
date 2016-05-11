@@ -11,10 +11,9 @@ const Html = ({ content, state, stats: { style, main = 'bundle.js' } }) => (
       <title>{'Starveller'}</title>
 
       <link href='https://cdnjs.cloudflare.com/ajax/libs/octicons/3.3.0/octicons.min.css' rel='stylesheet' type='text/css' />
-      <script src='https://cdn.socket.io/socket.io-1.3.7.js'></script>
+      <link href='https://fonts.googleapis.com/css?family=Open+Sans:300,700' rel='stylesheet' type='text/css' />
 
-      <script src='https://use.typekit.net/yue1czp.js'></script>
-      <script>{'try{Typekit.load({ async: true });}catch(e){}'}</script>
+      <script src='https://cdn.socket.io/socket.io-1.3.7.js'></script>
 
       {style && (
         <link href={`/dist/${style}`} rel='stylesheet'/>

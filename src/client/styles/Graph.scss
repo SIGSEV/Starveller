@@ -1,0 +1,17 @@
+.Graph {
+}
+
+.graph-days-bars {
+
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+
+  .bar {
+    width: 10px;
+    background: rgba(0, 0, 0, 0.15);
+    & + .bar {
+      margin-left: 2px;
+    }
+  }
+}

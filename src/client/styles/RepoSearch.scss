@@ -1,0 +1,94 @@
+@import './helpers.scss';
+
+.RepoSearch {
+
+  position: relative;
+
+  input {
+    border-radius: 3px;
+    width: 100%;
+    padding: 1em;
+    background: white;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+
+    &:disabled {
+      background: rgba(0, 0, 0, 0.1);
+    }
+    &:focus {
+      box-shadow: rgba(0, 0, 0, 0.07) 0 0 10px;
+    }
+  }
+
+}
+
+.RepoSearch--loader {
+  @extend .z;
+  position: absolute;
+  top: 0;
+  right: 1em;
+  bottom: 0;
+  font-weight: bold;
+  color: rgba(0, 0, 0, 0.3);
+  > span {
+    font-size: 2rem;
+    animation: rotating 0.8s linear infinite;
+  }
+}
+
+@keyframes rotating {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.RepoSearch--results {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: white;
+  z-index: 3;
+  box-shadow: rgba(0, 0, 0, 0.2) 0 0 10px;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border-top: none;
+
+  max-height: 400px;
+  overflow-y: auto;
+  overflow-x: hidden;
+
+  .scrollbar-container {
+    width: 5px !important;
+  }
+}
+
+.RepoSearch--result {
+  padding: 1em;
+  display: flex;
+
+  cursor: pointer;
+
+  & + .RepoSearch--result {
+    border-top: 1px dashed rgba(0, 0, 0, 0.1);
+  }
+
+  &:hover {
+    background: rgba(0, 0, 0, 0.07);
+  }
+
+  &.active {
+    background: #5EAAEC;
+    color: white;
+  }
+
+  .RepoSearch--result-side {
+    margin-left: auto;
+    width: 100px;
+    flex-shrink: 0;
+    text-align: right;
+  }
+}
+
+.RepoSearch--desc {
+  margin-top: 0.5em;
+  font-size: 0.75rem;
+  color: rgba(0, 0, 0, 0.4);
+}

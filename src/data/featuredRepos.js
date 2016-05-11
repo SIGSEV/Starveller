@@ -1,6 +1,6 @@
 export default [
-  'facebook/react',
-  'nodejs/node',
+  'mjmlio/mjml',
+  'Apercu/react-native-zeroconf',
   'SIGSEV/minus',
   'lodash/lodash'
 ]

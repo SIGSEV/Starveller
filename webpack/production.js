@@ -1,6 +1,8 @@
 import webpack from 'webpack'
 import { StatsWriterPlugin } from 'webpack-stats-plugin'
 import ExtractTextPlugin from 'extract-text-webpack-plugin'
+import precss from 'precss'
+import autoprefixer from 'autoprefixer'
 
 import webpackConfig from './config'
 
@@ -18,23 +20,22 @@ export default {
       loaders: ['babel'],
       exclude: /node_modules/
     }, {
-      test: /\.s?css$/,
-      loader: ExtractTextPlugin.extract('style', 'css!autoprefixer!sass')
+      test: /\.scss$/,
+      loader: ExtractTextPlugin.extract('style', 'css!postcss'),
+      exclude: /node_modules/
     }]
   },
+
+  postcss: () => [precss, autoprefixer],
 
   plugins: [
     ...webpackConfig.plugins,
 
-    // extract styles
     new ExtractTextPlugin('styles-[hash].css'),
 
-    // optimizations
-    new webpack.optimize.OccurenceOrderPlugin(),
     new webpack.optimize.DedupePlugin(),
     new webpack.optimize.UglifyJsPlugin({ compressor: { warnings: false } }),
 
-    // write stats
     new StatsWriterPlugin({
       transform: data => JSON.stringify({
         main: data.assetsByChunkName.main[0],

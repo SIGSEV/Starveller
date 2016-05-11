@@ -1,11 +1,17 @@
 import webpack from 'webpack'
+import path from 'path'
+import precss from 'precss'
+import autoprefixer from 'autoprefixer'
+import postcssImport from 'postcss-import'
 
 import webpackConfig from './config'
+
+const src = path.resolve(__dirname, '../src')
 
 export default {
   ...webpackConfig,
 
-  devtool: 'sourcemap',
+  devtool: 'eval',
 
   entry: [
     ...webpackConfig.entry,
@@ -16,26 +22,16 @@ export default {
     loaders: [...webpackConfig.loaders, {
       test: /\.js$/,
       loader: 'babel',
-      exclude: /node_modules/,
-      query: {
-        plugins: [
-          ['react-transform', {
-            transforms: [{
-              transform: 'react-transform-hmr',
-              imports: ['react'],
-              locals: ['module']
-            }, {
-              transform: 'react-transform-catch-errors',
-              imports: ['react', 'redbox-react']
-            }]
-          }]
-        ]
-      }
+      include: src,
+      query: { presets: ['react-hmre'] }
     }, {
-      test: /\.s?css$/,
-      loaders: ['style', 'css', 'autoprefixer', 'sass']
+      test: /\.scss$/,
+      loaders: ['style', 'css', 'postcss'],
+      include: src
     }]
   },
+
+  postcss: wp => [postcssImport({ addDependencyTo: wp }), precss, autoprefixer],
 
   plugins: [
     ...webpackConfig.plugins,

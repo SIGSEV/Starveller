@@ -3,9 +3,10 @@ export default {
   env: 'development',
 
   apiPort: 3001,
+  socketPort: 3067,
 
   clientUrl: 'http://localhost:3000/',
-  apiUrl: 'http://localhost:3001',
+  apiUrl: '',
 
   getApi: () => 'http://localhost:3001'
 

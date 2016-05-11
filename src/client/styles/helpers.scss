@@ -1,0 +1,63 @@
+@import './colors.scss';
+
+.f { display: flex; }
+.fa { align-items: center; }
+
+.fg { flex-grow: 1; }
+.fs { flex-shrink: 0; }
+
+.fc {
+  @extend .f;
+  flex-direction: column;
+}
+
+.z {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.b {
+  @extend .f;
+  padding: 1em;
+  border: 2px solid transparent;
+  border-bottom-width: 3px;
+  border-color: rgba(0, 0, 0, 0.05);
+
+  > i {
+    margin-right: 1em;
+  }
+
+  color: inherit;
+  font-weight: 700;
+  background: rgba(0, 0, 0, 0.1);
+
+  &:focus {
+    background: $blue;
+    color: white;
+    text-shadow: rgba(0, 0, 0, 0.3) 0 1px 0;
+    border-color: rgba(0, 0, 0, 0.1);
+  }
+  &:active {
+    border-color: rgba(0, 0, 0, 0.2);
+  }
+}
+
+.mt  { margin-top: 1rem; }
+.mt2 { margin-top: 2rem; }
+.mt3 { margin-top: 3rem; }
+.mt4 { margin-top: 4rem; }
+
+.mb02 { margin-bottom: 0.25rem; }
+.mb05 { margin-bottom: 0.5rem; }
+.mb   { margin-bottom: 1rem; }
+.mb2  { margin-bottom: 2rem; }
+
+.ml { margin-left: 1rem; }
+
+.p1 { padding: 1rem; }
+.p2 { padding: 2rem; }
+.p3 { padding: 3rem; }
+
+.pb3 { padding-bottom: 3rem; }

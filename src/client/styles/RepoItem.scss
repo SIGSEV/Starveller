@@ -1,0 +1,61 @@
+@import './colors.scss';
+
+.RepoItem {
+  display: flex;
+  height: 150px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  padding: 1em;
+
+  &.blank {
+    background: rgba(0, 0, 0, 0.07);
+    border-color: transparent;
+  }
+
+  > header {
+    margin-right: 1em;
+
+    .img {
+      width: 35px;
+      height: 35px;
+      border-radius: 3px;
+      background-size: cover !important;
+    }
+  }
+
+  > section {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+.RepoItem--slash {
+  margin: 0 0.25em;
+}
+
+.RepoItem--title {
+  margin-bottom: 0.5em;
+}
+
+.RepoItem--name {
+  font-size: 1.4rem;
+  margin-bottom: 0.25em;
+  color: rgba(0, 0, 0, 0.7);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  strong {
+    font-weight: bold;
+  }
+}
+
+.RepoItem--desc {
+  font-size: 0.9rem;
+  height: 2.5em;
+  overflow: hidden;
+}
+
+.RepoItem--tags {
+  margin-top: auto;
+  color: rgba(0, 0, 0, 0.4);
+}

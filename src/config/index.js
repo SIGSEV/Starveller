@@ -11,7 +11,7 @@ export default {
 
   ranks: [2, 5, 15, 30],
 
-  assetsFolder: path.join(__dirname, '../assets'),
+  assetsFolder: path.join(__dirname, '../client/assets'),
   distFolder: path.join(__dirname, '../../dist'),
 
   ...config

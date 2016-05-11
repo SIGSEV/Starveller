@@ -5,7 +5,7 @@ import './db'
 import config from 'config'
 import * as repo from 'api/Repo.service'
 import { toObj, lightRepo, fullRepo } from 'api/transformRepo'
-import { getBars } from 'helpers/repos'
+import { getBars } from 'core/helpers/repos'
 
 const router = express.Router()
 
@@ -78,7 +78,7 @@ router.get('/repos/:user/:repo/badge', (req, res) => {
     .then(() => repo.ask(name))
     .then(() => repo.getRanking(name))
     .then(rank => {
-      res.sendFile(`${rank}.svg`, { root: `${__dirname}/../assets/badges` })
+      res.sendFile(`${rank}.svg`, { root: `${__dirname}/../client/assets/badges` })
     })
     .catch(err => res.status(err.code || 500).send({ message: err.message }))
 })

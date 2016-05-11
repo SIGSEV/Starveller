@@ -1,0 +1,25 @@
+.btn {
+  display: inline-flex;
+  padding: 1em 2em;
+  border-radius: 3px;
+  font-weight: bold;
+  cursor: pointer;
+  user-select: none;
+  text-shadow: rgba(0, 0, 0, 0.2) 0 1px 0;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow: rgba(0, 0, 0, 0.3) 0 2px 5px;
+  text-decoration: none;
+
+  &.blue {
+    background: #2CA5FC;
+    color: white;
+  }
+}
+
+.btn-small {
+  padding: 0.25em 0.5em;
+  font-weight: bold;
+  &:hover {
+    color: rgba(0, 0, 0, 0.5);
+  }
+}

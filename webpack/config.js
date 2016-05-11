@@ -2,29 +2,28 @@ import webpack from 'webpack'
 import path from 'path'
 
 const env = process.env.NODE_ENV || 'development'
+const dist = path.resolve(__dirname, '../dist')
 
 export default {
 
+  entry: ['./src/client'],
+
   resolve: {
-    modulesDirectories: ['node_modules', 'src']
+    modules: ['src', 'node_modules'],
+    unsafeCache: true
   },
 
-  loaders: [{
-    test: /\.(woff|woff2|eot|svg|ttf)$/,
-    loader: 'url?limit=100000'
-  }],
-
-  entry: [
-    './src/client'
-  ],
+  loaders: [],
 
   output: {
-    path: path.join(__dirname, '../dist'),
+    path: dist,
     filename: 'bundle.js',
     publicPath: '/dist/'
   },
 
   plugins: [
+
+    new webpack.optimize.OccurrenceOrderPlugin(),
 
     new webpack.DefinePlugin({
       'process.env': {

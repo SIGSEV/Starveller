@@ -6,8 +6,8 @@ export default {
   socketPort: 3067,
 
   clientUrl: 'http://starveller.sigsev.io/',
-  apiUrl: 'http://starveller.sigsev.io/api',
+  apiUrl: '/api',
 
-  getApi: () => process.env.BROWSER ? '/api' : 'http://localhost:3044/api'
+  getApi: () => 'http://starveller.sigsev.io/api'
 
 }

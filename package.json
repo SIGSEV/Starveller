@@ -10,7 +10,9 @@
     "start:app": "node bin/start --app",
     "start:api": "node bin/start --api",
     "start": "npm run start:app & npm run start:api & wait",
-    "lint": "eslint src webpack bin"
+    "lint": "eslint src webpack bin",
+    "pm2:setup": "pm2 deploy ecosystem.json production setup",
+    "deploy": "pm2 deploy ecosystem.json production"
   },
   "babel": {
     "presets": [

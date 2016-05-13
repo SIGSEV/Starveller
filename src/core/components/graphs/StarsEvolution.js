@@ -7,6 +7,8 @@ import React, { Component } from 'react'
 import battleColors from 'data/battle-colors'
 import { getReposBoundaries } from 'core/helpers/repos'
 
+const bisectDate = d3.bisector(d => d.x).left
+
 class StarsEvolution extends Component {
 
   static defaultProps = {
@@ -40,6 +42,20 @@ class StarsEvolution extends Component {
   drawIfMounted () {
     if (!this._isMounted) { return }
     this.draw()
+  }
+
+  dataOf (repo) {
+    const data = _.has(repo, 'stars.byDay') && repo.stars.byDay.length
+      ? repo.stars.byDay.map(el => ({ x: new Date(el.date), y: el.stars }))
+      : [{ x: new Date(), y: 0 }]
+
+    // add today to data if needed
+    const lastElem = _.last(data)
+    if (!moment(lastElem.x).isSame(moment(), 'day')) {
+      data.push({ x: new Date(), y: lastElem.y })
+    }
+
+    return data
   }
 
   draw () {
@@ -142,6 +158,62 @@ class StarsEvolution extends Component {
 
     reposToDraw.forEach(this.drawRepo)
 
+    const hovering = this._svg.append('g')
+      .attr('class', 'hovering')
+      .style('display', 'none')
+
+    hovering.append('path')
+      .attr('class', 'hoverline')
+      .style('stroke', 'black')
+      .style('opacity', 0.3)
+
+    d3.select(container)
+      .on('mouseout', () => hovering.style('display', 'none'))
+      .on('mouseover', () => hovering.style('display', null))
+      .on('mousemove', () => {
+
+        const line = d3.select('.hoverline')
+        const xPoint = d3.mouse(line[0][0])[0]
+        const yRange = y.range()
+        const xRange = x.range()
+        const x0 = x.invert(xPoint)
+        const outOfBonds = (xRange[0] > xPoint || xRange[1] < xPoint)
+
+        line.attr('d', () => {
+          const outOfBonds = (xRange[0] > xPoint || xRange[1] < xPoint)
+          hovering.style('display', outOfBonds ? 'none' : null)
+          return `M${xPoint},${yRange[0]}L${xPoint},${yRange[1]}`
+        })
+
+        if (outOfBonds) { return }
+
+        hovering.selectAll('circle').remove()
+        hovering.selectAll('text').remove()
+
+        reposToDraw.forEach((repo, key) => {
+          const color = battleColors[key] || 'black'
+          const data = this.dataOf(repo)
+          const i = bisectDate(data, x0, 1)
+          const d0 = data[i - 1]
+          const d1 = data[i]
+          const d = x0 - d0.x > d1.x - x0 ? d1 : d0
+
+          const circle = hovering.append('circle')
+            .attr('r', 4)
+            .attr('fill', color)
+            .attr('transform', `translate(${x(d.x)}, ${y(d.y)})`)
+
+          const label = hovering.append('text')
+            .attr('dy', '.35em')
+            .attr('x', -40)
+            .attr('y', -20)
+            .attr('transform', `translate(${x(d.x)}, ${y(d.y)})`)
+            .text(d.y)
+
+        })
+
+    })
+
   }
 
   drawRepo (repo, i) {
@@ -149,15 +221,7 @@ class StarsEvolution extends Component {
     const color = battleColors[i] || 'black'
 
     // data to show
-    const data = _.has(repo, 'stars.byDay') && repo.stars.byDay.length
-      ? repo.stars.byDay.map(el => ({ y: el.stars, x: new Date(el.date) }))
-      : [{ x: new Date(), y: 0 }]
-
-    // add today to graph if needed
-    const lastElem = _.last(data)
-    if (!moment(lastElem.x).isSame(moment(), 'day')) {
-      data.push({ x: new Date(), y: lastElem.y })
-    }
+    const data = this.dataOf(repo)
 
     /* disable fill for the moment
     this._svg.append('svg:path')

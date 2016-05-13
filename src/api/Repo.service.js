@@ -3,13 +3,11 @@ import r from 'superagent'
 import Vibrant from 'node-vibrant'
 import moment from 'moment'
 
+import config from 'config'
 import Repo from 'api/Repo.model'
 import { getSocketServer } from 'api/io'
-
 import featuredRepos from 'data/featuredRepos'
 import { initRepo } from 'api/github.worker'
-
-const githubToken = process.env.GITHUB
 
 let trendingRepos = []
 
@@ -124,7 +122,7 @@ const fetchStarPage = (name, _id, starsCount, page, io) => {
   return q.Promise((resolve, reject) => {
 
     r.get(`https://api.github.com/repos/${name}/stargazers?page=${page}&per_page=100`)
-      .set('Authorization', `token ${githubToken}`)
+      .set('Authorization', `token ${config.github}`)
       .set('Accept', 'application/vnd.github.v3.star+json')
       .end((err, res) => {
 
@@ -187,7 +185,7 @@ export const fetchRepo = name => {
 
   return q.Promise((resolve, reject) => {
     r.get(`https://api.github.com/repos/${name}`)
-      .set('Authorization', `token ${githubToken}`)
+      .set('Authorization', `token ${config.github}`)
       .end((err, res) => {
         if (err) { return reject(err) }
 

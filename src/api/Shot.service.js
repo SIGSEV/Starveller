@@ -1,11 +1,10 @@
 import webshot from 'webshot'
 import imgur from 'imgur'
-import dotenv from 'dotenv'
 
-dotenv.load()
+import config from 'config'
 
-imgur.setClientId(process.env.IMGUR_CLIENT)
-imgur.setCredentials('imgur@bangular.io', process.env.IMGUR_PASS, process.env.IMGUR_CLIENT)
+imgur.setClientId(config.imgurClient)
+imgur.setCredentials('imgur@bangular.io', config.imgurPass, config.imgurClient)
 
 export default url => {
 

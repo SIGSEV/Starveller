@@ -1,6 +1,5 @@
-import dotenv from 'dotenv'
 import mongoose from 'mongoose'
 
-dotenv.load()
+import config from 'config'
 
-mongoose.connect(process.env.MONGO, { db: { safe: true } })
+mongoose.connect(config.mongo, { db: { safe: true } })

@@ -45,8 +45,6 @@ export default {
 
   ],
 
-  progress: true,
-
   stats: {
     colors: true,
     reasons: false,
